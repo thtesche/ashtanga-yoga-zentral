@@ -1,0 +1,98 @@
+---
+import '../styles/global.css';
+import Navigation from '../components/Navigation.astro';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Morning Ashtanga Yoga (Mysore style) in Berlin with Elinore Burke" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | Ashtanga Yoga Zentral</title>
+	</head>
+	<body>
+		<Navigation />
+		<main>
+			<slot />
+		</main>
+		
+		<footer class="site-footer">
+			<div class="container footer-container">
+				<div class="footer-col">
+					<h3>Ashtanga Yoga Zentral</h3>
+					<p>Morning Ashtanga Yoga (Mysore style) in Berlin with Elinore Burke.</p>
+				</div>
+				<div class="footer-col">
+					<h4>Location</h4>
+					<p>Three Boons Studio<br/>Brunnen Str. 29/3 (Hinterhof)<br/>Berlin</p>
+				</div>
+				<div class="footer-col">
+					<h4>Links</h4>
+					<a href="/about">About Elinore</a>
+					<a href="/retreats">Retreats & Events</a>
+					<a href="/contact">Contact</a>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<p>&copy; {new Date().getFullYear()} Ashtanga Yoga Zentral. All rights reserved.</p>
+			</div>
+		</footer>
+	</body>
+</html>
+
+<style>
+	main {
+		min-height: calc(100vh - 80px - 300px);
+	}
+
+	.site-footer {
+		background-color: var(--color-text);
+		color: #fff;
+		padding: 4rem 0 0;
+		margin-top: 4rem;
+	}
+
+	.footer-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 3rem;
+		margin-bottom: 3rem;
+	}
+
+	.footer-col h3, .footer-col h4 {
+		color: #fff;
+		margin-bottom: 1.5rem;
+	}
+
+	.footer-col p {
+		color: rgba(255, 255, 255, 0.7);
+		margin-bottom: 0.5rem;
+	}
+
+	.footer-col a {
+		display: block;
+		color: rgba(255, 255, 255, 0.7);
+		margin-bottom: 0.5rem;
+	}
+
+	.footer-col a:hover {
+		color: var(--color-secondary);
+	}
+
+	.footer-bottom {
+		text-align: center;
+		padding: 1.5rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		color: rgba(255, 255, 255, 0.5);
+		font-size: 0.9rem;
+	}
+</style>

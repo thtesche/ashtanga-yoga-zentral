@@ -1,0 +1,210 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Moon Days 2026">
+  <div class="page-header">
+    <div class="container text-center animate-fade-in">
+      <h1>Moon Days 2026</h1>
+      <p class="subtitle">Moon Days offer a break to realign with the rhythms of nature.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container animate-fade-in-delay">
+      <div class="surface moon-content text-center mb-4">
+        <p class="large-text">The shala is closed on these days...</p>
+        <div class="moon-legend">
+          <span class="legend-item"><span class="moon-icon full">&#9679;</span> Full Moon</span>
+          <span class="legend-item"><span class="moon-icon new">&#9675;</span> New Moon</span>
+        </div>
+      </div>
+      
+      <div class="calendar-grid">
+        <!-- Q1 -->
+        <div class="surface month-card">
+          <h3>January</h3>
+          <ul class="moon-list">
+            <li><span class="moon-icon full">&#9679;</span> Sat 3</li>
+            <li><span class="moon-icon new">&#9675;</span> Sun 18</li>
+          </ul>
+        </div>
+        <div class="surface month-card">
+          <h3>February</h3>
+          <ul class="moon-list">
+            <li><span class="moon-icon new">&#9675;</span> Sun 1</li>
+            <li><span class="moon-icon full">&#9679;</span> Tues 17</li>
+          </ul>
+        </div>
+        <div class="surface month-card">
+          <h3>March</h3>
+          <ul class="moon-list">
+            <li><span class="moon-icon full">&#9679;</span> Tue 3</li>
+            <li><span class="moon-icon new">&#9675;</span> Thu 19</li>
+          </ul>
+        </div>
+        
+        <!-- Q2 -->
+        <div class="surface month-card">
+          <h3>April</h3>
+          <ul class="moon-list">
+            <li><span class="moon-icon full">&#9679;</span> Thu 2</li>
+            <li><span class="moon-icon new">&#9675;</span> Fri 17</li>
+          </ul>
+        </div>
+        <div class="surface month-card">
+          <h3>May</h3>
+          <ul class="moon-list">
+            <li><span class="moon-icon new">&#9675;</span> Fri 1</li>
+            <li><span class="moon-icon full">&#9679;</span> Sun 17</li>
+            <li><span class="moon-icon new">&#9675;</span> Sun 31</li>
+          </ul>
+        </div>
+        <div class="surface month-card">
+          <h3>June</h3>
+          <ul class="moon-list">
+            <li><span class="moon-icon full">&#9679;</span> Mon 15</li>
+            <li><span class="moon-icon new">&#9675;</span> Mon 29</li>
+          </ul>
+        </div>
+        
+        <!-- Q3 -->
+        <div class="surface month-card">
+          <h3>July</h3>
+          <ul class="moon-list">
+            <li><span class="moon-icon full">&#9679;</span> Tue 14</li>
+            <li><span class="moon-icon new">&#9675;</span> Wed 29</li>
+          </ul>
+        </div>
+        <div class="surface month-card">
+          <h3>August</h3>
+          <ul class="moon-list">
+            <li><span class="moon-icon full">&#9679;</span> Wed 12</li>
+            <li><span class="moon-icon new">&#9675;</span> Fri 28</li>
+          </ul>
+        </div>
+        <div class="surface month-card">
+          <h3>September</h3>
+          <ul class="moon-list">
+            <li><span class="moon-icon full">&#9679;</span> Fri 11</li>
+            <li><span class="moon-icon new">&#9675;</span> Sat 26</li>
+          </ul>
+        </div>
+        
+        <!-- Q4 -->
+        <div class="surface month-card">
+          <h3>October</h3>
+          <ul class="moon-list">
+            <li><span class="moon-icon full">&#9679;</span> Sat 10</li>
+            <li><span class="moon-icon new">&#9675;</span> Mon 26</li>
+          </ul>
+        </div>
+        <div class="surface month-card">
+          <h3>November</h3>
+          <ul class="moon-list">
+            <li><span class="moon-icon full">&#9679;</span> Mon 9</li>
+            <li><span class="moon-icon new">&#9675;</span> Tue 24</li>
+          </ul>
+        </div>
+        <div class="surface month-card">
+          <h3>December</h3>
+          <ul class="moon-list">
+            <li><span class="moon-icon full">&#9679;</span> Wed 9</li>
+            <li><span class="moon-icon new">&#9675;</span> Thu 24</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .page-header {
+    background-color: var(--color-primary);
+    color: #fff;
+    padding: 6rem 0 4rem;
+  }
+  
+  .page-header h1 {
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+  
+  .subtitle {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .text-center { text-align: center; }
+  .mb-4 { margin-bottom: 3rem; }
+  .large-text { font-size: 1.25rem; color: var(--color-primary); font-weight: 500; }
+
+  .moon-content {
+    max-width: 600px;
+    margin: -3rem auto 3rem;
+    position: relative;
+    z-index: 10;
+    padding: 2rem !important;
+  }
+
+  .moon-legend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    font-family: var(--font-heading);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .moon-icon {
+    font-size: 1.2rem;
+  }
+
+  .moon-icon.full { color: #333; }
+  .moon-icon.new { color: var(--color-secondary); }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .month-card {
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .month-card h3 {
+    color: var(--color-secondary);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .moon-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .moon-list li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 768px) {
+    .calendar-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+  }
+</style>
