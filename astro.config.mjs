@@ -3,5 +3,5 @@ import { defineConfig } from 'astro/config';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://thtesche.github.io',
-  base: '/ashtanga-yoga-zentral',
+  base: '/ashtanga-yoga-zentral/',
 });
