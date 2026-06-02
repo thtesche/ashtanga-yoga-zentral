@@ -8,7 +8,7 @@ import MainLayout from '../layouts/MainLayout.astro';
       <h1>Morning Ashtanga Yoga <br/><span class="text-primary">(Mysore style)</span> in Berlin</h1>
       <p class="hero-subtitle">Begin your day with clarity, steadiness, and breath. The classes are open to practitioners of all levels, including complete beginners.</p>
       <div class="hero-actions">
-        <a href="/contact" class="btn">Get in Touch</a>
+        <a href={import.meta.env.BASE_URL + "contact"} class="btn">Get in Touch</a>
         <a href="#schedule" class="btn btn-outline">View Schedule</a>
       </div>
     </div>
@@ -34,7 +34,7 @@ import MainLayout from '../layouts/MainLayout.astro';
               <span>6:30 &ndash; 9:00 am</span>
             </li>
             <li>
-              <strong>Sunday <span class="badge">(Except <a href="/moon-days">Moon Days</a>)</span></strong>
+              <strong>Sunday <span class="badge">(Except <a href={import.meta.env.BASE_URL + "moon-days"}>Moon Days</a>)</span></strong>
               <span>7:30 &ndash; 9:30 am</span>
             </li>
             <li class="highlight-item">
@@ -99,7 +99,7 @@ import MainLayout from '../layouts/MainLayout.astro';
           </div>
         </div>
         <hr class="divider" />
-        <p class="discount-note">Discount available due to financial difficulties. Please get in touch using the form on the <a href="/contact">Contact</a> page.</p>
+        <p class="discount-note">Discount available due to financial difficulties. Please get in touch using the form on the <a href={import.meta.env.BASE_URL + "contact"}>Contact</a> page.</p>
       </div>
     </div>
   </section>
