@@ -1,0 +1,91 @@
+---
+title: Contact
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+<MainLayout title="Contact Elinore Burke">
+
+<div class="page-header">
+  <div class="container text-center animate-fade-in">
+    <h1>Contact</h1>
+    <p class="subtitle">Let's keep in touch!</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="contact-wrapper">
+      <div class="contact-info surface animate-fade-in-delay">
+        <h2 class="text-primary">Get in Touch</h2>
+        <p>Send a message for more info or to sign up for my newsletter!</p>
+        <div class="info-block mt-4">
+          <h3>Location</h3>
+          <p><strong>Three Boons Studio</strong><br/>Brunnen Str. 29/3 (Hinterhof)<br/>10119 Berlin</p>
+        </div>
+        <div class="info-block">
+          <h3>Studio Information</h3>
+          <p>If you're new to yoga, please allow around 30 minutes for your first class. Beginners are always welcome.</p>
+        </div>
+      </div>
+      <div class="contact-form surface animate-fade-in-delay">
+        <form id="contact-form" action="#" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first-name">First Name (required)</label>
+              <input type="text" id="first-name" name="first-name" required />
+            </div>
+            <div class="form-group">
+              <label for="last-name">Last Name (required)</label>
+              <input type="text" id="last-name" name="last-name" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email (required)</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="6"></textarea>
+          </div>
+          <button type="submit" class="btn btn-submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</MainLayout>
+
+<script>{`
+  const t=document.getElementById("contact-form");
+  if(t){
+    t.addEventListener("submit",n=>{
+      n.preventDefault();
+      const e=t.querySelector("button");
+      if(e){
+        e.textContent="Message Sent!";
+        e.style.backgroundColor="#637B69";
+        setTimeout(()=>{
+          e.textContent="Send Message";
+          t.reset();
+        },3e3);
+      }
+    });
+  }
+`}</script>
+
+<style>{`
+.page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
+.page-header h1{color:#fff;margin-bottom:.5rem}
+.subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
+.text-center{text-align:center}
+.text-primary{color:var(--color-primary)}
+.mt-4{margin-top:2rem}
+.contact-wrapper{display:grid;grid-template-columns:1fr 1.5fr;gap:3rem;max-width:1000px;margin:-4rem auto 0;position:relative;z-index:10}
+.info-block{margin-top:2rem;padding-top:2rem;border-top:1px solid var(--color-border)}
+.info-block h3{font-size:1.25rem;color:var(--color-secondary);margin-bottom:.5rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.form-group{margin-bottom:.5rem}
+.btn-submit{width:100%;margin-top:1rem;font-size:1.1rem}
+@media (max-width: 768px){.contact-wrapper{grid-template-columns:1fr;margin-top:0}.form-row{grid-template-columns:1fr;gap:0}}
+`}</style>

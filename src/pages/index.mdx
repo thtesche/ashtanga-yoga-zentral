@@ -1,0 +1,102 @@
+---
+title: Morning Ashtanga Yoga Berlin
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+<MainLayout title="Morning Ashtanga Yoga Berlin">
+
+<section class="hero-section section">
+  <div class="container hero-container animate-fade-in">
+    <h1>Morning Ashtanga Yoga <br/><span class="text-primary">(Mysore style)</span> in Berlin</h1>
+    <p class="hero-subtitle">Begin your day with clarity, steadiness, and breath. The classes are open to practitioners of all levels, including complete beginners.</p>
+    <div class="hero-actions">
+      <a href="#schedule" class="btn btn-outline">View Schedule</a>
+    </div>
+  </div>
+</section>
+
+<section class="intro-section section bg-light">
+  <div class="container animate-fade-in-delay">
+    <div class="surface text-center">
+      <h2 class="text-primary">Welcome to the Shala</h2>
+      <p class="large-text">We offer a quiet, supportive space to receive personal guidance within the shared energy of the group. If you're new to yoga, allow around 30 minutes for the first class.</p>
+    </div>
+  </div>
+</section>
+
+<section id="schedule" class="schedule-section section">
+  <div class="container">
+    <div class="grid-2-col">
+      <div class="surface">
+        <h2 class="text-secondary">Class Schedule</h2>
+        <ul class="schedule-list">
+          <li>
+            <strong>Monday &ndash; Friday</strong>
+            <span>6:30 &ndash; 9:00 am</span>
+          </li>
+          <li>
+            <strong>Sunday <span class="badge">(Except <a href={import.meta.env.BASE_URL + "moon-days"}>Moon Days</a>)</span></strong>
+            <span>7:30 &ndash; 9:30 am</span>
+          </li>
+          <li class="highlight-item">
+            <strong>Led Primary Class <span class="badge">Last Friday of month</span></strong>
+            <span>7:00 &ndash; 8:30 am</span>
+          </li>
+        </ul>
+      </div>
+      <div class="surface">
+        <h2 class="text-secondary">Location</h2>
+        <div class="location-card">
+          <h3>Three Boons Studio</h3>
+          <p>Brunnen Str. 29/3 (Hinterhof)<br/>10119 Berlin</p>
+          <a href="https://maps.google.com/?q=Three+Boons+Studio+Brunnen+Str.+29/3+Berlin" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-1">View on Map</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing-section section bg-light">
+  <div class="container">
+    <h2 class="text-center text-primary mb-3">Prices & Memberships</h2>
+    <div class="pricing-grid">
+      <div class="surface pricing-card">
+        <h3>Trial Month</h3>
+        <div class="price">&euro;90</div>
+        <p class="text-muted">Unlimited classes for beginners only.</p>
+      </div>
+      <div class="surface pricing-card highlight-card">
+        <div class="badge-top">Most Popular</div>
+        <h3>8x Month</h3>
+        <div class="price">&euro;95</div>
+        <p class="text-muted">Perfect for 2 times a week.</p>
+      </div>
+      <div class="surface pricing-card">
+        <h3>12x Month</h3>
+        <div class="price">&euro;115</div>
+        <p class="text-muted">Perfect for 3 times a week.</p>
+      </div>
+      <div class="surface pricing-card">
+        <h3>Unlimited Month</h3>
+        <div class="price">&euro;135</div>
+        <p class="text-muted">Practice as often as you like.</p>
+      </div>
+    </div>
+    <div class="surface mt-3 text-center additional-pricing">
+      <div class="grid-2-col">
+        <div>
+          <h4>Drop-In</h4>
+          <p>&euro;20 <span class="text-muted">(with established practice)</span></p>
+        </div>
+        <div>
+          <h4>Visiting Berlin Pass</h4>
+          <p>&euro;80 <span class="text-muted">(1 week unlimited, with established practice)</span></p>
+        </div>
+      </div>
+      <hr class="divider" />
+      <p class="discount-note">Discount available due to financial difficulties. Please get in touch using the form on the <a href={import.meta.env.BASE_URL + "contact"}>Contact</a> page.</p>
+    </div>
+  </div>
+</section>
+
+</MainLayout>

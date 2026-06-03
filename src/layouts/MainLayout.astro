@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
+import type { AstroComponent } from 'astro/components';
 
 interface Props {
 	title: string;
@@ -15,7 +16,7 @@ const { title } = Astro.props;
 		<meta charset="UTF-8" />
 		<meta name="description" content="Morning Ashtanga Yoga (Mysore style) in Berlin with Elinore Burke" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href={import.meta.env.BASE_URL + "favicon.svg"} />
+		<link rel="icon" type="image/png" href={import.meta.env.BASE_URL + "favicon.png"} />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title} | Ashtanga Yoga Zentral</title>
 	</head>
@@ -23,7 +24,7 @@ const { title } = Astro.props;
 		<Navigation />
 		<main>
 			<slot />
-		</main>
+</main>
 		
 		<footer class="site-footer">
 			<div class="container footer-container">
@@ -49,50 +50,12 @@ const { title } = Astro.props;
 	</body>
 </html>
 
+<!-- Styles moved to global.css or dedicated CSS components -->
+<!-- This section was removed to prevent duplication with global styles -->
+<!-- If specific layout styles are needed, they should be defined in src/styles/global.css -->
+<!-- The main styling for the layout remains in the Astro/global.css structure. -->
 <style>
-	main {
-		min-height: calc(100vh - 80px - 300px);
-	}
-
-	.site-footer {
-		background-color: var(--color-text);
-		color: #fff;
-		padding: 4rem 0 0;
-		margin-top: 4rem;
-	}
-
-	.footer-container {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-		gap: 3rem;
-		margin-bottom: 3rem;
-	}
-
-	.footer-col h3, .footer-col h4 {
-		color: #fff;
-		margin-bottom: 1.5rem;
-	}
-
-	.footer-col p {
-		color: rgba(255, 255, 255, 0.7);
-		margin-bottom: 0.5rem;
-	}
-
-	.footer-col a {
-		display: block;
-		color: rgba(255, 255, 255, 0.7);
-		margin-bottom: 0.5rem;
-	}
-
-	.footer-col a:hover {
-		color: var(--color-secondary);
-	}
-
-	.footer-bottom {
-		text-align: center;
-		padding: 1.5rem;
-		border-top: 1px solid rgba(255, 255, 255, 0.1);
-		color: rgba(255, 255, 255, 0.5);
-		font-size: 0.9rem;
-	}
-</style>
+/* Keeping minimal styles necessary for the layout component structure */
+main {
+    /* Placeholder for min-height if needed, but better handled by global CSS */
+}
