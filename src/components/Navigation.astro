@@ -29,8 +29,8 @@ const navItems = [
       ))}
       
       <div class="lang-switcher">
-        <a href={getLocalizedLink('en', 'index')} class={currentLang === 'en' ? 'active' : ''}>EN</a>
-        <a href={getLocalizedLink('de', 'index')} class={currentLang === 'de' ? 'active' : ''}>DE</a>
+        <a href={getLocalizedLink('en', currentNav.home.path)} class={currentLang === 'en' ? 'active' : ''}>EN</a>
+        <a href={getLocalizedLink('de', currentNav.home.path)} class={currentLang === 'de' ? 'active' : ''}>DE</a>
       </div>
     </div>
 
