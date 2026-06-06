@@ -1,5 +1,36 @@
 ---
+const { locale: currentLocale = 'en' } = Astro.props; // Locale wird idealerweise von der Seite/dem Layout übergeben
+
+// Lokalisierte Menüpunkte definieren
+const navItems = [
+  { nameKey: 'home', defaultText: 'Home', path: '/' },
+  { nameKey: 'about', defaultText: 'Über uns', path: '/about' }, // Pfad muss auch i18n-fähig sein!
+  { nameKey: 'retreats', defaultText: 'Retreats & Events', path: '/retreats' },
+  { nameKey: 'moon-days', defaultText: 'Mondzyklus', path: '/moon-days' },
+];
+
+// Hier müsste eine Funktion implementiert werden, die basierend auf currentLocale 
+// den korrekten Text und Pfad aus einem zentralen Sprach-Dictionary zieht.
+const getLocalizedItem = (item) => {
+    // Beispiel-Logik: Wenn Locale 'de', nutze deutsche Texte; sonst englische.
+    if (currentLocale === 'de') {
+        switch(item.nameKey) {
+            case 'about': return { text: 'Über uns', href: '/de/about' };
+            // ... weitere Fälle
+            default: return { text: item.defaultText, href: item.path };
+        }
+    } else { // Englisch (oder Standard)
+        switch(item.nameKey) {
+            case 'about': return { text: 'About Us', href: '/en/about' };
+            // ... weitere Fälle
+            default: return { text: item.defaultText, href: item.path };
+        }
+    }
+};
+
+const localizedNavItems = navItems.map(getLocalizedItem);
 ---
+
 <nav class="main-nav">
   <div class="container nav-container">
     <a href={import.meta.env.BASE_URL} class="logo">
@@ -11,11 +42,10 @@
     </a>
     
     <div class="nav-links">
-<a href={import.meta.env.BASE_URL}>Home</a>
-<a href={import.meta.env.BASE_URL + "about"}>Über uns</a>
-<a href={import.meta.env.BASE_URL + "retreats"}>Retreats & Events</a>
-<a href={import.meta.env.BASE_URL + "moon-days"}>Mondzyklus</a>
-<a href={import.meta.env.BASE_URL + "contact"} class="btn btn-nav">Kontakt</a>
+      {localizedNavItems.map(item => (
+        <a href={item.href}>{item.text}</a>
+      ))}
+      <!-- Sprachswitcher hier einfügen! -->
     </div>
 
     <!-- Mobile menu button (visual only for now) -->
