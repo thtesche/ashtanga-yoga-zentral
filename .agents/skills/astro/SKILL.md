@@ -1,5 +1,5 @@
 ---
-name: astro
+name: Astro
 description: Brief description of what this skill does
 ---
 
