@@ -1,17 +1,19 @@
 ---
 import '../styles/global.css';
 import Navigation from '../components/Navigation.astro';
-import { getRelativeLocaleUrl } from 'astro:i18n';
+import { i18nData, getLocalizedLink } from '../components/i18n-config.astro';
 
 interface Props {
     title: string; // Dies sollte idealerweise der lokalisierte Titel sein
 }
 
 const { title } = Astro.props;
+const currentLang = Astro.currentLocale || 'en';
+const currentFooter = i18nData[currentLang].footer;
 ---
 
 <!doctype html>
-<html lang={Astro.currentLocale || 'en'}>
+<html lang={currentLang}>
     <head>
         <meta charset="UTF-8" />
         <!-- Lokalisierte Beschreibung verwenden -->
@@ -34,20 +36,20 @@ const { title } = Astro.props;
       <p>{/* Dynamischer Text */} </p>
     </div>
     <div class="footer-col">
-      <h4>Location</h4> 
+      <h4>{currentFooter.location}</h4> 
       <p>Three Boons Studio<br/>Brunnen Str. 29/3 (Hinterhof)<br/>Berlin</p>
     </div>
     <div class="footer-col">
-      <h4>Links</h4> 
-      <a href={getRelativeLocaleUrl(Astro.currentLocale || 'en', 'about')}>About Elinore</a>
-      <a href={getRelativeLocaleUrl(Astro.currentLocale || 'en', 'retreats')}>Retreats & Events</a>
-      <a href={getRelativeLocaleUrl(Astro.currentLocale || 'en', 'contact')}>Contact</a>
-      <a href={getRelativeLocaleUrl(Astro.currentLocale || 'en', 'imprint')}>Imprint</a>
-      <a href={getRelativeLocaleUrl(Astro.currentLocale || 'en', 'gdpr')}>Datenschutz (GDPR)</a>
+      <h4>{currentFooter.links}</h4> 
+      <a href={getLocalizedLink(currentLang, 'about')}>{currentFooter.about}</a>
+      <a href={getLocalizedLink(currentLang, 'retreats')}>{currentFooter.retreats}</a>
+      <a href={getLocalizedLink(currentLang, 'contact')}>{currentFooter.contact}</a>
+      <a href={getLocalizedLink(currentLang, 'imprint')}>{currentFooter.imprint}</a>
+      <a href={getLocalizedLink(currentLang, 'gdpr')}>{currentFooter.gdpr}</a>
     </div>
   </div >
   <div class="footer-bottom">
-    <p>&copy; {new Date().getFullYear()} Ashtanga Yoga Zentral. All rights reserved.</p>
+    <p>&copy; {new Date().getFullYear()} Ashtanga Yoga Zentral. {currentFooter.copyright}</p>
   </div>
 </footer>
 </body>

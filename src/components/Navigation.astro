@@ -1,39 +1,21 @@
 ---
-const { locale: currentLocale = 'en' } = Astro.props; // Locale wird idealerweise von der Seite/dem Layout übergeben
+import { i18nData, getLocalizedLink } from './i18n-config.astro';
 
-// Lokalisierte Menüpunkte definieren
+const currentLang = Astro.currentLocale || 'en';
+const currentNav = i18nData[currentLang].nav;
+
 const navItems = [
-  { nameKey: 'home', defaultText: 'Home', path: '/' },
-  { nameKey: 'about', defaultText: 'Über uns', path: '/about' }, // Pfad muss auch i18n-fähig sein!
-  { nameKey: 'retreats', defaultText: 'Retreats & Events', path: '/retreats' },
-  { nameKey: 'moon-days', defaultText: 'Mondzyklus', path: '/moon-days' },
+  { key: 'home', label: currentNav.home.label, path: currentNav.home.path },
+  { key: 'about', label: currentNav.about.label, path: currentNav.about.path },
+  { key: 'retreats', label: currentNav.retreats.label, path: currentNav.retreats.path },
+  { key: 'moonDays', label: currentNav.moonDays.label, path: currentNav.moonDays.path },
+  { key: 'contact', label: currentNav.contact.label, path: currentNav.contact.path },
 ];
-
-// Hier müsste eine Funktion implementiert werden, die basierend auf currentLocale 
-// den korrekten Text und Pfad aus einem zentralen Sprach-Dictionary zieht.
-const getLocalizedItem = (item) => {
-    // Beispiel-Logik: Wenn Locale 'de', nutze deutsche Texte; sonst englische.
-    if (currentLocale === 'de') {
-        switch(item.nameKey) {
-            case 'about': return { text: 'Über uns', href: '/de/about' };
-            // ... weitere Fälle
-            default: return { text: item.defaultText, href: item.path };
-        }
-    } else { // Englisch (oder Standard)
-        switch(item.nameKey) {
-            case 'about': return { text: 'About Us', href: '/en/about' };
-            // ... weitere Fälle
-            default: return { text: item.defaultText, href: item.path };
-        }
-    }
-};
-
-const localizedNavItems = navItems.map(getLocalizedItem);
 ---
 
 <nav class="main-nav">
   <div class="container nav-container">
-    <a href={import.meta.env.BASE_URL} class="logo">
+    <a href={getLocalizedLink(currentLang, '')} class="logo">
       <img src={import.meta.env.BASE_URL + "images/logo.jpg"} alt="Ashtanga Yoga Zentral Logo" class="nav-logo-img" />
       <div class="logo-text">
         Elinore Burke
@@ -42,10 +24,14 @@ const localizedNavItems = navItems.map(getLocalizedItem);
     </a>
     
     <div class="nav-links">
-      {localizedNavItems.map(item => (
-        <a href={item.href}>{item.text}</a>
+      {navItems.map(item => (
+        <a href={getLocalizedLink(currentLang, item.path)}>{item.label}</a>
       ))}
-      <!-- Sprachswitcher hier einfügen! -->
+      
+      <div class="lang-switcher">
+        <a href={getLocalizedLink('en', 'index')} class={currentLang === 'en' ? 'active' : ''}>EN</a>
+        <a href={getLocalizedLink('de', 'index')} class={currentLang === 'de' ? 'active' : ''}>DE</a>
+      </div>
     </div>
 
     <!-- Mobile menu button (visual only for now) -->

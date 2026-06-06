@@ -1,0 +1,54 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+
+export type SupportedLocale = 'en' | 'de';
+
+/**
+ * Centralized i18n data for navigation and common UI elements.
+ * This can be expanded to include footer links, button labels, etc.
+ */
+export const i18nData: Record<SupportedLocale, any> = {
+  en: {
+    nav: {
+      home: { path: '', label: 'Home' },
+      about: { path: 'about', label: 'About Us' },
+      retreats: { path: 'retreats', label: 'Retreats & Events' },
+      moonDays: { path: 'moon_days', label: 'Moon Days' },
+      contact: { path: 'contact', label: 'Contact' },
+    },
+    footer: {
+      location: 'Location',
+      links: 'Links',
+      about: 'About Elinore',
+      retreats: 'Retreats & Events',
+      contact: 'Contact',
+      imprint: 'Imprint',
+      gdpr: 'Privacy (GDPR)',
+      copyright: 'All rights reserved.'
+    }
+  },
+  de: {
+    nav: {
+      home: { path: '', label: 'Home' },
+      about: { path: 'ueber_uns', label: 'Über uns' },
+      retreats: { path: 'retreats', label: 'Retreats & Events' },
+      moonDays: { path: 'mond_tage', label: 'Mondzyklus' },
+      contact: { path: 'kontakt', label: 'Kontakt' },
+    },
+    footer: {
+      location: 'Standort',
+      links: 'Links',
+      about: 'Über Elinore',
+      retreats: 'Retreats & Events',
+      contact: 'Kontakt',
+      imprint: 'Impressum',
+      gdpr: 'Datenschutz (GDPR)',
+      copyright: 'Alle Rechte vorbehalten.'
+    }
+  }
+};
+
+export function getLocalizedLink(locale: string, path: string) {
+  return getRelativeLocaleUrl(locale, path);
+}
+---
