@@ -397,6 +397,11 @@ main {
   transform: translateY(-15px);
 }
 
+.usc-topup {
+  background-color: #f0f7ff; /* Leichtes Blau */
+  border: 1px solid #dbeafe;
+}
+
 .badge-top {
   position: absolute;
   top: -12px;
