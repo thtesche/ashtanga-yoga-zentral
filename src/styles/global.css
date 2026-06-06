@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap');
+/* Fonts are now imported in MainLayout.astro via @fontsource */
 
 :root {
   --color-bg: #FAF8F5;
