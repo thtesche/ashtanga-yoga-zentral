@@ -29,8 +29,12 @@ const navItems = [
       ))}
       
       <div class="lang-switcher">
-        <a href={getLocalizedLink('en', currentNav.home.path)} class={currentLang === 'en' ? 'active' : ''}>EN</a>
-        <a href={getLocalizedLink('de', currentNav.home.path)} class={currentLang === 'de' ? 'active' : ''}>DE</a>
+        <a href={getLocalizedLink('en', currentNav.home.path)} class={currentLang === 'en' ? 'active' : ''} title="English">
+          <img src={import.meta.env.BASE_URL + "images/flag-en.svg"} alt="EN" width="20" height="14" />
+        </a>
+        <a href={getLocalizedLink('de', currentNav.home.path)} class={currentLang === 'de' ? 'active' : ''} title="Deutsch">
+          <img src={import.meta.env.BASE_URL + "images/flag-de.svg"} alt="DE" width="20" height="14" />
+        </a>
       </div>
     </div>
 
