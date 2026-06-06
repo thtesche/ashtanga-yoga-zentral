@@ -1,7 +1,7 @@
 ---
 import { i18nData, getLocalizedLink } from './i18n-config.astro';
 
-const currentLang = Astro.currentLocale || 'en';
+const currentLang = (Astro.currentLocale || 'en') as keyof typeof i18nData;
 const currentNav = i18nData[currentLang].nav;
 
 const navItems = [
