@@ -49,6 +49,26 @@ const navItems = [
   </div>
 </nav>
 
+<script>
+  function setupMobileMenu() {
+    const btn = document.querySelector('.mobile-menu-btn');
+    const links = document.querySelector('.nav-links');
+
+    if (btn && links) {
+      btn.addEventListener('click', () => {
+        links.classList.toggle('active');
+        btn.classList.toggle('open');
+      });
+    }
+  }
+
+  // Run on initial load
+  setupMobileMenu();
+
+  // Run on Astro page transitions if they are used
+  document.addEventListener('astro:after-swap', setupMobileMenu);
+</script>
+
 <style>
   .main-nav {
     background-color: var(--color-surface);
@@ -134,7 +154,21 @@ const navItems = [
 
   @media (max-width: 768px) {
     .nav-links {
-      display: none; /* In a real app we'd toggle this with JS */
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: var(--color-surface);
+      flex-direction: column;
+      padding: 1rem 0;
+      gap: 1rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .nav-links.active {
+      display: flex;
     }
     
     .mobile-menu-btn {
