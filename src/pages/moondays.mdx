@@ -17,100 +17,102 @@ import MainLayout from '../layouts/MainLayout.astro';
     <div class="surface moon-content text-center mb-4">
       <p class="large-text">The shala is closed on these days...</p>
       <div class="moon-legend">
-        <span class="legend-item"><span class="moon-icon full">&#9679;</span> Full Moon</span>
-        <span class="legend-item"><span class="moon-icon new">&#9675;</span> New Moon</span>
+        <span class="legend-item"><span class="moon-icon full">&#127765;</span> Full Moon</span>
+        <span class="legend-item"><span class="moon-icon new">&#127761;</span> New Moon</span>
       </div>
     </div>
     
-    <div class="calendar-grid">
-      <div class="surface month-card">
+    <div class="calendar-grid" data-month-cards>
+      <div class="surface month-card" data-month="0">
         <h3>January</h3>
         <ul class="moon-list">
-          <li><span class="moon-icon full">&#9679;</span> Sat 3</li>
-          <li><span class="moon-icon new">&#9675;</span> Sun 18</li>
+          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Sat 3</span></li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Sun 18</span></li>
         </ul>
       </div>
-      <div class="surface month-card">
+      <div class="surface month-card" data-month="1">
         <h3>February</h3>
         <ul class="moon-list">
-          <li><span class="moon-icon new">&#9675;</span> Sun 1</li>
-          <li><span class="moon-icon full">&#9679;</span> Tues 17</li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Sun 1</span></li>
+          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Tues 17</span></li>
         </ul>
       </div>
-      <div class="surface month-card">
+      <div class="surface month-card" data-month="2">
         <h3>March</h3>
         <ul class="moon-list">
-          <li><span class="moon-icon full">&#9679;</span> Tue 3</li>
-          <li><span class="moon-icon new">&#9675;</span> Thu 19</li>
+          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Tue 3</span></li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Thu 19</span></li>
         </ul>
       </div>
-      <div class="surface month-card">
+      <div class="surface month-card" data-month="3">
         <h3>April</h3>
         <ul class="moon-list">
-          <li><span class="moon-icon full">&#9679;</span> Thu 2</li>
-          <li><span class="moon-icon new">&#9675;</span> Fri 17</li>
+          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Thu 2</span></li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Fri 17</span></li>
         </ul>
       </div>
-      <div class="surface month-card">
+      <div class="surface month-card" data-month="4">
         <h3>May</h3>
         <ul class="moon-list">
-          <li><span class="moon-icon new">&#9675;</span> Fri 1</li>
-          <li><span class="moon-icon full">&#9679;</span> Sun 17</li>
-          <li><span class="moon-icon new">&#9675;</span> Sun 31</li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Fri 1</span></li>
+          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Sun 17</span></li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Sun 31</span></li>
         </ul>
       </div>
-      <div class="surface month-card">
+      <div class="surface month-card" data-month="5">
         <h3>June</h3>
         <ul class="moon-list">
-          <li><span class="moon-icon full">&#9679;</span> Mon 15</li>
-          <li><span class="moon-icon new">&#9675;</span> Mon 29</li>
+          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Mon 15</span></li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Mon 29</span></li>
         </ul>
       </div>
-      <div class="surface month-card">
+      <div class="surface month-card" data-month="6">
         <h3>July</h3>
         <ul class="moon-list">
-          <li><span class="moon-icon full">&#9679;</span> Tue 14</li>
-          <li><span class="moon-icon new">&#9675;</span> Wed 29</li>
+          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Tue 14</span></li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Wed 29</span></li>
         </ul>
       </div>
-      <div class="surface month-card">
+      <div class="surface month-card" data-month="7">
         <h3>August</h3>
         <ul class="moon-list">
-          <li><span class="moon-icon full">&#9679;</span> Wed 12</li>
-          <li><span class="moon-icon new">&#9675;</span> Fri 28</li>
+          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Wed 12</span></li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Fri 28</span></li>
         </ul>
       </div>
-      <div class="surface month-card">
+      <div class="surface month-card" data-month="8">
         <h3>September</h3>
         <ul class="moon-list">
-          <li><span class="moon-icon full">&#9679;</span> Fri 11</li>
-          <li><span class="moon-icon new">&#9675;</span> Sat 26</li>
+          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Fri 11</span></li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Sat 26</span></li>
         </ul>
       </div>
-      <div class="surface month-card">
+      <div class="surface month-card" data-month="9">
         <h3>October</h3>
         <ul class="moon-list">
-          <li><span class="moon-icon full">&#9679;</span> Sat 10</li>
-          <li><span class="moon-icon new">&#9675;</span> Mon 26</li>
+          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Sat 10</span></li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Mon 26</span></li>
         </ul>
       </div>
-      <div class="surface month-card">
+      <div class="surface month-card" data-month="10">
         <h3>November</h3>
         <ul class="moon-list">
-          <li><span class="moon-icon full">&#9679;</span> Mon 9</li>
-          <li><span class="moon-icon new">&#9675;</span> Tue 24</li>
+          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Mon 9</span></li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Tue 24</span></li>
         </ul>
       </div>
-      <div class="surface month-card">
+      <div class="surface month-card" data-month="11">
         <h3>December</h3>
         <ul class="moon-list">
-          <li><span class="moon-icon full">&#9679;</span> Wed 9</li>
-          <li><span class="moon-icon new">&#9675;</span> Thu 24</li>
+          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Wed 9</span></li>
+          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Thu 24</span></li>
         </ul>
       </div>
     </div>
   </div>
 </section>
+
+<script is:inline set:html="document.addEventListener('DOMContentLoaded',()=>{const m=new Date().getMonth();document.querySelectorAll('[data-month]').forEach(c=>{const cm=parseInt(c.getAttribute('data-month'),10);if(cm<m){c.classList.add('past')}else if(cm===m){c.classList.add('current')}})})" />
 
 </MainLayout>
 
@@ -124,13 +126,52 @@ import MainLayout from '../layouts/MainLayout.astro';
 .moon-content{max-width:600px;margin:-3rem auto 3rem;position:relative;z-index:10;padding:2rem!important}
 .moon-legend{display:flex;justify-content:center;gap:2rem;margin-top:1rem;font-family:var(--font-heading)}
 .legend-item{display:flex;align-items:center;gap:.5rem}
-.moon-icon{font-size:1.2rem}
+.moon-icon{font-size:1.2rem;display:inline-block;}
 .moon-icon.full{color:#333}
 .moon-icon.new{color:var(--color-secondary)}
-.calendar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:2rem}
-.month-card{text-align:center;padding:2rem}
+
+.calendar-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  gap:2rem;
+}
+
+.month-card{text-align:center;padding:2rem;transition: all 0.3s ease;}
 .month-card h3{color:var(--color-secondary);border-bottom:1px solid var(--color-border);padding-bottom:1rem;margin-bottom:1.5rem}
-.moon-list{list-style:none;padding:0}
-.moon-list li{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-bottom:1rem;font-size:1.1rem}
+
+.month-card.current {
+  border: 2px solid var(--color-secondary);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.month-card.past {
+  opacity: 0.35;
+  filter: grayscale(50%);
+}
+
+.month-card.past h3 {
+  border-bottom-color: transparent;
+}
+
+.moon-list{
+  list-style:none;
+  padding:0;
+  display:inline-block;
+  text-align:left;
+}
+.moon-list li{
+  display:flex;
+  align-items:center;
+  margin-bottom:1rem;
+  font-size:1.1rem;
+}
+.moon-list .moon-icon {
+  width: 28px;
+}
+.moon-list .moon-date {
+  font-variant-numeric: tabular-nums;
+}
+
 @media (max-width: 768px){.calendar-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem}}
-`}</style>
+`}
+</style>
