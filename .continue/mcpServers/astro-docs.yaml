@@ -1,0 +1,11 @@
+name: Continue MCP server
+version: 0.0.1
+schema: v1
+mcpServers:
+  - name: Astro Docs
+    command: npx
+    args:
+      - -y
+      - mcp-remote
+      - https://mcp.docs.astro.build/mcp
+    env: {}
