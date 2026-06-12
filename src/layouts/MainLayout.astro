@@ -6,10 +6,11 @@ import Navigation from '../components/Navigation.astro';
 import { i18nData, getLocalizedLink } from '../components/i18n-config.astro';
 
 interface Props {
-    title: string; // Dies sollte idealerweise der lokalisierte Titel sein
+    title: string;
+    description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
 const currentLang = (Astro.currentLocale || 'en') as keyof typeof i18nData;
 const currentFooter = i18nData[currentLang].footer;
 ---
@@ -18,8 +19,7 @@ const currentFooter = i18nData[currentLang].footer;
 <html lang={currentLang}>
     <head>
         <meta charset="UTF-8" />
-        <!-- Lokalisierte Beschreibung verwenden -->
-        <meta name="description" content="Morning Ashtanga Yoga (Mysore style) in Berlin with Elinore Burke - {/* Dynamischer Text basierend auf der Seite */} " /> 
+        <meta name="description" content={description || "Morning Ashtanga Yoga (Mysore style) in Berlin with Elinore Burke"} />
         <meta name="viewport" content="width=device-width" />
         <!-- ... andere Meta Tags -->
         <title>{title} | Ashtanga Yoga Zentral</title>
@@ -34,8 +34,8 @@ const currentFooter = i18nData[currentLang].footer;
   <div class="container footer-container">
     <div class="footer-col">
 
-      <h3>Ashtanga Yoga Zentral</h3> 
-      <p>{/* Dynamischer Text */} </p>
+      <h3>Ashtanga Yoga Zentral</h3>
+      <p>Morning Ashtanga Yoga in Berlin</p>
     </div>
     <div class="footer-col">
       <h4>{currentFooter.location}</h4> 
