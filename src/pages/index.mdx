@@ -6,7 +6,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
 import { getLocalizedLink } from '../components/i18n-config.astro';
 
-<MainLayout title="Morning Ashtanga Yoga Berlin">
+<MainLayout title={frontmatter.title}>
 
 <section class="hero-section section">
   <div class="container hero-container animate-fade-in">

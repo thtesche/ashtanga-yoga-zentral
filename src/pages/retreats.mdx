@@ -5,7 +5,7 @@ description: Discover upcoming Ashtanga Yoga and meditation retreats with Elinor
 import MainLayout from '../layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
 
-<MainLayout title="Retreats & Events">
+<MainLayout title={frontmatter.title}>
 
 <div class="page-header">
   <div class="container text-center animate-fade-in">
