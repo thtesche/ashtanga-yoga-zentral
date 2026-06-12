@@ -4,6 +4,7 @@ description: Erfahre mehr über unsere Ashtanga Yoga Klassen in Berlin.
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
+import img3 from '../../assets/images/img_3_ashtanga_yoga_zentral_berlin_mysore_studio.webp';
 import { getLocalizedLink } from '../../components/i18n-config.astro';
 
 <MainLayout title={frontmatter.title}>
@@ -22,7 +23,7 @@ import { getLocalizedLink } from '../../components/i18n-config.astro';
   <div class="container animate-fade-in-delay">
     <div class="surface text-center">
       <h2 class="text-primary">Willkommen in der Shala</h2>
-      <Image src={import.meta.env.BASE_URL + "images/img_3_ashtanga_yoga_zentral_berlin_mysore_studio.webp"} alt="Ashtanga Yoga Zentral Berlin Mysore Studio" class="img" width={1200} height={600} loading="eager"/>
+      <Image src={img3} alt="Ashtanga Yoga Zentral Berlin Mysore Studio" class="img" width={1200} height={600} loading="eager"/>
       <p class="large-text">Wir bieten dir eine ruhige, unterstützende Atmosphäre, in der du persönliche Anleitung erhältst und gleichzeitig die Dynamik der Gruppe spürst. Du fängst gerade erst an? Für deine erste Stunde reichen rund 30 Minuten völlig aus.</p>
     </div>
   </div>
