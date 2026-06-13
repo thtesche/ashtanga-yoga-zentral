@@ -41,26 +41,26 @@ const currentFooter = i18nData[currentLang].footer;
         </main>
         
         <footer class="site-footer">
-  <div class="container footer-container">
-    <div class="footer-col">
+          <div class="container footer-container">
+            <div class="footer-col">
+              <h3>Ashtanga Yoga Zentral</h3>
+              <p>Morning Ashtanga Yoga in Berlin</p>
+            </div>
+            <div class="footer-col">
+              <h4>{currentFooter.location}</h4>
+              <p>Three Boons Studio<br/>Brunnen Str. 29/3 (Hinterhof)<br/>Berlin</p>
+            </div>
+          </div>
 
-      <h3>Ashtanga Yoga Zentral</h3>
-      <p>Morning Ashtanga Yoga in Berlin</p>
-    </div>
-    <div class="footer-col">
-      <h4>{currentFooter.location}</h4> 
-      <p>Three Boons Studio<br/>Brunnen Str. 29/3 (Hinterhof)<br/>Berlin</p>
-    </div>
-    </div >
-  <div class="footer-col">
-    <div class="footer-legal-links">
-      <a href={getLocalizedLink(currentLang, currentFooter.contact.path)}>{currentFooter.contact.label}</a>
-      <a href={getLocalizedLink(currentLang, currentFooter.legalNotice.path)}>{currentFooter.legalNotice.label}</a>
-      <a href={getLocalizedLink(currentLang, currentFooter.gdpr.path)}>{currentFooter.gdpr.label}</a>
-    </div>
-</div>
-</footer>
-</body>
+          <div class="footer-col">
+            <div class="footer-legal-links">
+              <a href={getLocalizedLink(currentLang, currentFooter.contact.path)}>{currentFooter.contact.label}</a>
+              <a href={getLocalizedLink(currentLang, currentFooter.legalNotice.path)}>{currentFooter.legalNotice.label}</a>
+              <a href={getLocalizedLink(currentLang, currentFooter.gdpr.path)}>{currentFooter.gdpr.label}</a>
+            </div>
+          </div>
+        </footer>
+    </body>
 </html>
 
 <style>
