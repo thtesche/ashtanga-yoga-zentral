@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "postbuild": "prettier --write \"dist/**/*.html\"",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -15,5 +16,8 @@
     "@fontsource/inter": "^5.2.8",
     "@fontsource/outfit": "^5.2.8",
     "astro": "^6.4.3"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.4"
   }
 }
