@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "postbuild": "prettier --write \"dist/**/*.html\"",
+    "postbuild": "prettier --write \"dist/**/*.html\" --ignore-path ./.prettierignore-empty",
     "preview": "astro preview",
     "astro": "astro"
   },
