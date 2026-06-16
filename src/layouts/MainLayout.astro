@@ -1,7 +1,15 @@
 ---
 import '../styles/global.css';
-import '@fontsource/inter';
-import '@fontsource/outfit';
+import '@fontsource/inter/300.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/outfit/500.css';
+import '@fontsource/outfit/600.css';
+
+import inter300Url from '@fontsource/inter/files/inter-latin-300-normal.woff2?url';
+import inter400Url from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
+import outfit500Url from '@fontsource/outfit/files/outfit-latin-500-normal.woff2?url';
+import outfit600Url from '@fontsource/outfit/files/outfit-latin-600-normal.woff2?url';
+
 import Navigation from '../components/Navigation.astro';
 import { i18nData, getLocalizedLink } from '../components/i18n-config.astro';
 
@@ -21,6 +29,11 @@ const currentFooter = i18nData[currentLang].footer;
         <meta charset="UTF-8" />
         <meta name="description" content={description || "Morning Ashtanga Yoga (Mysore style) in Berlin with Elinore Burke"} />
         <meta name="viewport" content="width=device-width" />
+        <!-- Preload critical fonts to break the request chain -->
+        <link rel="preload" href={inter300Url} as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href={inter400Url} as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href={outfit500Url} as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href={outfit600Url} as="font" type="font/woff2" crossorigin />
         <!-- ... andere Meta Tags -->
         <title>{title} | Ashtanga Yoga Zentral</title>
 
