@@ -33,6 +33,29 @@ const currentFooter = i18nData[currentLang].footer;
 
             gtag('config', 'G-DMTRVZQ6QD');
         </script>
+
+        <!-- Client-side Language Redirect for SSG -->
+        <script is:inline>
+            (function() {
+                const path = window.location.pathname;
+                // Check if we are on the root path (considering base path)
+                // The base path is '/ashtanga-yoga-zentral/'
+                const basePath = '/ashtanga-yoga-zentral';
+                const isRoot = path === '/' || path === basePath + '/';
+
+                if (isRoot) {
+                    const supportedLocales = ['de', 'en'];
+                    const browserLang = navigator.language.split('-')[0]; // e.g., 'de-DE' -> 'de'
+
+                    if (supportedLocales.includes(browserLang) && browserLang !== 'en') {
+                        window.location.replace(basePath + '/' + browserLang + '/');
+                    } else {
+                        // Default to English if no match or English is preferred
+                        window.location.replace(basePath + '/en/');
+                    }
+                }
+            })();
+        </script>
     </head>
     <body>
         <Navigation />
