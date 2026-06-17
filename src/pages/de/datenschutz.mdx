@@ -2,9 +2,12 @@
 title: Datenschutzrichtlinie (GDPR)
 description: Detaillierte Informationen zu unseren Datenschutzpraktiken und Ihren Rechten gemäß DSGVO.
 ---
+
 import MainLayout from '../../layouts/MainLayout.astro';
+import CookieResetButton from '../../components/CookieResetButton.astro';
 
 <MainLayout title="Datenschutzerklärung">
+
 
 <div class="page-header gdpr-header">
   <div class="container text-center animate-fade-in">
@@ -74,29 +77,9 @@ import MainLayout from '../../layouts/MainLayout.astro';
 
       <h3 class="font-bold mt-4 mb-2">Widerruf Ihrer Einwilligung zur Datenverarbeitung</h3>
       <p>Viele Datenverarbeitungsvorgänge sind nur mit Ihrer ausdrücklichen Einwilligung möglich. Sie können eine bereits erteilet Einwilligung jederzeit widerrufen. Die Rechtmäßigkeit der bis zum Widerruf erfolgten Datenverarbeitung bleibt vom Widerruf unberührt.</p>
-      <div class="mt-4 p-4 bg-gray-100 rounded">
-        <p>
-          <button id="reset-cookie-consent" class="text-primary underline">Cookie-Einstellungen ändern</button>
-        </p>
-      </div>
-
-      <script is:inline set:html={`
-        document.addEventListener('DOMContentLoaded', function() {
-          var btn = document.getElementById('reset-cookie-consent');
-          if (btn) {
-            btn.addEventListener('click', function() {
-              if (window.cookieConsentManager) {
-                window.cookieConsentManager.resetConsent();
-              } else {
-                localStorage.removeItem('cookie_consent');
-                location.reload();
-              }
-            });
-          }
-        });
-      `} />
-      
-      <h3 class="font-bold mt-4 mb-2">Widerspruchsrecht gegen die Datenerhebung in besonderen Fällen sowie gegen Direktwerbung (Art. 21 DSGVO)</h3>
+       <CookieResetButton buttonLabel="Cookie-Einstellungen ändern" />
+       
+       <h3 class="font-bold mt-4 mb-2">Widerspruchsrecht gegen die Datenerhebung in besonderen Fällen sowie gegen Direktwerbung (Art. 21 DSGVO)</h3>
       <p>WENN DIE DATENVERARBEITUNG AUF GRUNDLAGE VON ART. 6 ABS. 1 LIT. E ODER F DSGVO ERFOLGT, HABEN SIE JEDERZEIT DAS RECHT, AUS GRÜNDEN, DIE SICH AUS IHRER BESONDEREN SITUATION ERGEBEN, GEGEN DIE VERARBEITUNG IHRER PERSONENBEZOGENEN DATEN WIDERSPRUCH EINZULEGEN; DIES GILT AUCH FÜR EIN AUF DIESE BESTIMMUNGEN GESTÜTZTES PROFILING. DIE JEWEILIGE RECHTSGRUNDLAGE, AUF DENEN EINE VERARBEITUNG BERUHT, ENTNEHMEN SIE DIESER DATENSCHUTZERKLÄRUNG. WENN SIE WIDERSPRUCH EINLEGEN, WERDEN WIR IHRE BETROFFENEN PERSONENBEZOGENEN DATEN NICHT MEHR VERARBEITEN, ES SEI DENN, WIR KÖNNEN ZWINGENDE SCHUTZWÜRDIGE GRÜNDE FÜR DIE VERARBEITUNG NACHWEISEN, DIE IHRE INTERESSEN, RECHTE UND FREIHEITEN ÜBERWIEGEN ODER DIE VERARBEITUNG DIENT DER GELTENDMACHUNG, AUSÜBUNG ODER VERTEIDIGUNG VON RECHTSANSPRÜCHEN (WIDERSPRUCH NACH ART. 21 ABS. 1 DSGVO).</p>
       <p>WERDEN IHRE PERSONENBEZOGENEN DATEN VERARBEITET, UM DIREKTWERBUNG ZU BETREIBEN, SO HABEN SIE DAS RECHT, JEDERZEIT WIDERSPRUCH GEGEN DIE VERARBEITUNG SIE BETREFFENDER PERSONENBEZOGENER DATEN ZUM ZWECKE DERARTIGER WERBUNG EINZULEGEN; DIES GILT AUCH FÜR DAS PROFILING, SOWEIT ES MIT SOLCHER DIREKTWERBUNG IN VERBINDUNG STEHT. WENN SIE WIDERSPRECHEN, WERDEN IHRE PERSONENBEZOGENEN DATEN ANSCHLIESSEND NICHT MEHR ZUM ZWECKE DER DIREKTWERBUNG VERWENDET (WIDERSPRUCH NACH ART. 21 ABS. 2 DSGVO).</p>
 
