@@ -38,15 +38,14 @@ The website follows a standard Astro/frontend structure:
 
 *   **`public/`**: Stores static assets like images (`images/`) and configuration files (`.nojekyll`).
 *   **`src/`**: Contains all the core source code.
-    *   **`pages/`**: Astro routing pages.
+    *   **`pages/`**: Astro routing pages. This project uses internationalization (i18n) with English (`en`) and German (`de`) locales.
         *   `index.astro`: The main landing page (Home).
         *   `about.astro`: Information about the authorized teacher, Elinore Burke.
-        *   `contact.astro`: Contact information (details not shown, but implied).
-        *   `moon-days.astro`: Specific page related to class exceptions.
+        *   `contact.astro`: Contact information and newsletter signup.
+        *   `moon-days.astro`: Specific page related to class exceptions (Moondays).
         *   `retreats.astro`: Information about retreat packages.
-        *   `index.astro`: (Redundant, but used for the root page, generally the main entry point).
     *   **`layouts/`**: Defines the reusable layout structure for the site (`MainLayout.astro`).
-    *   **`components/`**: Contains reusable UI components (e.g., `Navigation.astro`).
+    *   **`components/`**: Contains reusable UI components (e.g., `Navigation.astro`, `CookieConsent.astro`).
     *   **`styles/`**: Global CSS styles (`global.css`).
 
 ## ✨ Key Features & Sections
@@ -77,4 +76,23 @@ To generate the optimized static assets for deployment (e.g., GitHub Pages, Netl
 npm run build
 ```
 
-The resulting static files will be placed in the `dist/` directory (or similar, depending on `astro.config.mjs` setup).
+The resulting static files will be placed in the `dist/` directory.
+
+### 🛠️ Development Workflow
+
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+2.  **Run development server:**
+    ```bash
+    npm run dev
+    ```
+3.  **Build for production:**
+    ```bash
+    npm run build
+    ```
+
+### 🧪 Linting and Formatting
+
+The project uses **Prettier** to ensure consistent code formatting. You can run the build process, which includes a post-build formatting step, or format files manually.
