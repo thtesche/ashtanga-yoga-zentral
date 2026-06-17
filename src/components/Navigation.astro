@@ -22,7 +22,8 @@ const navItems = [
     <a href={getLocalizedLink(currentLang, currentNav.home.path)} class="logo">
         <Image src={logo} alt="Ashtanga Yoga Zentral Logo" class="nav-logo-img" width={100} height={100} loading="eager"/>
       <div class="logo-text">
-        Elinore Burke
+        <span>Ashtanga Yoga</span>
+        <span>Zentral Berlin</span>
       </div>
     </a>
     
@@ -109,14 +110,15 @@ const navItems = [
     display: flex;
     flex-direction: column;
     line-height: 1.2;
+    text-align: center;
   }
 
   .logo-text span {
-    font-size: 0.8rem;
-    color: var(--color-primary);
-    font-weight: 400;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    font-size: inherit;
+    color: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
   }
 
   .nav-links {
