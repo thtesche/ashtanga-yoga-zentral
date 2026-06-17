@@ -11,6 +11,7 @@ import outfit500Url from '@fontsource/outfit/files/outfit-latin-500-normal.woff2
 import outfit600Url from '@fontsource/outfit/files/outfit-latin-600-normal.woff2?url';
 
 import Navigation from '../components/Navigation.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import { i18nData, getLocalizedLink } from '../components/i18n-config.astro';
 
 interface Props {
@@ -37,14 +38,32 @@ const currentFooter = i18nData[currentLang].footer;
         <!-- ... andere Meta Tags -->
         <title>{title} | Ashtanga Yoga Zentral</title>
 
-        <!-- Google Tag Manager (GA4) -->
-        <script is:inline src="//www.googletagmanager.com/gtag/js?id=G-DMTRVZQ6QD" data-cfasync="false" data-wpfc-render="false" async></script>
+        <!-- Google Tag Manager (GA4) - Loaded conditionally via CookieConsent -->
         <script is:inline>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+            (function() {
+                const CONSENT_KEY = 'cookie_consent';
+                const GTM_ID = 'G-DMTRVZQ6QD';
 
-            gtag('config', 'G-DMTRVZQ6QD');
+                function loadGTM() {
+                    const script = document.createElement('script');
+                    script.async = true;
+                    script.src = `//www.googletagmanager.com/gtag/js?id=${GTM_ID}`;
+                    document.head.appendChild(script);
+
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', GTM_ID);
+                }
+
+                const consent = localStorage.getItem(CONSENT_KEY);
+                if (consent === 'accepted') {
+                    loadGTM();
+                } else {
+                    // Listen for the custom event from CookieConsent component
+                    window.addEventListener('cookieConsentAccepted', loadGTM);
+                }
+            })();
         </script>
 
         <!-- Client-side Language Redirect for SSG -->
@@ -75,6 +94,8 @@ const currentFooter = i18nData[currentLang].footer;
         <main>
             <slot />
         </main>
+
+        <CookieConsent currentLang={currentLang} />
         
         <footer class="site-footer">
           <div class="container footer-container">
