@@ -59,6 +59,14 @@ export const i18nData: Record<SupportedLocale, any> = {
 };
 
 export function getLocalizedLink(locale: string, path: string) {
+  // Use Astro's getRelativeLocaleUrl for ALL locales — it computes the
+  // correct relative path from the current page, respecting base + i18n
+  // routing (prefixDefaultLocale: false). Using raw paths for 'en' caused
+  // relative resolution bugs (e.g. /contact/moondays/ instead of /moondays/).
+  if (!path || path === '') {
+    // Home: link to locale root
+    return getRelativeLocaleUrl(locale, '');
+  }
   return getRelativeLocaleUrl(locale, path);
 }
 ---
