@@ -3,6 +3,7 @@ title: Retreats & Veranstaltungen
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
+import img1 from '../../assets/images/img_1_elinore_retreat_mecklenburg.webp';
 import img2 from '../../assets/images/img_2_yogaPulia_retreat_centre_images.webp';
 
 <MainLayout title="Retreats & Events">
@@ -42,12 +43,18 @@ import img2 from '../../assets/images/img_2_yogaPulia_retreat_centre_images.webp
 <section class="section bg-light">
   <div class="container">
     <h2 class="text-center mb-4">Vergangene Veranstaltungen</h2>
-    <div class="grid-2-col">
-      <div class="surface">
+    <div class="retreat-card surface animate-fade-in-delay">
+      <div class="retreat-date">25. &ndash; 28. Juni 2026</div>
+      <div class="retreat-content">
+        <Image src={img1} alt="Mecklenburg Retreat" class="retreat-img" width={800} height={180} loading="eager"/>
         <h3>Ashtanga Yoga Verlängertes Wochenende in Mecklenburg</h3>
-        <p class="text-muted">25.&ndash;28. Juni 2026</p>
-        <p>Ein besonderes Wochenend-Retreat mit Mysore-Praxis, Workshops, Chanting, Atemarbeit und Meditation am Tollensesee.</p>
+        <p class="text-muted mb-2">(Anreise Donnerstag am späten Nachmittag &ndash; Abreise Sonntag nach dem Mittagessen)</p>
+        <p>Dieses Wochenend-Retreat bot uns eine besondere Gelegenheit zusammenzukommen und tief in Themen einzutauchen, die unsere Praxis bereichern &ndash; ergänzt durch Chanting, Atemarbeit und Meditation. Es gab morgendliche Mysore-Klassen und auf eure Interessen zugeschnittene Workshops.</p>
+        <p>Wir hatten viel Zeit, uns in entspannter Atmosphäre auszutauschen, während unsere Gastgeberin Juli ihre köstlichen vegetarischen/veganen Gerichte zauberte. Der umgebaute Bauernhof bietet gemütliche Betten, jede Menge Platz und eine holzbeheizte Sauna. Ein Spaziergang durch den Wald führt uns zum Tollensesee, der zu einer Erfrischung einläd.</p>
       </div>
+    </div>
+
+    <div class="grid-2-col mt-4">
       <div class="surface">
         <h3>LARUGA kehrt zurück nach Berlin</h3>
         <p class="text-muted">22. &ndash; 28. Sept. 2025</p>
@@ -87,7 +94,7 @@ import img2 from '../../assets/images/img_2_yogaPulia_retreat_centre_images.webp
 .retreat-footer{display:flex;align-items:center;gap:1.5rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--color-border);flex-wrap:wrap}
 .price{font-family:var(--font-heading);font-weight:600;font-size:1.25rem;color:var(--color-primary);margin-right:auto}
 .price-stack{display:flex;flex-direction:column;margin-right:auto;font-family:var(--font-heading);color:var(--color-primary);font-weight:500}
-.grid-2-col{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.grid-2-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
 .event-details{margin-top:1.5rem;padding-left:1.5rem;color:#4a5550}
 .event-details li{margin-bottom:.5rem}
 @media (max-width: 768px){.retreat-card{flex-direction:column}.retreat-date{min-width:100%;padding:1.5rem;font-size:1.25rem}.grid-2-col{grid-template-columns:1fr}.retreat-footer{flex-direction:column;align-items:flex-start}.price{margin-bottom:1rem}}

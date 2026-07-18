@@ -4,6 +4,7 @@ description: Discover upcoming Ashtanga Yoga and meditation retreats with Elinor
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
+import img1 from '../assets/images/img_1_elinore_retreat_mecklenburg.webp';
 import img2 from '../assets/images/img_2_yogaPulia_retreat_centre_images.webp';
 
 <MainLayout title={frontmatter.title}>
@@ -43,12 +44,18 @@ import img2 from '../assets/images/img_2_yogaPulia_retreat_centre_images.webp';
 <section class="section bg-light">
   <div class="container">
     <h2 class="text-center mb-4">Past Events</h2>
-    <div class="grid-2-col">
-      <div class="surface">
+    <div class="retreat-card surface animate-fade-in-delay">
+      <div class="retreat-date">25 &ndash; 28 June 2026</div>
+      <div class="retreat-content">
+        <Image src={img1} alt="Mecklenburg Retreat" class="retreat-img" width={400} height={180} loading="eager"/>
         <h3>Ashtanga Yoga Long Weekend in Mecklenburg</h3>
-        <p class="text-muted">25&ndash;28 June 2026</p>
-        <p>A special weekend retreat with Mysore sessions, workshops, chanting, breath work, and meditation by the Tollense Lake.</p>
+        <p class="text-muted mb-2">(arrive Thursday late afternoon &ndash; depart Sunday after Lunch)</p>
+        <p>This weekend retreat offered us a special opportunity to come together and delve deeply into ideas that enrich our practice, complemented by chanting, breath work, and meditation. There were morning Mysore sessions and workshops tailored to your interests.</p>
+        <p>We had plenty of time to connect in a relaxed setting while our host, Juli, whipped up her delish vegetarian/vegan eats. The converted farm building has comfy beds, plenty of space and a wood-burning sauna. A walk through the woods leads us to the Tollense Lake for a swim.</p>
       </div>
+    </div>
+
+    <div class="grid-2-col mt-4">
       <div class="surface">
         <h3>LARUGA returns to Berlin</h3>
         <p class="text-muted">22&ndash;28 Sept 2025</p>
@@ -88,7 +95,7 @@ import img2 from '../assets/images/img_2_yogaPulia_retreat_centre_images.webp';
 .retreat-footer{display:flex;align-items:center;gap:1.5rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--color-border);flex-wrap:wrap}
 .price{font-family:var(--font-heading);font-weight:600;font-size:1.25rem;color:var(--color-primary);margin-right:auto}
 .price-stack{display:flex;flex-direction:column;margin-right:auto;font-family:var(--font-heading);color:var(--color-primary);font-weight:500}
-.grid-2-col{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.grid-2-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
 .event-details{margin-top:1.5rem;padding-left:1.5rem;color:#4a5550}
 .event-details li{margin-bottom:.5rem}
 @media (max-width: 768px){.retreat-card{flex-direction:column}.retreat-date{min-width:100%;padding:1.5rem;font-size:1.25rem}.grid-2-col{grid-template-columns:1fr}.retreat-footer{flex-direction:column;align-items:flex-start}.price{margin-bottom:1rem}}
