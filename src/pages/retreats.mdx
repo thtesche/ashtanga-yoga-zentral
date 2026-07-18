@@ -59,7 +59,7 @@ import larugaUrdhvamukha from '../assets/images/laruga_urdhvamukha.webp';
 
     <div class="grid-2-col mt-4">
       <div class="surface event-card">
-        <Image src={larugaPadma} alt="Laruga in Padmasana" class="event-img" width={400} height={300} loading="lazy"/>
+        <Image src={larugaPadma} alt="Laruga in Padmasana" class="event-img" style="aspect-ratio: auto; max-height: none;" loading="lazy"/>
         <h3>LARUGA returns to Berlin</h3>
         <p class="text-muted">22&ndash;28 Sept 2025</p>
         <p>I'm delighted to welcome Laruga Glaser back to Berlin for the fourth time &mdash; a rare opportunity to deepen your practice with one of Ashtanga's most experienced teachers.</p>
@@ -70,7 +70,7 @@ import larugaUrdhvamukha from '../assets/images/laruga_urdhvamukha.webp';
         </ul>
       </div>
       <div class="surface event-card">
-        <Image src={larugaUrdhvamukha} alt="Laruga in Urdhva Mukha Paschimottanasana" class="event-img" width={400} height={300} loading="lazy"/>
+        <Image src={larugaUrdhvamukha} alt="Laruga in Urdhva Mukha Paschimottanasana" class="event-img" style="aspect-ratio: auto; max-height: none;" loading="lazy"/>
         <h3>Weekend Workshop with Laruga</h3>
         <p class="text-muted">27&ndash;29 Sept 2024</p>
         <p>Hosted Laruga for the 3rd time in Berlin! Included led classes, mysore practice, and special workshops.</p>
@@ -103,6 +103,6 @@ import larugaUrdhvamukha from '../assets/images/laruga_urdhvamukha.webp';
 .event-details{margin-top:1.5rem;padding-left:1.5rem;color:#4a5550}
 .event-details li{margin-bottom:.5rem}
 .event-card{display:flex;flex-direction:column}
-.event-img{width:100%;max-height:220px;object-fit:cover;border-radius:8px;margin-bottom:1.5rem}
+.event-img{width:100%;height:auto;object-fit:contain;border-radius:8px;margin-bottom:1.5rem}
 @media (max-width: 768px){.retreat-card{flex-direction:column}.retreat-date{min-width:100%;padding:1.5rem;font-size:1.25rem}.grid-2-col{grid-template-columns:1fr}.retreat-footer{flex-direction:column;align-items:flex-start}.price{margin-bottom:1rem}}
 `}</style>
