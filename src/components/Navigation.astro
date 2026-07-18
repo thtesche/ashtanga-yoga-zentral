@@ -5,7 +5,15 @@ import logo from '../assets/images/logo.webp';
 import flagEn from '../assets/images/flag-en.svg';
 import flagDe from '../assets/images/flag-de.svg';
 
-const currentLang = (Astro.currentLocale || 'en') as keyof typeof i18nData;
+const pathname = Astro.url?.pathname || '/';
+let currentLang: keyof typeof i18nData = 'en';
+
+// Derive locale from URL path, not from browser-language header.
+if (pathname.startsWith('/de')) {
+  currentLang = 'de';
+} else {
+  currentLang = 'en';
+}
 const currentNav = i18nData[currentLang].nav;
 
 const navItems = [
