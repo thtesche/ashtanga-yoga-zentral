@@ -86,22 +86,30 @@ import { getLocalizedLink } from '../components/i18n-config.astro';
         <div class="price">&euro;135</div>
         <p class="text-muted">Practice as often as you like.</p>
       </div>
-      <div class="surface pricing-card usc-topup">
-        <h3>USC Top Up 4x</h3>
-        <div class="price">&euro;65</div>
-        <p class="text-muted">Practice 4 more times per month on top of your USC check-ins.</p>
-      </div>
-      <div class="surface pricing-card usc-topup">
-        <h3>USC Top Up 8x</h3>
-        <div class="price">&euro;XX</div>
-        <p class="text-muted">Practice 8 more times per month on top of your USC check-ins.</p>
-      </div>
-      <div class="surface pricing-card usc-topup">
-        <h3>USC Top Up Unlimited</h3>
-        <div class="price">&euro;XX</div>
-        <p class="text-muted">Practice as often as you like on top of your USC check-ins.</p>
-      </div>
     </div>
+    <details class="usc-topup-details">
+      <summary>USC Top Up — Practice More</summary>
+      <p class="usc-topup-intro">Would you like to practice more than your membership allows?</p>
+      <div class="grid-2-col">
+        <div class="usc-tier">
+          <strong>M Membership</strong>
+          <p class="text-muted">(4x/month included)</p>
+          <ul class="usc-prices">
+            <li>4 additional classes = <strong>&euro;65</strong></li>
+            <li>8 additional classes = <strong>&euro;85</strong></li>
+            <li>unlimited additional classes = <strong>&euro;105</strong></li>
+          </ul>
+        </div>
+        <div class="usc-tier">
+          <strong>L Membership</strong>
+          <p class="text-muted">(8x/month included)</p>
+          <ul class="usc-prices">
+            <li>4 additional classes = <strong>&euro;55</strong></li>
+            <li>unlimited additional classes = <strong>&euro;75</strong></li>
+          </ul>
+        </div>
+      </div>
+    </details>
     <div class="surface mt-3 text-center additional-pricing">
       <div class="grid-2-col">
         <div>
