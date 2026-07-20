@@ -8,6 +8,7 @@
     "build": "astro build",
     "postbuild": "prettier --write \"dist/**/*.html\" --ignore-path ./.prettierignore-empty",
     "preview": "astro preview",
+    "test": "node test/build-tests.js",
     "astro": "astro"
   },
   "dependencies": {

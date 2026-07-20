@@ -20,10 +20,10 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const pathname = Astro.url?.pathname || '/';
+const pathname = (Astro.url?.pathname || '/').replace(/^\/ashtanga-yoga-zentral/i, '');
 let currentLang: keyof typeof i18nData = 'en';
 
-// Derive locale from URL path, not from browser-language header.
+// Derive locale from URL path (after base), not from browser-language header.
 if (pathname.startsWith('/de')) {
   currentLang = 'de';
 } else {
