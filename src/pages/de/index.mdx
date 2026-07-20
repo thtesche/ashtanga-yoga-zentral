@@ -3,6 +3,7 @@ title: Morning Ashtanga Yoga Berlin
 description: Erfahre mehr über unsere Ashtanga Yoga Klassen in Berlin.
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
+import MysoreTip from '../../components/MysoreTip.astro';
 import { Image } from 'astro:assets';
 import img3 from '../../assets/images/img_3_ashtanga_yoga_zentral_berlin_mysore_studio.webp';
 import { getLocalizedLink } from '../../components/i18n-config.astro';
@@ -11,7 +12,7 @@ import { getLocalizedLink } from '../../components/i18n-config.astro';
 
 <section class="hero-section section">
   <div class="container hero-container animate-fade-in">
-    <h1>Ashtanga Yoga <br/><span class="text-primary">Mysore Style</span> in Berlin-Mitte</h1>
+    <h1>Ashtanga Yoga <br/><span class="text-primary"><MysoreTip /></span> in Berlin-Mitte</h1>
     <p class="hero-subtitle">Beginne deinen Tag mit Klarheit, Beständigkeit und tiefem Atem. Die Klassen sind für Praktizierende aller Level offen, einschließlich absoluter Anfänger.</p>
     <div class="hero-actions">
       <a href="#schedule" class="btn btn-outline">Stundenplan ansehen</a>
