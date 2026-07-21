@@ -1,20 +1,36 @@
 ---
 interface Props {
-	text?: string;
+	lang?: 'en' | 'de';
 }
 
-const { text = "Mysore style" } = Astro.props;
+const { lang = 'en' } = Astro.props;
 
-const paragraphs = [
-	"Mysore Style is the traditional way Ashtanga Yoga is taught and practiced.",
-	"In this approach, students move through the sequence at their own pace, receiving individual guidance through verbal cues and hands-on support from the teacher.",
-	"Postures are introduced gradually, based on each practitioner's ability and readiness—taking into account not only physical capacity but also mental and emotional preparedness.",
-	"New students, whether to Ashtanga or Mysore-style practice, are welcome and encouraged to join.",
-];
+const texts: Record<string, { label: string; paragraphs: string[] }> = {
+	en: {
+		label: 'Mysore style',
+		paragraphs: [
+			"Mysore Style is the traditional way Ashtanga Yoga is taught and practiced.",
+			"In this approach, students move through the sequence at their own pace, receiving individual guidance through verbal cues and hands-on support from the teacher.",
+			"Postures are introduced gradually, based on each practitioner's ability and readiness—taking into account not only physical capacity but also mental and emotional preparedness.",
+			"New students, whether to Ashtanga or Mysore-style practice, are welcome and encouraged to join.",
+		],
+	},
+	de: {
+		label: 'Mysore Style',
+		paragraphs: [
+			"Mysore Style ist die traditionelle Form, Ashtanga Yoga zu unterrichten und zu praktizieren.",
+			"Bei diesem Ansatz übst du die Reihe in deinem ganz eigenen Tempo. Du erhältst dabei individuelle Unterstützung durch mündliche Hinweise und direkte Hilfestellungen (Hands-on).",
+			"Neue Haltungen werden schrittweise eingeführt – genau angepasst an deine Fähigkeiten und deine Bereitschaft. Dabei wird nicht nur deine körperliche Kraft berücksichtigt, sondern auch deine mentale und emotionale Verfassung.",
+			"Egal, ob du ganz neu beim Ashtanga Yoga bist oder bisher noch keine Mysore-Praxis kennst: Du bist herzlich willkommen und ausdrücklich eingeladen mitzumachen!",
+		],
+	},
+};
+
+const { label, paragraphs } = texts[lang];
 ---
 
 <span class="mysore-tip">
-	<span class="mysore-tip-label">{text}</span>
+	<span class="mysore-tip-label">{label}</span>
 	<button class="mysore-tip-i" aria-label="About Mysore Style" tabindex="0">i</button>
 	<div class="mysore-tip-popup">
 		{paragraphs.map((p) => <p>{p}</p>)}
