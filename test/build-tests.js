@@ -111,6 +111,62 @@ if (fs.existsSync(sitemapFile)) {
   assert(sitemap.includes('/about'), 'Sitemap references EN about route');
 }
 
+// ── Fallback redirects ──────────────────────────────────────────
+console.log('\nFallback redirects (DE → EN):');
+const fallbackRoutes = [
+  { de: 'de/about/index.html', en: '/about/' },
+  { de: 'de/contact/index.html', en: '/contact/' },
+  { de: 'de/legal_notice/index.html', en: '/legal_notice/' },
+  { de: 'de/gdpr/index.html', en: '/gdpr/' },
+];
+for (const fb of fallbackRoutes) {
+  assert(
+    fs.existsSync(path.join(DIST, fb.de)),
+    `DE fallback page exists: /${fb.de}`
+  );
+  const html = readHTML(fb.de);
+  assert(
+    html.includes('meta http-equiv="refresh"') && html.includes(`url=${fb.en}`),
+    `/${fb.de} redirects to ${fb.en}`
+  );
+}
+
+// ── Language-consistent internal links ───────────────────────────
+console.log('\nLanguage-consistent internal links:');
+const deRetreats = readHTML('de/retreats/index.html');
+assert(
+  deRetreats.includes('href="/de/kontakt/') && !deRetreats.includes('href="/contact'),
+  'DE retreats links to /de/kontakt (not /contact)'
+);
+assert(
+  deRetreats.includes('href="/de/retreats/'),
+  'DE retreats nav links to /de/retreats'
+);
+assert(
+  deRetreats.includes('href="/de/ueber_uns/'),
+  'DE retreats nav links to /de/ueber_uns'
+);
+
+const enRetreats = readHTML('retreats/index.html');
+assert(
+  enRetreats.includes('href="/contact/') && !enRetreats.includes('href="/de/kontakt'),
+  'EN retreats links to /contact (not /de/kontakt)'
+);
+
+// ── No BASE_URL concatenation in source ──────────────────────────
+console.log('\nNo BASE_URL remnants:');
+const srcPages = path.join('src', 'pages');
+const mdxFiles = fs.readdirSync(srcPages, { recursive: true })
+  .filter(f => typeof f === 'string' && f.endsWith('.mdx'))
+  .map(f => path.join(srcPages, f));
+for (const file of mdxFiles) {
+  const content = fs.readFileSync(file, 'utf-8');
+  assert(
+    !content.includes('import.meta.env.BASE_URL'),
+    `${file} has no BASE_URL concatenation`
+  );
+}
+
 // ── robots.txt ──────────────────────────────────────────────────
 console.log('\nrobots.txt:');
 assert(fs.existsSync(path.join(DIST, 'robots.txt')), 'robots.txt exists');

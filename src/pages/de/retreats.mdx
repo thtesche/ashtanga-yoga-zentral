@@ -7,6 +7,7 @@ import img1 from '../../assets/images/img_1_elinore_retreat_mecklenburg.webp';
 import img2 from '../../assets/images/img_2_yogaPulia_retreat_centre_images.webp';
 import larugaPadma from '../../assets/images/laruga_padma.webp';
 import larugaUrdhvamukha from '../../assets/images/laruga_urdhvamukha.webp';
+import { getLocalizedLink } from '../../components/i18n-config.astro';
 
 <MainLayout title="Retreats & Events">
 
@@ -35,7 +36,7 @@ import larugaUrdhvamukha from '../../assets/images/laruga_urdhvamukha.webp';
             <span>Einzelzimmer: &euro;1325</span>
           </div>
           <a href="https://www.yogapulia.com/elinore-burke-2026" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Weitere Details</a>
-          <a href={import.meta.env.BASE_URL + "contact"} class="btn">Fragen / Buchung</a>
+          <a href={getLocalizedLink('de', 'kontakt')} class="btn">Fragen / Buchung</a>
         </div>
       </div>
     </div>
