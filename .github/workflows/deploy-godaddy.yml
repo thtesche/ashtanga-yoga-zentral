@@ -1,0 +1,33 @@
+name: Deploy to GoDaddy
+
+on:
+  workflow_dispatch: # Ermöglicht manuelles Ausführen per Button in GitHub
+  # push:
+  #   branches: [ main ] # Erst beim tatsächlichen Go-Live einkommentieren
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm' # oder pnpm/yarn
+
+      - name: Build Astro Site
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy via SFTP
+        uses: SamKirsch/ftp-deploy-action@v4.3.5
+        with:
+          server: ${{ secrets.GODADDY_SERVER }}
+          username: ${{ secrets.GODADDY_USERNAME }}
+          password: ${{ secrets.GODADDY_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ${{ secrets.GODADDY_TARGET_DIR || '/public_html/' }}
