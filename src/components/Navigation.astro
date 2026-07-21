@@ -5,16 +5,10 @@ import logo from '../assets/images/logo.webp';
 import flagEn from '../assets/images/flag-en.svg';
 import flagDe from '../assets/images/flag-de.svg';
 
-const base = import.meta.env.BASE_URL || '/';
-const pathname = (Astro.url?.pathname || '/').slice(base === '/' ? 0 : base.length) || '/';
-let currentLang: keyof typeof i18nData = 'en';
-
-// Derive locale from URL path (after base), not from browser-language header.
-if (pathname.startsWith('/de')) {
-  currentLang = 'de';
-} else {
-  currentLang = 'en';
-}
+// Derive locale from URL path. Astro.url.pathname includes base path.
+// Check if the path contains /de (works with or without base prefix).
+const rawPath = Astro.url?.pathname || '/';
+let currentLang: keyof typeof i18nData = rawPath.includes('/de') ? 'de' : 'en';
 const currentNav = i18nData[currentLang].nav;
 
 const navItems = [

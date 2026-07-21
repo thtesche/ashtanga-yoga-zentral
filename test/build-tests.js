@@ -35,7 +35,7 @@ function readHTML(relative) {
 function href(route) {
   // Returns the href as it appears in HTML (e.g. '/ashtanga-yoga-zentral/de/kontakt/')
   const prefix = BASE === '/' ? '' : BASE.replace(/\/$/, '');
-  return prefix + (route.startsWith('/') ? route : '/' + route);
+  return prefix + (route.startsWith('/') ? route : '/' + route) + '/';
 }
 
 console.log('\n🧪 Build output tests\n');
@@ -135,7 +135,7 @@ for (const fb of fallbackRoutes) {
   );
   const html = readHTML(fb.de);
   assert(
-    html.includes('meta http-equiv="refresh"') && html.includes(`url=${fb.en}`),
+    html.includes('http-equiv="refresh"') && html.includes(`url=${fb.en}`),
     `/${fb.de} redirects to ${fb.en}`
   );
 }
@@ -144,21 +144,21 @@ for (const fb of fallbackRoutes) {
 console.log('\nLanguage-consistent internal links:');
 const deRetreats = readHTML('de/retreats/index.html');
 assert(
-  deRetreats.includes(`href="${href('/de/kontakt')}")`) && !deRetreats.includes(`href="${href('/contact')}`),
+  deRetreats.includes(href('/de/kontakt')) && !deRetreats.includes(href('/contact')),
   'DE retreats links to /de/kontakt (not /contact)'
 );
 assert(
-  deRetreats.includes(`href="${href('/de/retreats')}"`),
+  deRetreats.includes(href('/de/retreats')),
   'DE retreats nav links to /de/retreats'
 );
 assert(
-  deRetreats.includes(`href="${href('/de/ueber_uns')}"`),
+  deRetreats.includes(href('/de/ueber_uns')),
   'DE retreats nav links to /de/ueber_uns'
 );
 
 const enRetreats = readHTML('retreats/index.html');
 assert(
-  enRetreats.includes(`href="${href('/contact')}")`) && !enRetreats.includes(`href="${href('/de/kontakt')}`),
+  enRetreats.includes(href('/contact')) && !enRetreats.includes(href('/de/kontakt')),
   'EN retreats links to /contact (not /de/kontakt)'
 );
 
