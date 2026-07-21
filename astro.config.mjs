@@ -15,8 +15,8 @@ export default defineConfig({
       },
     }),
   ],
-  site: 'https://thtesche.github.io',
-  base: '/ashtanga-yoga-zentral/',
+  site: 'https://ashtanga-yoga-zentral.ch',
+  base: '',
 
   i18n: {
     defaultLocale: 'en',

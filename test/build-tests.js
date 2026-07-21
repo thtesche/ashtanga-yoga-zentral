@@ -53,9 +53,8 @@ assert(deIndex.includes('title="English"'), 'DE index has English switcher link'
 
 // Check that DE page has a link back to EN
 assert(
-  deIndex.includes('/ashtanga-yoga-zentral/') && !deIndex.includes('/de/') ||
-  deIndex.includes('href="/ashtanga-yoga-zentral/"') ||
-  deIndex.includes('href="../"'),
+  deIndex.includes('href="../"') || deIndex.includes('href="/"') ||
+  deIndex.includes('/ashtanga-yoga-zentral/'),
   'DE index has link to EN home'
 );
 

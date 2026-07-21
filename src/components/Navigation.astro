@@ -5,7 +5,8 @@ import logo from '../assets/images/logo.webp';
 import flagEn from '../assets/images/flag-en.svg';
 import flagDe from '../assets/images/flag-de.svg';
 
-const pathname = (Astro.url?.pathname || '/').replace(/^\/ashtanga-yoga-zentral/i, '');
+const base = import.meta.env._BASE_PATH || '/';
+const pathname = (Astro.url?.pathname || '/').slice(base === '/' ? 0 : base.length) || '/';
 let currentLang: keyof typeof i18nData = 'en';
 
 // Derive locale from URL path (after base), not from browser-language header.

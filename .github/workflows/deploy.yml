@@ -38,7 +38,7 @@ jobs:
         run: npm ci
       - name: Build with Astro
         run: |
-          npm run build
+          npm run build -- --base /ashtanga-yoga-zentral/
       - name: Run build tests
         run: |
           npm test
