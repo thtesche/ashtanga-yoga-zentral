@@ -41,7 +41,7 @@ jobs:
           npm run build -- --base /ashtanga-yoga-zentral/
       - name: Run build tests
         run: |
-          npm test
+          BASE_PATH=/ashtanga-yoga-zentral/ npm test
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

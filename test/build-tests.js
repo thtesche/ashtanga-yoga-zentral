@@ -10,6 +10,9 @@ import fs from 'fs';
 import path from 'path';
 
 const DIST = path.resolve('dist');
+// CI builds with --base /ashtanga-yoga-zentral/; local builds use ''
+// Note: Astro puts files at root of dist/ regardless of base — base only affects hrefs
+const BASE = (process.env.BASE_PATH || '').replace(/\/+$/, '') || '/';
 const failures = [];
 let passed = 0;
 let total = 0;
@@ -27,6 +30,12 @@ function assert(condition, message) {
 
 function readHTML(relative) {
   return fs.readFileSync(path.join(DIST, relative), 'utf-8');
+}
+
+function href(route) {
+  // Returns the href as it appears in HTML (e.g. '/ashtanga-yoga-zentral/de/kontakt/')
+  const prefix = BASE === '/' ? '' : BASE.replace(/\/$/, '');
+  return prefix + (route.startsWith('/') ? route : '/' + route);
 }
 
 console.log('\n🧪 Build output tests\n');
@@ -114,10 +123,10 @@ if (fs.existsSync(sitemapFile)) {
 // ── Fallback redirects ──────────────────────────────────────────
 console.log('\nFallback redirects (DE → EN):');
 const fallbackRoutes = [
-  { de: 'de/about/index.html', en: '/about/' },
-  { de: 'de/contact/index.html', en: '/contact/' },
-  { de: 'de/legal_notice/index.html', en: '/legal_notice/' },
-  { de: 'de/gdpr/index.html', en: '/gdpr/' },
+  { de: 'de/about/index.html', en: href('/about') },
+  { de: 'de/contact/index.html', en: href('/contact') },
+  { de: 'de/legal_notice/index.html', en: href('/legal_notice') },
+  { de: 'de/gdpr/index.html', en: href('/gdpr') },
 ];
 for (const fb of fallbackRoutes) {
   assert(
@@ -135,21 +144,21 @@ for (const fb of fallbackRoutes) {
 console.log('\nLanguage-consistent internal links:');
 const deRetreats = readHTML('de/retreats/index.html');
 assert(
-  deRetreats.includes('href="/de/kontakt/') && !deRetreats.includes('href="/contact'),
+  deRetreats.includes(`href="${href('/de/kontakt')}")`) && !deRetreats.includes(`href="${href('/contact')}`),
   'DE retreats links to /de/kontakt (not /contact)'
 );
 assert(
-  deRetreats.includes('href="/de/retreats/'),
+  deRetreats.includes(`href="${href('/de/retreats')}"`),
   'DE retreats nav links to /de/retreats'
 );
 assert(
-  deRetreats.includes('href="/de/ueber_uns/'),
+  deRetreats.includes(`href="${href('/de/ueber_uns')}"`),
   'DE retreats nav links to /de/ueber_uns'
 );
 
 const enRetreats = readHTML('retreats/index.html');
 assert(
-  enRetreats.includes('href="/contact/') && !enRetreats.includes('href="/de/kontakt'),
+  enRetreats.includes(`href="${href('/contact')}")`) && !enRetreats.includes(`href="${href('/de/kontakt')}`),
   'EN retreats links to /contact (not /de/kontakt)'
 );
 

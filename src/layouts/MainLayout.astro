@@ -20,7 +20,7 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const base = import.meta.env._BASE_PATH || '/';
+const base = import.meta.env.BASE_URL || '/';
 const pathname = (Astro.url?.pathname || '/').slice(base === '/' ? 0 : base.length) || '/';
 let currentLang: keyof typeof i18nData = 'en';
 
