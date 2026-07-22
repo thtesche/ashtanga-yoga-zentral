@@ -9,7 +9,49 @@ import larugaPadma from '../../assets/images/laruga_padma.webp';
 import larugaUrdhvamukha from '../../assets/images/laruga_urdhvamukha.webp';
 import { getLocalizedLink } from '../../components/i18n-config.astro';
 
-<MainLayout title="Retreats & Events">
+<MainLayout title="Retreats & Events" structuredData={{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "YogaStudio",
+      "name": "Ashtanga Yoga Zentral",
+      "url": "https://ashtangayogazentralberlin.com/de/",
+    
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Brunnenstr. 29/3 (Hinterhof)",
+        "addressLocality": "Berlin",
+        "postalCode": "10119",
+        "addressCountry": "DE"
+      }
+    },
+    {
+      "@type": "Event",
+      "name": "Ashtanga Yoga Retreat – Apulien, Italien",
+      "description": "Begleite mich ins YogApulia, ein exklusives Boutique-Retreat-Zentrum in der wunderschönen Region Apulien in Süditalien. Ashtanga Yoga im Mysore-Stil, Pranayama, Chanting und Meditation.",
+      "startDate": "2026-08-01",
+      "endDate": "2026-08-07",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": {
+        "@type": "Place",
+        "name": "YogApulia",
+        "address": {
+          "@type": "PostalAddress",
+          "addressRegion": "Apulien",
+          "addressCountry": "IT"
+        }
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://www.yogapulia.com/elinore-burke-2026",
+        "price": "995",
+        "priceCurrency": "EUR",
+        "availability": "https://schema.org/InStock"
+      }
+    }
+  ]
+}}>
 
 <div class="page-header">
   <div class="container text-center animate-fade-in">

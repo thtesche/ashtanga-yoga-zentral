@@ -12,14 +12,16 @@ import outfit600Url from '@fontsource/outfit/files/outfit-latin-600-normal.woff2
 
 import Navigation from '../components/Navigation.astro';
 import CookieConsent from '../components/CookieConsent.astro';
+import JsonLd from '../components/JsonLd.astro';
 import { i18nData, getLocalizedLink } from '../components/i18n-config.astro';
 
 interface Props {
     title: string;
     description?: string;
+    structuredData?: any;
 }
 
-const { title, description } = Astro.props;
+const { title, description, structuredData } = Astro.props;
 // Derive locale from URL path. Astro.url.pathname includes base path.
 // Check if the path contains /de (works with or without base prefix).
 const rawPath = Astro.url?.pathname || '/';
@@ -69,6 +71,8 @@ const currentFooter = i18nData[currentLang].footer;
                 }
             })();
         </script>
+
+        {structuredData && <JsonLd data={structuredData} />}
 
         <!-- No automatic browser-language redirect. Locale is derived from URL path. -->
     </head>

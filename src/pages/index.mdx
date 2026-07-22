@@ -8,7 +8,40 @@ import { Image } from 'astro:assets';
 import img3 from '../assets/images/img_3_ashtanga_yoga_zentral_berlin_mysore_studio.webp';
 import { getLocalizedLink } from '../components/i18n-config.astro';
 
-<MainLayout title={frontmatter.title}>
+<MainLayout title={frontmatter.title} structuredData={{
+  "@context": "https://schema.org",
+  "@type": "YogaStudio",
+  "name": "Ashtanga Yoga Zentral",
+  "description": frontmatter.description,
+  "url": "https://ashtangayogazentralberlin.com/",
+
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Brunnen Str. 29/3 (Hinterhof)",
+    "addressLocality": "Berlin",
+    "postalCode": "10119",
+    "addressCountry": "DE"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 52.5304,
+    "longitude": 13.3967
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "06:30",
+      "closes": "09:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Sunday"],
+      "opens": "07:30",
+      "closes": "09:45"
+    }
+  ]
+}}>
 
 <section class="hero-section section">
   <div class="container hero-container animate-fade-in">

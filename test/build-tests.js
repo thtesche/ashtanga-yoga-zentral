@@ -180,6 +180,26 @@ for (const file of mdxFiles) {
 console.log('\nrobots.txt:');
 assert(fs.existsSync(path.join(DIST, 'robots.txt')), 'robots.txt exists');
 
+// ── Structured Data (JSON-LD) ──────────────────────────────────────
+console.log('\nStructured Data:');
+const domain = 'https://ashtangayogazentralberlin.com';
+
+const ldPages = [
+  { path: 'index.html', name: 'EN Index', types: ['YogaStudio'] },
+  { path: 'de/index.html', name: 'DE Index', types: ['YogaStudio'] },
+  { path: 'retreats/index.html', name: 'EN Retreats', types: ['YogaStudio', 'Event'] },
+  { path: 'de/retreats/index.html', name: 'DE Retreats', types: ['YogaStudio', 'Event'] },
+];
+
+for (const page of ldPages) {
+  const html = readHTML(page.path);
+  assert(html.includes('application/ld+json'), `${page.name} has JSON-LD script`);
+  assert(html.includes(domain), `${page.name} uses correct domain in JSON-LD`);
+  for (const type of page.types) {
+    assert(html.includes(`"@type": "${type}"`), `${page.name} contains @type: ${type}`);
+  }
+}
+
 // ── Summary ─────────────────────────────────────────────────────
 console.log(`\n${'='.repeat(50)}`);
 console.log(`Total: ${total} | Passed: ${passed} | Failed: ${failures.length}`);
