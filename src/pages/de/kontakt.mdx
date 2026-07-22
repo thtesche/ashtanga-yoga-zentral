@@ -28,26 +28,22 @@ import MainLayout from '../../layouts/MainLayout.astro';
         </div>
       </div>
       <div class="contact-form surface animate-fade-in-delay">
-        <form id="contact-form" action="#" method="POST">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="first-name">Vorname (erforderlich)</label>
-              <input type="text" id="first-name" name="first-name" required />
-            </div>
-            <div class="form-group">
-              <label for="last-name">Nachname (erforderlich)</label>
-              <input type="text" id="last-name" name="last-name" required />
-            </div>
+        <form id="form">
+          <input type="hidden" name="access_key" value={import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY || 'be0579c5-146b-45ea-b911-1767a935a312'} />
+          <div class="form-group">
+            <label for="name">Name (erforderlich)</label>
+            <input type="text" id="name" name="name" required />
           </div>
           <div class="form-group">
             <label for="email">E-Mail (erforderlich)</label>
             <input type="email" id="email" name="email" required />
           </div>
           <div class="form-group">
-            <label for="message">Nachricht</label>
-            <textarea id="message" name="message" rows="6"></textarea>
+            <label for="message">Nachricht (erforderlich)</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
           </div>
           <button type="submit" class="btn btn-submit">Nachricht senden</button>
+          <div id="result"></div>
         </form>
       </div>
     </div>
@@ -57,21 +53,26 @@ import MainLayout from '../../layouts/MainLayout.astro';
 </MainLayout>
 
 <script>{`
-  const t=document.getElementById("contact-form");
-  if(t){
-    t.addEventListener("submit",n=>{
-      n.preventDefault();
-      const e=t.querySelector("button");
-      if(e){
-        e.textContent="Nachricht gesendet!";
-        e.style.backgroundColor="#637B69";
-        setTimeout(()=>{
-          e.textContent="Nachricht senden";
-          t.reset();
-        },3e3);
-      }
+  const form = document.getElementById("form");
+  const result = document.getElementById("result");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    result.innerHTML = "Sende...";
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: new FormData(form),
     });
-  }
+
+    const data = await response.json();
+    if (data.success) {
+      result.innerHTML = "Vielen Dank für Ihre Nachricht. Sie wurde gesendet.";
+      form.reset();
+    } else {
+      result.innerHTML = data.message;
+    }
+  });
 `}</script>
 
 <style>{`
@@ -84,8 +85,8 @@ import MainLayout from '../../layouts/MainLayout.astro';
 .contact-wrapper{display:grid;grid-template-columns:1fr 1.5fr;gap:3rem;max-width:1000px;margin:-4rem auto 0;position:relative;z-index:10}
 .info-block{margin-top:2rem;padding-top:2rem;border-top:1px solid var(--color-border)}
 .info-block h3{font-size:1.25rem;color:var(--color-secondary);margin-bottom:.5rem}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
 .form-group{margin-bottom:.5rem}
 .btn-submit{width:100%;margin-top:1rem;font-size:1.1rem}
-@media (max-width: 768px){.contact-info{display:none}.contact-wrapper{grid-template-columns:1fr;margin-top:0}.form-row{grid-template-columns:1fr;gap:0}}
+#result{margin-top:1rem;padding:1rem;text-align:center;font-size:1rem}
+@media (max-width: 768px){.contact-info{display:none}.contact-wrapper{grid-template-columns:1fr;margin-top:0}}
 `}</style>
