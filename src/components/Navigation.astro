@@ -30,12 +30,12 @@ const navItems = [
       </div>
     </a>
     
-    <div class="nav-links">
+    <div class="nav-links" id="mobile-nav-links" role="menubar">
       {navItems.map(item => (
-        <a href={getLocalizedLink(currentLang, item.path)}>{item.label}</a>
+        <a href={getLocalizedLink(currentLang, item.path)} role="menuitem">{item.label}</a>
       ))}
-      
-      <div class="lang-switcher">
+
+      <div class="lang-switcher" role="menuitem">
         <a href={getLocalizedLink('en', currentNav.home.path)} class={currentLang === 'en' ? 'active' : ''} title="English">
           <Image src={flagEn} alt="EN" width="20" height="14" loading="eager" />
         </a>
@@ -45,8 +45,13 @@ const navItems = [
       </div>
     </div>
 
-    <!-- Mobile menu button (visual only for now) -->
-    <button class="mobile-menu-btn" aria-label="Menu">
+    <!-- Mobile menu toggle -->
+    <button
+      class="mobile-menu-btn"
+      aria-label="Menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav-links"
+    >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="3" y1="12" x2="21" y2="12"></line>
         <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -57,16 +62,69 @@ const navItems = [
 </nav>
 
 <script>
-  function setupMobileMenu() {
-    const btn = document.querySelector('.mobile-menu-btn');
-    const links = document.querySelector('.nav-links');
+  let isOpen = false;
+  let btn: HTMLButtonElement | null = null;
+  let menu: HTMLElement | null = null;
 
-    if (btn && links) {
-      btn.addEventListener('click', () => {
-        links.classList.toggle('active');
-        btn.classList.toggle('open');
-      });
-    }
+  function openMenu() {
+    isOpen = true;
+    if (menu) menu.style.display = 'flex';
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeMenu() {
+    isOpen = false;
+    if (menu) menu.style.display = '';
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+    if (btn) btn.focus();
+  }
+
+  function setupMobileMenu() {
+    btn = document.querySelector('.mobile-menu-btn') as HTMLButtonElement | null;
+    menu = document.querySelector('.nav-links') as HTMLElement | null;
+
+    if (!btn || !menu) return;
+
+    btn.addEventListener('click', () => {
+      if (isOpen) {
+        closeMenu();
+      } else {
+        openMenu();
+        // Move focus to the currently active (current page) link
+        const currentPath = window.location.pathname;
+        const activeLink = Array.from(menu?.querySelectorAll('a') ?? [])
+          .find(a => a.getAttribute('href')?.replace(/\/$/, '') === currentPath.replace(/\/$/, ''))
+          ?? (menu?.querySelector('a') ?? null) as HTMLAnchorElement | null;
+        if (activeLink) activeLink.focus();
+      }
+    });
+
+    // Close on Escape and trap focus within the menu
+    document.addEventListener('keydown', (e) => {
+      if (!isOpen) return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeMenu();
+        return;
+      }
+
+      // Focus trap: Arrow keys cycle through links
+      const links = Array.from(menu?.querySelectorAll('a') ?? []);
+      if (links.length === 0) return;
+      const active = document.activeElement as HTMLElement | null;
+      const idx = links.indexOf(active);
+      if (idx === -1) return;
+
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        const next = links[(idx + 1) % links.length];
+        if (next) next.focus();
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const prev = links[(idx - 1 + links.length) % links.length];
+        if (prev) prev.focus();
+      }
+    });
   }
 
   // Run on initial load
@@ -143,6 +201,25 @@ const navItems = [
     color: var(--color-primary);
   }
 
+  /* Mobile menu focus ring — always visible in mobile context */
+  .nav-links a:focus {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 0.25rem;
+    border-radius: 0.125rem;
+  }
+
+  /* Desktop nav: show outline only on keyboard focus */
+  @media (min-width: 769px) {
+    .nav-links a:focus {
+      outline: none;
+    }
+    .nav-links a:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 0.25rem;
+      border-radius: 0.125rem;
+    }
+  }
+
   .btn-nav {
     padding: 0.5rem 1.25rem;
     color: #fff !important;
@@ -173,10 +250,6 @@ const navItems = [
       gap: 1rem;
       text-align: center;
       box-shadow: var(--shadow-sm);
-    }
-
-    .nav-links.active {
-      display: flex;
     }
     
     .mobile-menu-btn {
