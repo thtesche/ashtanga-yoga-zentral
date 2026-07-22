@@ -29,7 +29,7 @@ import MainLayout from '../layouts/MainLayout.astro';
       </div>
       <div class="contact-form surface animate-fade-in-delay">
         <form id="form">
-          <input type="hidden" name="access_key" value={import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY || 'be0579c5-146b-45ea-b911-1767a935a312'} />
+          <input type="hidden" name="access_key" value={import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY} />
           <div class="form-group">
             <label for="name">Name (required)</label>
             <input type="text" id="name" name="name" required />

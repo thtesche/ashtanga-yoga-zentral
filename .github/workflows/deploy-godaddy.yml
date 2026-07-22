@@ -21,7 +21,7 @@ jobs:
       - name: Build Astro Site
         run: |
           npm ci
-          npm run build
+          PUBLIC_WEB3FORMS_ACCESS_KEY=${{ vars.PUBLIC_WEB3FORMS_GODADDY_KEY }} npm run build
 
       - name: Deploy via SFTP
         uses: SamKirsch/ftp-deploy-action@v4.3.5

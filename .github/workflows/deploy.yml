@@ -17,6 +17,7 @@ concurrency:
 env:
   BUILD_PATH: "."
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  PUBLIC_WEB3FORMS_ACCESS_KEY: ${{ vars.PUBLIC_WEB3FORMS_GITHUB_KEY }}
 
 jobs:
   build:
