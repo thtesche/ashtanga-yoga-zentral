@@ -81,8 +81,9 @@ const currentFooter = i18nData[currentLang].footer;
         <!-- No automatic browser-language redirect. Locale is derived from URL path. -->
     </head>
     <body>
+        <a href="#main-content" class="skip-link">Skip to content</a>
         <Navigation />
-        <main>
+        <main id="main-content">
             <slot />
         </main>
 
@@ -112,6 +113,24 @@ const currentFooter = i18nData[currentLang].footer;
 </html>
 
 <style>
+/* Skip-to-content link */
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    background: var(--color-primary);
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    z-index: 10000;
+    font-family: var(--font-heading);
+    text-decoration: none;
+    border-radius: 0 0 4px 0;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
 /* Keeping minimal styles necessary for the layout component structure */
 main {
     /* Placeholder for min-height if needed, but better handled by global CSS */

@@ -16,8 +16,8 @@ const t = i18nData[currentLang].cookieConsent;
             <p>{t.message}</p>
         </div>
         <div class="cookie-consent-actions">
-            <button id="cookie-accept" class="btn-accept">{t.accept}</button>
-            <button id="cookie-decline" class="btn-decline">{t.decline}</button>
+            <button id="cookie-accept" class="btn-accept" aria-label="{t.accept}">{t.accept}</button>
+            <button id="cookie-decline" class="btn-decline" aria-label="{t.decline}">{t.decline}</button>
         </div>
     </div>
 </div>
