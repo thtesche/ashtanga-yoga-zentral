@@ -28,12 +28,6 @@ export const faqs: Record<'en' | 'de', FaqItem[]> = {
 			],
 		},
 		{
-			question: 'How much does a class cost?',
-			answer: [
-				'Please visit our Moondays page for current pricing and class schedule, or send us a message via the contact form.',
-			],
-		},
-		{
 			question: 'Do I need to bring my own mat?',
 			answer: [
 				'If you have your own mat, feel free to bring it. Mats are also available at the studio.',
@@ -73,12 +67,6 @@ export const faqs: Record<'en' | 'de', FaqItem[]> = {
 			question: 'Wo unterrichtest du?',
 			answer: [
 				'Wir üben im Three Boons Studio, Brunnenstr. 29/3 (Hinterhof), 10119 Berlin.',
-			],
-		},
-		{
-			question: 'Wie viel kostet eine Klasse?',
-			answer: [
-				'Schau auf unserer Moondays-Seite für aktuelle Preise und den Stundenplan, oder schreibe uns über das Kontaktformular.',
 			],
 		},
 		{
