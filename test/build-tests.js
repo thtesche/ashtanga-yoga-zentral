@@ -72,11 +72,13 @@ console.log('\nNavigation labels:');
 assert(enIndex.includes('About Us'), 'EN nav: "About Us"');
 assert(enIndex.includes('Retreats'), 'EN nav: "Retreats"');
 assert(enIndex.includes('Moondays'), 'EN nav: "Moondays"');
+assert(enIndex.includes('FAQ'), 'EN nav: "FAQ"');
 assert(enIndex.includes('Contact'), 'EN nav: "Contact"');
 
 assert(deIndex.includes('Über uns'), 'DE nav: "Über uns"');
 assert(deIndex.includes('Retreats'), 'DE nav: "Retreats"');
 assert(deIndex.includes('Moondays'), 'DE nav: "Moondays"');
+assert(deIndex.includes('FAQ'), 'DE nav: "FAQ"');
 assert(deIndex.includes('Kontakt'), 'DE nav: "Kontakt"');
 
 // ── Route existence ────────────────────────────────────────────
@@ -87,6 +89,7 @@ const enRoutes = [
   'contact/index.html',
   'retreats/index.html',
   'moondays/index.html',
+  'faq/index.html',
   'legal_notice/index.html',
   'gdpr/index.html',
 ];
@@ -96,6 +99,7 @@ const deRoutes = [
   'de/kontakt/index.html',
   'de/retreats/index.html',
   'de/moondays/index.html',
+  'de/faq/index.html',
   'de/impressum/index.html',
   'de/datenschutz/index.html',
 ];
@@ -199,6 +203,18 @@ for (const page of ldPages) {
     assert(html.includes(`"@type": "${type}"`), `${page.name} contains @type: ${type}`);
   }
 }
+
+// ── FAQPage structured data ────────────────────────────────────────
+console.log('\nFAQPage JSON-LD:');
+const enFaq = readHTML('faq/index.html');
+assert(enFaq.includes('"@type": "FAQPage"'), 'EN FAQ has @type: FAQPage');
+assert(enFaq.includes('"@type": "Question"'), 'EN FAQ has @type: Question');
+assert(enFaq.includes('"@type": "Answer"'), 'EN FAQ has @type: Answer');
+
+const deFaq = readHTML('de/faq/index.html');
+assert(deFaq.includes('"@type": "FAQPage"'), 'DE FAQ has @type: FAQPage');
+assert(deFaq.includes('"@type": "Question"'), 'DE FAQ has @type: Question');
+assert(deFaq.includes('"@type": "Answer"'), 'DE FAQ has @type: Answer');
 
 // ── Summary ─────────────────────────────────────────────────────
 console.log(`\n${'='.repeat(50)}`);

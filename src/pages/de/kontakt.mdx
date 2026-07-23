@@ -43,6 +43,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
             <textarea id="message" name="message" rows="6" required></textarea>
           </div>
           <button type="submit" class="btn btn-submit">Nachricht senden</button>
+          <p class="faq-link">Vielleicht findest du Antworten auf unserer <a href="./faq">FAQ-Seite</a>.</p>
           <div id="result"></div>
         </form>
       </div>
@@ -88,5 +89,6 @@ import MainLayout from '../../layouts/MainLayout.astro';
 .form-group{margin-bottom:.5rem}
 .btn-submit{width:100%;margin-top:1rem;font-size:1.1rem}
 #result{margin-top:1rem;padding:1rem;text-align:center;font-size:1rem}
+.faq-link{margin-top:.75rem;text-align:center;font-size:.9rem;color:var(--color-text-secondary, #666)}.faq-link a{color:var(--color-primary);text-decoration:underline}
 @media (max-width: 768px){.contact-info{display:none}.contact-wrapper{grid-template-columns:1fr;margin-top:0}}
 `}</style>
