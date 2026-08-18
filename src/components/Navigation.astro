@@ -250,17 +250,21 @@ const navItems = [
       left: 0;
       right: 0;
       background-color: var(--color-surface);
-      flex-direction: column;
       padding: 1rem 0;
-      gap: 1rem;
       text-align: center;
-      justify-content: center;
       box-shadow: var(--shadow-sm);
     }
 
-    .nav-links a {
-      width: 100%;
-      text-align: center;
+    .nav-links > a {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+    }
+
+    .lang-switcher {
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 0.5rem 1rem;
     }
     
     .mobile-menu-btn {
