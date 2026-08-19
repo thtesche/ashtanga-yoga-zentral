@@ -180,6 +180,29 @@ for (const file of mdxFiles) {
   );
 }
 
+// ── Meta descriptions match frontmatter ────────────────────────
+console.log('\nMeta descriptions:');
+for (const file of mdxFiles) {
+  const src = fs.readFileSync(file, 'utf-8');
+  const fmMatch = src.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  const descMatch = fmMatch && fmMatch[1].match(/^description:\s*(.+)$/m);
+  if (!descMatch) {
+    assert(false, `${file} has a description in frontmatter`);
+    continue;
+  }
+  const expected = descMatch[1].trim();
+  let rel = file.replace(/^src\/pages\//, '').replace(/\.mdx$/, '');
+  rel = rel === 'index' ? 'index.html'
+    : rel.endsWith('/index') ? `${rel}.html`
+    : `${rel}/index.html`;
+  const html = readHTML(rel);
+  const metaMatch = html.match(/name="description"\s+content="([^"]*)"/);
+  assert(
+    metaMatch && metaMatch[1] === expected,
+    `${rel} meta description matches frontmatter`
+  );
+}
+
 // ── robots.txt ──────────────────────────────────────────────────
 console.log('\nrobots.txt:');
 assert(fs.existsSync(path.join(DIST, 'robots.txt')), 'robots.txt exists');

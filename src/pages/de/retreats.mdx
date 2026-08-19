@@ -1,5 +1,6 @@
 ---
 title: Retreats & Veranstaltungen
+description: Entdecke kommende Ashtanga Yoga- und Meditations-Retreats mit Elinore Burke.
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
@@ -9,7 +10,7 @@ import larugaPadma from '../../assets/images/laruga_padma.webp';
 import larugaUrdhvamukha from '../../assets/images/laruga_urdhvamukha.webp';
 import { getLocalizedLink } from '../../components/i18n-config.astro';
 
-<MainLayout title="Retreats & Events" structuredData={{
+<MainLayout title={frontmatter.title} description={frontmatter.description} structuredData={{
   "@context": "https://schema.org",
   "@graph": [
     {

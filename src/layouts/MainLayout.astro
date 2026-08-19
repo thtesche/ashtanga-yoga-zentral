@@ -28,13 +28,18 @@ const rawPath = Astro.url?.pathname || '/';
 let currentLang: keyof typeof i18nData = rawPath.includes('/de') ? 'de' : 'en';
 
 const currentFooter = i18nData[currentLang].footer;
+
+// Locale-aware fallback so a missing description never leaks the wrong language.
+const defaultDescription = currentLang === 'de'
+  ? 'Morgen-Ashtanga-Yoga (Mysore Style) in Berlin mit Elinore Burke'
+  : 'Morning Ashtanga Yoga (Mysore style) in Berlin with Elinore Burke';
 ---
 
 <!doctype html>
 <html lang={currentLang}>
     <head>
         <meta charset="UTF-8" />
-        <meta name="description" content={description || "Morning Ashtanga Yoga (Mysore style) in Berlin with Elinore Burke"} />
+        <meta name="description" content={description || defaultDescription} />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/png" href="/favicon.png" />
         <!-- Preload critical fonts to break the request chain -->

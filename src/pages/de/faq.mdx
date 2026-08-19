@@ -6,7 +6,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
 import { faqs } from '../../data/faq';
 
-<MainLayout title={frontmatter.title} structuredData={{
+<MainLayout title={frontmatter.title} description={frontmatter.description} structuredData={{
   "@context": "https://schema.org",
   "@type": "FAQPage",
   mainEntity: faqs.de.map((item) => ({
