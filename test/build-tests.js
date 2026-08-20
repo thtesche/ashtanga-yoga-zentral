@@ -209,7 +209,7 @@ assert(fs.existsSync(path.join(DIST, 'robots.txt')), 'robots.txt exists');
 
 // ── Structured Data (JSON-LD) ──────────────────────────────────────
 console.log('\nStructured Data:');
-const domain = 'https://ashtangayogazentralberlin.com';
+const domain = 'https://www.ashtangayogazentralberlin.de';
 
 const ldPages = [
   { path: 'index.html', name: 'EN Index', types: ['YogaStudio'] },

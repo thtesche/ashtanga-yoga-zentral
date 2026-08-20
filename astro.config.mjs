@@ -15,7 +15,7 @@ export default defineConfig({
       },
     }),
   ],
-  site: 'https://ashtanga-yoga-zentral.com',
+  site: 'https://www.ashtangayogazentralberlin.de',
   base: '',
 
   i18n: {
