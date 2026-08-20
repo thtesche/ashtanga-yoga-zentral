@@ -14,6 +14,7 @@ import Navigation from '../components/Navigation.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { i18nData, getLocalizedLink } from '../components/i18n-config.astro';
+import { getAbsoluteLocaleUrl } from 'astro:i18n';
 
 interface Props {
     title: string;
@@ -26,6 +27,9 @@ const { title, description, structuredData } = Astro.props;
 // Check if the path contains /de (works with or without base prefix).
 const rawPath = Astro.url?.pathname || '/';
 let currentLang: keyof typeof i18nData = rawPath.includes('/de') ? 'de' : 'en';
+
+// Locale-independent path for hreflang tags (e.g. /de/faq -> faq, / -> '')
+const localizedPath = rawPath === '/' ? '' : rawPath.replace('/de', '').replace(/\/$/, '');
 
 const currentFooter = i18nData[currentLang].footer;
 
@@ -48,9 +52,9 @@ const defaultDescription = currentLang === 'de'
         <link rel="preload" href={outfit500Url} as="font" type="font/woff2" crossorigin />
         <link rel="preload" href={outfit600Url} as="font" type="font/woff2" crossorigin />
         <!-- Hreflang tags for SEO i18n -->
-        <link rel="alternate" hreflang="en" href={`${Astro.site}${getLocalizedLink('en', rawPath === '/' ? '' : rawPath.replace('/de', '').replace(/\/$/, ''))}`} />
-        <link rel="alternate" hreflang="de" href={`${Astro.site}${getLocalizedLink('de', rawPath === '/' ? '' : rawPath.replace('/de', '').replace(/\/$/, ''))}`} />
-        <link rel="alternate" hreflang="x-default" href={`${Astro.site}${getLocalizedLink('en', rawPath === '/' ? '' : rawPath.replace('/de', '').replace(/\/$/, ''))}`} />
+        <link rel="alternate" hreflang="en" href={getAbsoluteLocaleUrl('en', localizedPath)} />
+        <link rel="alternate" hreflang="de" href={getAbsoluteLocaleUrl('de', localizedPath)} />
+        <link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl('en', localizedPath)} />
 
         <title>{title} | Ashtanga Yoga Zentral</title>
 

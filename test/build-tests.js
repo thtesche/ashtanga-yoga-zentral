@@ -227,6 +227,21 @@ for (const page of ldPages) {
   }
 }
 
+// ── Hreflang tags ───────────────────────────────────────
+console.log('\nHreflang:');
+const hreflangPages = ['index.html', 'de/index.html', 'faq/index.html', 'de/faq/index.html'];
+for (const rel of hreflangPages) {
+  const html = readHTML(rel);
+  const hrefs = [...html.matchAll(/hreflang="(en|de|x-default)"\s+href="([^"]*)"/g)].map(m => m[2]);
+  assert(hrefs.length === 3, `${rel} has en/de/x-default hreflang tags`);
+  for (const h of hrefs) {
+    assert(
+      h.startsWith(domain + '/') && !h.includes(domain + '//'),
+      `${rel} hreflang URL is clean: ${h}`
+    );
+  }
+}
+
 // ── FAQPage structured data ────────────────────────────────────────
 console.log('\nFAQPage JSON-LD:');
 const enFaq = readHTML('faq/index.html');
