@@ -1,15 +1,15 @@
 ---
-title: Contact
-description: Get in touch with Elinore Burke for more information or to sign up for the newsletter.
+title: Kontakt
+description: Nimm Kontakt mit Elinore Burke auf für weitere Informationen oder um dich für den Newsletter anzumelden.
 ---
-import MainLayout from '../layouts/MainLayout.astro';
+import MainLayout from '../../../layouts/MainLayout.astro';
 
 <MainLayout title={frontmatter.title} description={frontmatter.description}>
 
 <div class="page-header">
   <div class="container text-center animate-fade-in">
-    <h1>Contact</h1>
-    <p class="subtitle">Let's keep in touch!</p>
+    <h1>Kontakt</h1>
+    <p class="subtitle">Lass uns in Kontakt bleiben!</p>
   </div>
 </div>
 
@@ -17,34 +17,34 @@ import MainLayout from '../layouts/MainLayout.astro';
   <div class="container">
     <div class="contact-wrapper">
       <div class="contact-info surface animate-fade-in-delay">
-        <p>Send a message for more info or to sign up for my newsletter!</p>
+        <p>Sende eine Nachricht für weitere Informationen oder um dich für meinen Newsletter anzumelden!</p>
         <div class="info-block mt-4">
-          <h3>Location</h3>
-          <p><strong>Three Boons Studio</strong><br/>Brunnen Str. 29/3 (Hinterhof)<br/>10119 Berlin</p>
+          <h3>Standort</h3>
+          <p><strong>Three Boons Studio</strong><br/>Brunnenstr. 29/3 (Hinterhof)<br/>10119 Berlin</p>
         </div>
         <div class="info-block">
-          <h3>Studio Information</h3>
-          <p>If you're new to yoga, please allow around 30 minutes for your first class. Beginners are always welcome.</p>
+          <h3>Studio-Informationen</h3>
+          <p>Wenn du neu im Yoga bist, plane bitte etwa 30 Minuten für deine erste Klasse ein. Anfänger sind immer willkommen.</p>
         </div>
       </div>
       <div class="contact-form surface animate-fade-in-delay">
         <form id="form">
           <input type="hidden" name="access_key" value={import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY} />
           <div class="form-group">
-            <label for="name">Name (required)</label>
+            <label for="name">Name (erforderlich)</label>
             <input type="text" id="name" name="name" required />
           </div>
           <div class="form-group">
-            <label for="email">Email (required)</label>
+            <label for="email">E-Mail (erforderlich)</label>
             <input type="email" id="email" name="email" required />
           </div>
           <div class="form-group">
-            <label for="message">Message (required)</label>
+            <label for="message">Nachricht (erforderlich)</label>
             <textarea id="message" name="message" rows="6" required></textarea>
           </div>
           <div id="result"></div>
-          <button type="submit" class="btn btn-submit" aria-label="Send Message">Send Message</button>
-          <p class="faq-link">You may also find answers on our <a href="/faq">FAQ page</a>.</p>
+          <button type="submit" class="btn btn-submit">Nachricht senden</button>
+          <p class="faq-link">Vielleicht findest du Antworten auf unserer <a href="/de/faq">FAQ-Seite</a>.</p>
         </form>
       </div>
     </div>
@@ -59,7 +59,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    result.innerHTML = "Sending...";
+    result.innerHTML = "Sende...";
 
     const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
@@ -68,7 +68,7 @@ import MainLayout from '../layouts/MainLayout.astro';
 
     const data = await response.json();
     if (data.success) {
-      result.innerHTML = "Thank you for your message. It has been sent.";
+      result.innerHTML = "Vielen Dank für Ihre Nachricht. Sie wurde gesendet.";
       form.reset();
     } else {
       result.innerHTML = data.message;

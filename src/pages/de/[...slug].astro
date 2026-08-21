@@ -1,0 +1,53 @@
+---
+import { getCollection, render } from 'astro:content';
+
+/**
+ * Dynamic route for all German pages under /de/.
+ * Serves every `de/*` entry from the `pages` content collection, including
+ * the German index (empty slug).
+ */
+export async function getStaticPaths() {
+  // Maps a collection id to the slug used under /de/ (index entries map to "").
+  // Must live inside getStaticPaths: it is hoisted out of the frontmatter scope.
+  const toSlug = (id: string) => (id === 'index' || id === 'de' ? '' : id.replace(/^de\//, ''));
+  const entries = await getCollection('pages');
+  const deEntries = entries.filter((entry) => entry.id === 'de' || entry.id.startsWith('de/'));
+  const enEntries = entries.filter((entry) => entry.id !== 'de' && !entry.id.startsWith('de/'));
+
+  const paths = deEntries.map((entry) => ({ params: { slug: toSlug(entry.id) } }));
+
+  // Replicate Astro's i18n fallback (fallbackType: 'redirect'): for every
+  // English page without a German counterpart, emit the locale-prefixed path.
+  // The body below turns it into a meta-refresh redirect to the English page,
+  // exactly like the fallback pages Astro generated for static routes.
+  const deSlugs = new Set(deEntries.map((entry) => toSlug(entry.id)));
+  for (const entry of enEntries) {
+    const slug = toSlug(entry.id);
+    if (!deSlugs.has(slug)) {
+      paths.push({ params: { slug } });
+    }
+  }
+  return paths;
+}
+
+const { slug = '' } = Astro.params;
+const entries = await getCollection('pages');
+const entry = entries.find((e) => e.id === (slug === '' ? 'de' : `de/${slug}`));
+
+if (!entry) {
+  // No German page for this slug. If the English page exists, redirect to it —
+  // same behavior as Astro's i18n fallback for missing DE routes.
+  const hasEnglishCounterpart = entries.some((e) => e.id === (slug === '' ? 'index' : slug));
+  if (!hasEnglishCounterpart) {
+    throw new Response(null, { status: 404 });
+  }
+  // Strip the /de locale segment from the current URL, preserving base and
+  // trailing slash (e.g. /de/about/ -> /about/, or with a base prefix).
+  const englishPath = Astro.url.pathname.replace(/\/de(?=\/|$)/, '');
+  return Astro.redirect(englishPath);
+}
+
+const { Content } = await render(entry);
+---
+
+<Content />

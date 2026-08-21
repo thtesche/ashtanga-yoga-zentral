@@ -1,0 +1,28 @@
+---
+import { getCollection, render } from 'astro:content';
+
+/**
+ * Dynamic route for all English pages (the default locale, no URL prefix).
+ * Serves every entry from the `pages` content collection that is not a
+ * German page, including the index (empty slug).
+ */
+export async function getStaticPaths() {
+  const entries = await getCollection('pages');
+  return entries
+    .filter((entry) => entry.id !== 'de' && !entry.id.startsWith('de/'))
+    .map((entry) => ({
+      // The root index entry has the id "index"; all other ids match the URL slug.
+      params: { slug: entry.id === 'index' ? '' : entry.id },
+    }));
+}
+
+const { slug = '' } = Astro.params;
+const entries = await getCollection('pages');
+const entry = entries.find((e) => e.id === (slug === '' ? 'index' : slug));
+if (!entry) {
+  throw new Response(null, { status: 404 });
+}
+const { Content } = await render(entry);
+---
+
+<Content />

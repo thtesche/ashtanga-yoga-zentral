@@ -168,7 +168,7 @@ assert(
 
 // ── No BASE_URL concatenation in source ──────────────────────────
 console.log('\nNo BASE_URL remnants:');
-const srcPages = path.join('src', 'pages');
+const srcPages = path.join('src', 'content', 'pages');
 const mdxFiles = fs.readdirSync(srcPages, { recursive: true })
   .filter(f => typeof f === 'string' && f.endsWith('.mdx'))
   .map(f => path.join(srcPages, f));
@@ -191,7 +191,7 @@ for (const file of mdxFiles) {
     continue;
   }
   const expected = descMatch[1].trim();
-  let rel = file.replace(/^src\/pages\//, '').replace(/\.mdx$/, '');
+  let rel = file.replace(/^src\/content\/pages\//, '').replace(/\.mdx$/, '');
   rel = rel === 'index' ? 'index.html'
     : rel.endsWith('/index') ? `${rel}.html`
     : `${rel}/index.html`;
