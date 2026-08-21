@@ -2,41 +2,46 @@
 title: FAQ
 description: Frequently asked questions about Ashtanga Yoga, Mysore Style, classes, and the studio in Berlin.
 ---
+
 import MainLayout from '../../layouts/MainLayout.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
 import { faqs } from '../../data/faq';
 
-<MainLayout title={frontmatter.title} description={frontmatter.description} structuredData={{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.en.map((item) => ({
-    "@type": "Question",
-    name: item.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: item.answer.join(' '),
-    },
-  })),
-}}>
-
-<div class="page-header">
-  <div class="container text-center animate-fade-in">
-    <h1>FAQ</h1>
-    <p class="subtitle">Frequently Asked Questions</p>
+<MainLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  structuredData={{
+"@context": "https://schema.org",
+"@type": "FAQPage",
+mainEntity: faqs.en.map((item) => ({
+"@type": "Question",
+name: item.question,
+acceptedAnswer: {
+  "@type": "Answer",
+  text: item.answer.join(' '),
+},
+})),
+}}
+>
+  <div class="page-header">
+    <div class="container text-center animate-fade-in">
+      <h1>FAQ</h1>
+      <p class="subtitle">Frequently Asked Questions</p>
+    </div>
   </div>
-</div>
 
-<section class="section">
-  <div class="container">
-    <FaqAccordion lang="en" />
-  </div>
-</section>
-
+  <section class="section">
+    <div class="container">
+      <FaqAccordion lang="en" />
+    </div>
+  </section>
 </MainLayout>
 
-<style>{`
-.page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
-.page-header h1{color:#fff;margin-bottom:.5rem}
-.subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
-.text-center{text-align:center}
-`}</style>
+<style>
+  {`
+      .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
+      .page-header h1{color:#fff;margin-bottom:.5rem}
+      .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
+      .text-center{text-align:center}
+      `}
+</style>

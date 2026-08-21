@@ -9,16 +9,23 @@
     "postbuild": "prettier --write \"dist/**/*.html\" --ignore-path ./.prettierignore-empty",
     "preview": "astro preview",
     "test": "node test/build-tests.js",
-    "astro": "astro"
+    "astro": "astro",
+    "astrocms": "astrocms"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.5",
     "@astrojs/sitemap": "^3.7.3",
     "@fontsource/inter": "^5.3.0",
     "@fontsource/outfit": "^5.3.0",
-    "astro": "^7.2.2"
+    "astro": "^7.2.2",
+    "astrocms": "^0.1.4"
   },
   "devDependencies": {
     "prettier": "^3.9.5"
+  },
+  "allowScripts": {
+    "es5-ext@0.10.64": true,
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true
   }
 }

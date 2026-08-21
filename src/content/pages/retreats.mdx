@@ -2,6 +2,7 @@
 title: Retreats & Events
 description: Discover upcoming Ashtanga Yoga and meditation retreats with Elinore Burke.
 ---
+
 import MainLayout from '../../layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
 import img1 from '../../assets/images/img_1_elinore_retreat_mecklenburg.webp';
@@ -10,132 +11,145 @@ import larugaPadma from '../../assets/images/laruga_padma.webp';
 import larugaUrdhvamukha from '../../assets/images/laruga_urdhvamukha.webp';
 import { getLocalizedLink } from '../../components/i18n-config.astro';
 
-<MainLayout title={frontmatter.title} description={frontmatter.description} structuredData={{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "YogaStudio",
-      "name": "Ashtanga Yoga Zentral",
-      "url": "https://www.ashtangayogazentralberlin.de/",
-    
+<MainLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  structuredData={{
+"@context": "https://schema.org",
+"@graph": [
+  {
+    "@type": "YogaStudio",
+    "name": "Ashtanga Yoga Zentral",
+    "url": "https://www.ashtangayogazentralberlin.de/",
+  
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Brunnen Str. 29/3 (Hinterhof)",
+      "addressLocality": "Berlin",
+      "postalCode": "10119",
+      "addressCountry": "DE"
+    }
+  },
+  {
+    "@type": "Event",
+    "name": "Ashtanga Yoga Retreat – Puglia, Italy",
+    "description": "Join me at YogApulia, a boutique retreat center in the gorgeous Puglia region of Southern Italy. Guided-self practice Ashtanga Yoga, Mysore style, pranayama, chanting, and meditation.",
+    "startDate": "2026-08-01",
+    "endDate": "2026-08-07",
+    "eventStatus": "https://schema.org/EventScheduled",
+    "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+    "location": {
+      "@type": "Place",
+      "name": "YogApulia",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Brunnen Str. 29/3 (Hinterhof)",
-        "addressLocality": "Berlin",
-        "postalCode": "10119",
-        "addressCountry": "DE"
+        "addressRegion": "Puglia",
+        "addressCountry": "IT"
       }
     },
-    {
-      "@type": "Event",
-      "name": "Ashtanga Yoga Retreat – Puglia, Italy",
-      "description": "Join me at YogApulia, a boutique retreat center in the gorgeous Puglia region of Southern Italy. Guided-self practice Ashtanga Yoga, Mysore style, pranayama, chanting, and meditation.",
-      "startDate": "2026-08-01",
-      "endDate": "2026-08-07",
-      "eventStatus": "https://schema.org/EventScheduled",
-      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-      "location": {
-        "@type": "Place",
-        "name": "YogApulia",
-        "address": {
-          "@type": "PostalAddress",
-          "addressRegion": "Puglia",
-          "addressCountry": "IT"
-        }
-      },
-      "offers": {
-        "@type": "Offer",
-        "url": "https://www.yogapulia.com/elinore-burke-2026",
-        "price": "995",
-        "priceCurrency": "EUR",
-        "availability": "https://schema.org/InStock"
-      }
+    "offers": {
+      "@type": "Offer",
+      "url": "https://www.yogapulia.com/elinore-burke-2026",
+      "price": "995",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock"
     }
-  ]
-}}>
-
-<div class="page-header">
-  <div class="container text-center animate-fade-in">
-    <h1>Retreats & Events</h1>
-    <p class="subtitle">Yoga & Meditation Retreats</p>
+  }
+]
+}}
+>
+  <div class="page-header">
+    <div class="container text-center animate-fade-in">
+      <h1>Retreats & Events</h1>
+      <p class="subtitle">Yoga & Meditation Retreats</p>
+    </div>
   </div>
-</div>
 
-<section class="section bg-light">
-  <div class="container">
-    <h2 class="text-center mb-4">Past Retreats & Events</h2>
+  <section class="section bg-light">
+    <div class="container">
+      <h2 class="text-center mb-4">Past Retreats & Events</h2>
 
-    <div class="retreat-card surface animate-fade-in-delay">
-      <div class="retreat-date">1 &ndash; 7 August 2026</div>
-      <div class="retreat-content">
-        <Image src={img2} alt="Yoga Puglia Retreat" class="retreat-img" width={400} height={180} loading="eager"/>
-        <h3>Ashtanga Yoga Retreat &ndash; Puglia, Italy</h3>
-        <p>We had an amazing week at YogApulia, a boutique retreat center in the gorgeous Puglia region of Southern Italy.</p>
-        <p>We practiced guided-self Ashtanga Yoga (Mysore style), did pranayama, chanting, and seated/walking meditation, and enjoyed workshops and evening classes shaped by the group. The retreat was open to all levels, with space for just 12 participants to ensure personalized support.</p>
-        <p>Delicious plant-based meals inspired by local traditions nourished and sustained our practice. In our free time, we relaxed by the pool and explored olive groves, beaches, markets, and nearby towns.</p>
-        <div class="retreat-footer">
-          <a href="https://www.yogapulia.com/elinore-burke-2026" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Gallery</a>
+      <div class="retreat-card surface animate-fade-in-delay">
+        <div class="retreat-date">1 – 7 August 2026</div>
+
+        <div class="retreat-content">
+          <Image src={img2} alt="Yoga Puglia Retreat" class="retreat-img" width={400} height={180} loading="eager" />
+
+          <h3>Ashtanga Yoga Retreat – Puglia, Italy</h3>
+          <p>We had an amazing week at YogApulia, a boutique retreat center in the gorgeous Puglia region of Southern Italy.</p>
+          <p>We practiced guided-self Ashtanga Yoga (Mysore style), did pranayama, chanting, and seated/walking meditation, and enjoyed workshops and evening classes shaped by the group. The retreat was open to all levels, with space for just 12 participants to ensure personalized support.</p>
+          <p>Delicious plant-based meals inspired by local traditions nourished and sustained our practice. In our free time, we relaxed by the pool and explored olive groves, beaches, markets, and nearby towns.</p>
+
+          <div class="retreat-footer">
+            <a href="https://www.yogapulia.com/elinore-burke-2026" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Gallery</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="retreat-card surface animate-fade-in-delay">
+        <div class="retreat-date">25 – 28 June 2026</div>
+
+        <div class="retreat-content">
+          <Image src={img1} alt="Mecklenburg Retreat" class="retreat-img" width={400} height={180} loading="eager" />
+
+          <h3>Ashtanga Yoga Long Weekend in Mecklenburg</h3>
+          <p class="text-muted mb-2">(arrive Thursday late afternoon – depart Sunday after Lunch)</p>
+          <p>This weekend retreat offered us a special opportunity to come together and delve deeply into ideas that enrich our practice, complemented by chanting, breath work, and meditation. There were morning Mysore sessions and workshops tailored to your interests.</p>
+          <p>We had plenty of time to connect in a relaxed setting while our host, Juli, whipped up her delish vegetarian/vegan eats. The converted farm building has comfy beds, plenty of space and a wood-burning sauna. A walk through the woods leads us to the Tollense Lake for a swim.</p>
+        </div>
+      </div>
+
+      <div class="grid-2-col mt-4">
+        <div class="surface event-card">
+          <Image src={larugaPadma} alt="Laruga in Padmasana" class="event-img" style="aspect-ratio: auto; max-height: none;" loading="lazy" />
+
+          <h3>LARUGA returns to Berlin</h3>
+          <p class="text-muted">22–28 Sept 2025</p>
+          <p>I'm delighted to welcome Laruga Glaser back to Berlin for the fourth time — a rare opportunity to deepen your practice with one of Ashtanga's most experienced teachers.</p>
+
+          <ul class="event-details">
+            <li>Mysore Practice Week</li>
+            <li>Weekend Workshop</li>
+            <li>Location: SPREEFELD</li>
+          </ul>
+        </div>
+
+        <div class="surface event-card">
+          <Image src={larugaUrdhvamukha} alt="Laruga in Urdhva Mukha Paschimottanasana" class="event-img" style="aspect-ratio: auto; max-height: none;" loading="lazy" />
+
+          <h3>Weekend Workshop with Laruga</h3>
+          <p class="text-muted">27–29 Sept 2024</p>
+          <p>Hosted Laruga for the 3rd time in Berlin! Included led classes, mysore practice, and special workshops.</p>
         </div>
       </div>
     </div>
-
-    <div class="retreat-card surface animate-fade-in-delay">
-      <div class="retreat-date">25 &ndash; 28 June 2026</div>
-      <div class="retreat-content">
-        <Image src={img1} alt="Mecklenburg Retreat" class="retreat-img" width={400} height={180} loading="eager"/>
-        <h3>Ashtanga Yoga Long Weekend in Mecklenburg</h3>
-        <p class="text-muted mb-2">(arrive Thursday late afternoon &ndash; depart Sunday after Lunch)</p>
-        <p>This weekend retreat offered us a special opportunity to come together and delve deeply into ideas that enrich our practice, complemented by chanting, breath work, and meditation. There were morning Mysore sessions and workshops tailored to your interests.</p>
-        <p>We had plenty of time to connect in a relaxed setting while our host, Juli, whipped up her delish vegetarian/vegan eats. The converted farm building has comfy beds, plenty of space and a wood-burning sauna. A walk through the woods leads us to the Tollense Lake for a swim.</p>
-      </div>
-    </div>
-
-    <div class="grid-2-col mt-4">
-      <div class="surface event-card">
-        <Image src={larugaPadma} alt="Laruga in Padmasana" class="event-img" style="aspect-ratio: auto; max-height: none;" loading="lazy"/>
-        <h3>LARUGA returns to Berlin</h3>
-        <p class="text-muted">22&ndash;28 Sept 2025</p>
-        <p>I'm delighted to welcome Laruga Glaser back to Berlin for the fourth time &mdash; a rare opportunity to deepen your practice with one of Ashtanga's most experienced teachers.</p>
-        <ul class="event-details">
-          <li>Mysore Practice Week</li>
-          <li>Weekend Workshop</li>
-          <li>Location: SPREEFELD</li>
-        </ul>
-      </div>
-      <div class="surface event-card">
-        <Image src={larugaUrdhvamukha} alt="Laruga in Urdhva Mukha Paschimottanasana" class="event-img" style="aspect-ratio: auto; max-height: none;" loading="lazy"/>
-        <h3>Weekend Workshop with Laruga</h3>
-        <p class="text-muted">27&ndash;29 Sept 2024</p>
-        <p>Hosted Laruga for the 3rd time in Berlin! Included led classes, mysore practice, and special workshops.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
+  </section>
 </MainLayout>
 
-<style>{`
-.page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
-.page-header h1{color:#fff;margin-bottom:.5rem}
-.subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
-.text-center{text-align:center}
-.text-secondary{color:var(--color-secondary)}
-.text-muted{color:#777}
-.bg-light{background-color:#f8f5f0}
-.mb-2{margin-bottom:1rem}
-.mb-4{margin-bottom:3rem}
-.mt-4{margin-top:3rem}
-.retreat-card{display:flex;padding:0;overflow:hidden}
-.retreat-date{background-color:var(--color-secondary);color:#fff;padding:2.5rem 1.5rem;min-width:250px;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:1.5rem;font-weight:500;text-align:center}
-.retreat-img{width:100%;max-height:400px;object-fit:cover;border-radius:8px;margin-bottom:1.5rem}
-.retreat-content{padding:2.5rem;flex-grow:1}
-.retreat-footer{display:flex;align-items:center;gap:1.5rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--color-border);flex-wrap:wrap}
-.price{font-family:var(--font-heading);font-weight:600;font-size:1.25rem;color:var(--color-primary);margin-right:auto}
-.price-stack{display:flex;flex-direction:column;margin-right:auto;font-family:var(--font-heading);color:var(--color-primary);font-weight:500}
-.grid-2-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
-.event-details{margin-top:1.5rem;padding-left:1.5rem;color:#4a5550}
-.event-details li{margin-bottom:.5rem}
-.event-card{display:flex;flex-direction:column}
-.event-img{width:100%;height:auto;object-fit:contain;border-radius:8px;margin-bottom:1.5rem}
-@media (max-width: 768px){.retreat-card{flex-direction:column}.retreat-date{min-width:100%;padding:1.5rem;font-size:1.25rem}.grid-2-col{grid-template-columns:1fr}.retreat-footer{flex-direction:column;align-items:flex-start}.price{margin-bottom:1rem}}
-`}</style>
+<style>
+  {`
+    .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
+    .page-header h1{color:#fff;margin-bottom:.5rem}
+    .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
+    .text-center{text-align:center}
+    .text-secondary{color:var(--color-secondary)}
+    .text-muted{color:#777}
+    .bg-light{background-color:#f8f5f0}
+    .mb-2{margin-bottom:1rem}
+    .mb-4{margin-bottom:3rem}
+    .mt-4{margin-top:3rem}
+    .retreat-card{display:flex;padding:0;overflow:hidden}
+    .retreat-date{background-color:var(--color-secondary);color:#fff;padding:2.5rem 1.5rem;min-width:250px;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:1.5rem;font-weight:500;text-align:center}
+    .retreat-img{width:100%;max-height:400px;object-fit:cover;border-radius:8px;margin-bottom:1.5rem}
+    .retreat-content{padding:2.5rem;flex-grow:1}
+    .retreat-footer{display:flex;align-items:center;gap:1.5rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--color-border);flex-wrap:wrap}
+    .price{font-family:var(--font-heading);font-weight:600;font-size:1.25rem;color:var(--color-primary);margin-right:auto}
+    .price-stack{display:flex;flex-direction:column;margin-right:auto;font-family:var(--font-heading);color:var(--color-primary);font-weight:500}
+    .grid-2-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+    .event-details{margin-top:1.5rem;padding-left:1.5rem;color:#4a5550}
+    .event-details li{margin-bottom:.5rem}
+    .event-card{display:flex;flex-direction:column}
+    .event-img{width:100%;height:auto;object-fit:contain;border-radius:8px;margin-bottom:1.5rem}
+    @media (max-width: 768px){.retreat-card{flex-direction:column}.retreat-date{min-width:100%;padding:1.5rem;font-size:1.25rem}.grid-2-col{grid-template-columns:1fr}.retreat-footer{flex-direction:column;align-items:flex-start}.price{margin-bottom:1rem}}
+    `}
+</style>
