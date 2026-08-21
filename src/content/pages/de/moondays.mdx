@@ -2,176 +2,200 @@
 title: Moondays 2026
 description: Erfahre, an welchen Tagen die Shala 2026 wegen der Mondzyklen geschlossen ist.
 ---
+
 import MainLayout from '../../../layouts/MainLayout.astro';
 
 <MainLayout title={frontmatter.title} description={frontmatter.description}>
-
-<div class="page-header">
-  <div class="container text-center animate-fade-in">
-    <h1>Moondays 2026</h1>
-    <p class="subtitle">Traditionelle Ruhetage bei Voll- und Neumond – Zeit für Erholung und Stille.</p>
-  </div>
-</div>
-
-<section class="section">
-  <div class="container animate-fade-in-delay">
-    <div class="surface moon-content text-center mb-4">
-      <p class="large-text">Die Shala ist an diesen Tagen geschlossen...</p>
-      <div class="moon-legend">
-        <span class="legend-item"><span class="moon-icon full">&#127765;</span> Vollmond</span>
-        <span class="legend-item"><span class="moon-icon new">&#127761;</span> Neumond</span>
-      </div>
-    </div>
-    
-    <div class="calendar-grid" data-month-cards>
-      <div class="surface month-card" data-month="0">
-        <h3>Januar</h3>
-        <ul class="moon-list">
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Sa 3</span></li>
-          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">So 18</span></li>
-        </ul>
-      </div>
-      <div class="surface month-card" data-month="1">
-        <h3>Februar</h3>
-        <ul class="moon-list">
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">So 1</span></li>
-          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Di 17</span></li>
-        </ul>
-      </div>
-      <div class="surface month-card" data-month="2">
-        <h3>März</h3>
-        <ul class="moon-list">
-          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Di 3</span></li>
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Do 19</span></li>
-        </ul>
-      </div>
-      <div class="surface month-card" data-month="3">
-        <h3>April</h3>
-        <ul class="moon-list">
-          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Do 2</span></li>
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Fr 17</span></li>
-        </ul>
-      </div>
-      <div class="surface month-card" data-month="4">
-        <h3>Mai</h3>
-        <ul class="moon-list">
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Fr 1</span></li>
-          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">So 17</span></li>
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">So 31</span></li>
-        </ul>
-      </div>
-      <div class="surface month-card" data-month="5">
-        <h3>Juni</h3>
-        <ul class="moon-list">
-          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Mo 15</span></li>
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Mo 29</span></li>
-        </ul>
-      </div>
-      <div class="surface month-card" data-month="6">
-        <h3>Juli</h3>
-        <ul class="moon-list">
-          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Di 14</span></li>
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Mi 29</span></li>
-        </ul>
-      </div>
-      <div class="surface month-card" data-month="7">
-        <h3>August</h3>
-        <ul class="moon-list">
-          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Mi 12</span></li>
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Fr 28</span></li>
-        </ul>
-      </div>
-      <div class="surface month-card" data-month="8">
-        <h3>September</h3>
-        <ul class="moon-list">
-          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Fr 11</span></li>
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Sa 26</span></li>
-        </ul>
-      </div>
-      <div class="surface month-card" data-month="9">
-        <h3>Oktober</h3>
-        <ul class="moon-list">
-          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Sa 10</span></li>
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Mo 26</span></li>
-        </ul>
-      </div>
-      <div class="surface month-card" data-month="10">
-        <h3>November</h3>
-        <ul class="moon-list">
-          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Mo 9</span></li>
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Di 24</span></li>
-        </ul>
-      </div>
-      <div class="surface month-card" data-month="11">
-        <h3>Dezember</h3>
-        <ul class="moon-list">
-          <li><span class="moon-icon new">&#127761;</span><span class="moon-date">Mi 9</span></li>
-          <li><span class="moon-icon full">&#127765;</span><span class="moon-date">Do 24</span></li>
-        </ul>
-      </div>
+  <div class="page-header">
+    <div class="container text-center animate-fade-in">
+      <h1>Moondays 2026</h1>
+      <p class="subtitle">Traditionelle Ruhetage bei Voll- und Neumond – Zeit für Erholung und Stille.</p>
     </div>
   </div>
-</section>
 
-<script is:inline set:html="document.addEventListener('DOMContentLoaded',()=>{const m=new Date().getMonth();document.querySelectorAll('[data-month]').forEach(c=>{const cm=parseInt(c.getAttribute('data-month'),10);if(cm<m){c.classList.add('past')}else if(cm===m){c.classList.add('current')}})})" />
+  <section class="section">
+    <div class="container animate-fade-in-delay">
+      <div class="surface moon-content text-center mb-4">
+        <p class="large-text">Die Shala ist an diesen Tagen geschlossen...</p>
 
+        <div class="moon-legend">
+          <span class="legend-item"><span class="moon-icon full">🌕</span> Vollmond</span>
+          <span class="legend-item"><span class="moon-icon new">🌑</span> Neumond</span>
+        </div>
+      </div>
+
+      <div class="calendar-grid" data-month-cards>
+        <div class="surface month-card" data-month="0">
+          <h3>Januar</h3>
+
+          <ul class="moon-list">
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">Sa 3</span></li>
+            <li><span class="moon-icon new">🌑</span><span class="moon-date">So 18</span></li>
+          </ul>
+        </div>
+
+        <div class="surface month-card" data-month="1">
+          <h3>Februar</h3>
+
+          <ul class="moon-list">
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">So 1</span></li>
+            <li><span class="moon-icon new">🌑</span><span class="moon-date">Di 17</span></li>
+          </ul>
+        </div>
+
+        <div class="surface month-card" data-month="2">
+          <h3>März</h3>
+
+          <ul class="moon-list">
+            <li><span class="moon-icon new">🌑</span><span class="moon-date">Di 3</span></li>
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">Do 19</span></li>
+          </ul>
+        </div>
+
+        <div class="surface month-card" data-month="3">
+          <h3>April</h3>
+
+          <ul class="moon-list">
+            <li><span class="moon-icon new">🌑</span><span class="moon-date">Do 2</span></li>
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">Fr 17</span></li>
+          </ul>
+        </div>
+
+        <div class="surface month-card" data-month="4">
+          <h3>Mai</h3>
+
+          <ul class="moon-list">
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">Fr 1</span></li>
+            <li><span class="moon-icon new">🌑</span><span class="moon-date">So 17</span></li>
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">So 31</span></li>
+          </ul>
+        </div>
+
+        <div class="surface month-card" data-month="5">
+          <h3>Juni</h3>
+
+          <ul class="moon-list">
+            <li><span class="moon-icon new">🌑</span><span class="moon-date">Mo 15</span></li>
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">Mo 29</span></li>
+          </ul>
+        </div>
+
+        <div class="surface month-card" data-month="6">
+          <h3>Juli</h3>
+
+          <ul class="moon-list">
+            <li><span class="moon-icon new">🌑</span><span class="moon-date">Di 14</span></li>
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">Mi 29</span></li>
+          </ul>
+        </div>
+
+        <div class="surface month-card" data-month="7">
+          <h3>August</h3>
+
+          <ul class="moon-list">
+            <li><span class="moon-icon new">🌑</span><span class="moon-date">Mi 12</span></li>
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">Fr 28</span></li>
+          </ul>
+        </div>
+
+        <div class="surface month-card" data-month="8">
+          <h3>September</h3>
+
+          <ul class="moon-list">
+            <li><span class="moon-icon new">🌑</span><span class="moon-date">Fr 11</span></li>
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">Sa 26</span></li>
+          </ul>
+        </div>
+
+        <div class="surface month-card" data-month="9">
+          <h3>Oktober</h3>
+
+          <ul class="moon-list">
+            <li><span class="moon-icon new">🌑</span><span class="moon-date">Sa 10</span></li>
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">Mo 26</span></li>
+          </ul>
+        </div>
+
+        <div class="surface month-card" data-month="10">
+          <h3>November</h3>
+
+          <ul class="moon-list">
+            <li><span class="moon-icon new">🌑</span><span class="moon-date">Mo 9</span></li>
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">Di 24</span></li>
+          </ul>
+        </div>
+
+        <div class="surface month-card" data-month="11">
+          <h3>Dezember</h3>
+
+          <ul class="moon-list">
+            <li><span class="moon-icon new">🌑</span><span class="moon-date">Mi 9</span></li>
+            <li><span class="moon-icon full">🌕</span><span class="moon-date">Do 24</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline set:html="document.addEventListener('DOMContentLoaded',()=>{const m=new Date().getMonth();document.querySelectorAll('[data-month]').forEach(c=>{const cm=parseInt(c.getAttribute('data-month'),10);if(cm<m){c.classList.add('past')}else if(cm===m){c.classList.add('current')}})})" />
 </MainLayout>
 
-<style>{`
-.page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
-.page-header h1{color:#fff;margin-bottom:.5rem}
-.subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
-.text-center{text-align:center}
-.mb-4{margin-bottom:3rem}
-.large-text{font-size:1.25rem;color:var(--color-primary);font-weight:500}
-.moon-content{max-width:600px;margin:-3rem auto 3rem;position:relative;z-index:10;padding:2rem!important}
-.moon-legend{display:flex;justify-content:center;gap:2rem;margin-top:1rem;font-family:var(--font-heading)}
-.legend-item{display:flex;align-items:center;gap:.5rem}
-.moon-icon{font-size:1.2rem;display:inline-block;}
-.moon-icon.full{color:#333}
-.moon-icon.new{color:var(--color-secondary)}
+<style>
+  {`
+    .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
+    .page-header h1{color:#fff;margin-bottom:.5rem}
+    .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
+    .text-center{text-align:center}
+    .mb-4{margin-bottom:3rem}
+    .large-text{font-size:1.25rem;color:var(--color-primary);font-weight:500}
+    .moon-content{max-width:600px;margin:-3rem auto 3rem;position:relative;z-index:10;padding:2rem!important}
+    .moon-legend{display:flex;justify-content:center;gap:2rem;margin-top:1rem;font-family:var(--font-heading)}
+    .legend-item{display:flex;align-items:center;gap:.5rem}
+    .moon-icon{font-size:1.2rem;display:inline-block;}
+    .moon-icon.full{color:#333}
+    .moon-icon.new{color:var(--color-secondary)}
 
-.calendar-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-  gap:2rem;
-}
+    .calendar-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:2rem;
+    }
 
-.month-card{text-align:center;padding:20px 0;transition: all 0.3s ease;}
-.month-card h3{text-align:center;color:var(--color-secondary);border-bottom:1px solid var(--color-border);padding-bottom:1rem;margin-bottom:1.5rem}
+    .month-card{text-align:center;padding:20px 0;transition: all 0.3s ease;}
+    .month-card h3{text-align:center;color:var(--color-secondary);border-bottom:1px solid var(--color-border);padding-bottom:1rem;margin-bottom:1.5rem}
 
-.month-card.current {
-  border: 2px solid var(--color-secondary);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-}
+    .month-card.current {
+    border: 2px solid var(--color-secondary);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
 
-.month-card.past {
-  display: none;
-}
+    .month-card.past {
+    display: none;
+    }
 
-.month-card.past h3 {
-  border-bottom-color: transparent;
-}
+    .month-card.past h3 {
+    border-bottom-color: transparent;
+    }
 
-.moon-list{
-  list-style:none;
-  padding:0;
-  display:inline-block;
-  text-align:left;
-}
-.moon-list li{
-  display:flex;
-  align-items:center;
-  margin-bottom:1rem;
-  font-size:1.1rem;
-}
-.moon-list .moon-icon {
-  width: 28px;
-}
-.moon-list .moon-date {
-  font-variant-numeric: tabular-nums;
-}
+    .moon-list{
+    list-style:none;
+    padding:0;
+    display:inline-block;
+    text-align:left;
+    }
+    .moon-list li{
+    display:flex;
+    align-items:center;
+    margin-bottom:1rem;
+    font-size:1.1rem;
+    }
+    .moon-list .moon-icon {
+    width: 28px;
+    }
+    .moon-list .moon-date {
+    font-variant-numeric: tabular-nums;
+    }
 
-@media (max-width: 768px){.calendar-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem}}
-`}
+    @media (max-width: 768px){.calendar-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem}}
+    `}
 </style>

@@ -2,160 +2,185 @@
 title: Morning Ashtanga Yoga Berlin
 description: Join Elinore Burke for morning Ashtanga Yoga (Mysore style) in Berlin. Classes are open to all levels, including beginners.
 ---
+
 import MainLayout from '../../layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
 import img3 from '../../assets/images/img_3_ashtanga_yoga_zentral_berlin_mysore_studio.webp';
 import { getLocalizedLink } from '../../components/i18n-config.astro';
 
-<MainLayout title={frontmatter.title} description={frontmatter.description} structuredData={{
-  "@context": "https://schema.org",
-  "@type": "YogaStudio",
-  "name": "Ashtanga Yoga Zentral",
-  "description": frontmatter.description,
-  "url": "https://www.ashtangayogazentralberlin.de/",
+<MainLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  structuredData={{
+"@context": "https://schema.org",
+"@type": "YogaStudio",
+"name": "Ashtanga Yoga Zentral",
+"description": frontmatter.description,
+"url": "https://www.ashtangayogazentralberlin.de/",
 
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Brunnen Str. 29/3 (Hinterhof)",
-    "addressLocality": "Berlin",
-    "postalCode": "10119",
-    "addressCountry": "DE"
+"address": {
+  "@type": "PostalAddress",
+  "streetAddress": "Brunnen Str. 29/3 (Hinterhof)",
+  "addressLocality": "Berlin",
+  "postalCode": "10119",
+  "addressCountry": "DE"
+},
+"geo": {
+  "@type": "GeoCoordinates",
+  "latitude": 52.5304,
+  "longitude": 13.3967
+},
+"openingHoursSpecification": [
+  {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "opens": "06:30",
+    "closes": "09:00"
   },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 52.5304,
-    "longitude": 13.3967
-  },
-  "openingHoursSpecification": [
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      "opens": "06:30",
-      "closes": "09:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Sunday"],
-      "opens": "07:30",
-      "closes": "09:45"
-    }
-  ]
-}}>
+  {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Sunday"],
+    "opens": "07:30",
+    "closes": "09:45"
+  }
+]
+}}
+>
+  <section class="hero-section section">
+    <div class="container hero-container animate-fade-in">
+      <h1>Morning Ashtanga Yoga Mysore Style in Berlin</h1>
+      <p class="hero-subtitle">Begin your day with clarity, steadiness, and breath. The classes are open to practitioners of all levels, including complete beginners.</p>
 
-<section class="hero-section section">
-  <div class="container hero-container animate-fade-in">
-    <h1>Morning Ashtanga Yoga Mysore Style in Berlin</h1>
-    <p class="hero-subtitle">Begin your day with clarity, steadiness, and breath. The classes are open to practitioners of all levels, including complete beginners.</p>
-    <div class="hero-actions">
-      <a href="#schedule" class="btn btn-outline">View Schedule</a>
-    </div>
-  </div>
-</section>
-
-<section class="intro-section section bg-light">
-  <div class="container animate-fade-in-delay">
-    <div class="surface text-center">
-      <h2 class="text-primary">Welcome to the Shala</h2>
-      <Image src={img3} alt="Ashtanga Yoga Zentral Berlin Mysore Studio" class="img" width={1200} height={600} loading="eager"/>
-      <p class="large-text">We offer individual guidance in a group setting, with each student practising at their own pace. If you're new to yoga, please allow around 30 minutes for your first class.</p>
-    </div>
-  </div>
-</section>
-
-<section id="schedule" class="schedule-section section">
-  <div class="container">
-    <div class="grid-2-col">
-      <div class="surface">
-        <h2 class="text-secondary">Class Schedule</h2>
-        <ul class="schedule-list">
-          <li>
-            <strong>Monday &ndash; Friday</strong>
-            <span>6:30 &ndash; 9:00 am</span>
-          </li>
-          <li>
-            <strong>Led Primary Class <span class="badge">monthly</span></strong>
-            <span>7:00 &ndash; 8:30 am</span>
-          </li>
-          <li>
-            <strong>Sunday</strong>
-            <span>7:30 &ndash; 9:45 am</span>
-          </li>
-          <li>
-            <strong>Closed on <a href={getLocalizedLink('en', 'moondays')}>Moondays</a></strong>
-          </li>
-        </ul>
-      </div>
-      <div class="surface">
-        <h2 class="text-secondary">Location</h2>
-        <div class="location-card">
-          <h3>Three Boons Studio</h3>
-          <p>Brunnen Str. 29/3 (Hinterhof)<br/>10119 Berlin</p>
-          <a href="https://maps.google.com/?q=Three+Boons+Studio+Brunnen+Str.+29/3+Berlin" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-1">View on Map</a>
-        </div>
+      <div class="hero-actions">
+        <a href="#schedule" class="btn btn-outline">View Schedule</a>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="pricing-section section bg-light">
-  <div class="container">
-    <h2 class="text-center text-primary mb-3">Prices</h2>
-    <div class="pricing-grid">
-      <div class="surface pricing-card">
-        <h3>Trial Month <i class="info-tip" data-tip="Unlimited classes for beginners.">i</i></h3>
-        <div class="price">&euro;90</div>
-      </div>
-      <div class="surface pricing-card">
-        <h3>8x Month</h3>
-        <div class="price">&euro;95</div>
-      </div>
-      <div class="surface pricing-card">
-        <h3>12x Month</h3>
-        <div class="price">&euro;115</div>
-      </div>
-      <div class="surface pricing-card">
-        <h3>Unlimited Month</h3>
-        <div class="price">&euro;135</div>
+  <section class="intro-section section bg-light">
+    <div class="container animate-fade-in-delay">
+      <div class="surface text-center">
+        <h2 class="text-primary">Welcome to the Shala</h2>
+
+        <Image src={img3} alt="Ashtanga Yoga Zentral Berlin Mysore Studio" class="img" width={1200} height={600} loading="eager" />
+
+        <p class="large-text">We offer individual guidance in a group setting, with each student practising at their own pace. If you're new to yoga, please allow around 30 minutes for your first class.</p>
       </div>
     </div>
-    <details class="usc-topup-details">
-      <summary>USC Top Up — Practice More</summary>
-      <p class="usc-topup-intro">Would you like to practice more than your membership allows?</p>
+  </section>
+
+  <section id="schedule" class="schedule-section section">
+    <div class="container">
       <div class="grid-2-col">
-        <div class="usc-tier">
-          <strong>M Membership</strong>
-          <p class="text-muted">(4x/month included)</p>
-          <ul class="usc-prices">
-            <li>4 additional classes = <strong>&euro;65</strong></li>
-            <li>8 additional classes = <strong>&euro;85</strong></li>
-            <li>unlimited additional classes = <strong>&euro;105</strong></li>
+        <div class="surface">
+          <h2 class="text-secondary">Class Schedule</h2>
+
+          <ul class="schedule-list">
+            <li>
+              <strong>Monday – Friday</strong>
+              <span>6:30 – 9:00 am</span>
+            </li>
+
+            <li>
+              <strong>Led Primary Class <span class="badge">monthly</span></strong>
+              <span>7:00 – 8:30 am</span>
+            </li>
+
+            <li>
+              <strong>Sunday</strong>
+              <span>7:30 – 9:45 am</span>
+            </li>
+
+            <li>
+              <strong>Closed on <a href={getLocalizedLink('en', 'moondays')}>Moondays</a></strong>
+            </li>
           </ul>
         </div>
-        <div class="usc-tier">
-          <strong>L Membership</strong>
-          <p class="text-muted">(8x/month included)</p>
-          <ul class="usc-prices">
-            <li>4 additional classes = <strong>&euro;55</strong></li>
-            <li>unlimited additional classes = <strong>&euro;75</strong></li>
-          </ul>
-        </div>
-      </div>
-    </details>
-    <div class="surface mt-3 text-center additional-pricing">
-      <div class="grid-2-col">
-        <div>
-          <h4>Drop-In</h4>
-          <p>&euro;20 <span class="text-muted">(with established practice)</span></p>
-        </div>
-        <div>
-          <h4>Visiting Berlin Pass</h4>
-          <p>&euro;80 <span class="text-muted">(1 week unlimited, with established practice)</span></p>
-        </div>
-      </div>
-      <hr class="divider" />
-      <p class="discount-note">Discount available due to financial difficulties. Please get in touch using the form on the <a href={getLocalizedLink('en', 'contact')}>Contact</a> page.</p>
-    </div>
-  </div>
-</section>
 
+        <div class="surface">
+          <h2 class="text-secondary">Location</h2>
+
+          <div class="location-card">
+            <h3>Three Boons Studio</h3>
+            <p>Brunnen Str. 29/3 (Hinterhof)<br />10119 Berlin</p>
+            <a href="https://maps.google.com/?q=Three+Boons+Studio+Brunnen+Str.+29/3+Berlin" target="_blank" rel="noopener noreferrer" class="btn btn-outline mt-1">View on Map</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing-section section bg-light">
+    <div class="container">
+      <h2 class="text-center text-primary mb-3">Prices</h2>
+
+      <div class="pricing-grid">
+        <div class="surface pricing-card">
+          <h3>Trial Month <i class="info-tip" data-tip="Unlimited classes for beginners.">i</i></h3>
+          <div class="price">€90</div>
+        </div>
+
+        <div class="surface pricing-card">
+          <h3>8x Month</h3>
+          <div class="price">€95</div>
+        </div>
+
+        <div class="surface pricing-card">
+          <h3>12x Month</h3>
+          <div class="price">€115</div>
+        </div>
+
+        <div class="surface pricing-card">
+          <h3>Unlimited Month</h3>
+          <div class="price">€135</div>
+        </div>
+      </div>
+
+      <details class="usc-topup-details">
+        <summary>USC Top Up — Practice More</summary>
+        <p class="usc-topup-intro">Would you like to practice more than your membership allows?</p>
+
+        <div class="grid-2-col">
+          <div class="usc-tier">
+            <strong>M Membership</strong>
+            <p class="text-muted">(4x/month included)</p>
+
+            <ul class="usc-prices">
+              <li>4 additional classes \= <strong>€65</strong></li>
+              <li>8 additional classes \= <strong>€85</strong></li>
+              <li>unlimited additional classes \= <strong>€105</strong></li>
+            </ul>
+          </div>
+
+          <div class="usc-tier">
+            <strong>L Membership</strong>
+            <p class="text-muted">(8x/month included)</p>
+
+            <ul class="usc-prices">
+              <li>4 additional classes \= <strong>€55</strong></li>
+              <li>unlimited additional classes \= <strong>€75</strong></li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <div class="surface mt-3 text-center additional-pricing">
+        <div class="grid-2-col">
+          <div>
+            <h4>Drop-In</h4>
+            <p>€20 <span class="text-muted">(with established practice)</span></p>
+          </div>
+
+          <div>
+            <h4>Visiting Berlin Pass</h4>
+            <p>€80 <span class="text-muted">(1 week unlimited, with established practice)</span></p>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <p class="discount-note">Discount available due to financial difficulties. Please get in touch using the form on the <a href={getLocalizedLink('en', 'contact')}>Contact</a> page.</p>
+      </div>
+    </div>
+  </section>
 </MainLayout>
