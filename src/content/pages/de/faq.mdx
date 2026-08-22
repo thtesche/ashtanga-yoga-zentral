@@ -3,9 +3,6 @@ title: FAQ
 description: Häufig gestellte Fragen über Ashtanga Yoga, Mysore Style, Klassen und das Studio in Berlin.
 ---
 
-import MainLayout from "../../../components/MainLayout.astro";
-import FaqAccordion from "../../../components/FaqAccordion.astro";
-
 <MainLayout title={frontmatter.title} description={frontmatter.description}>
   <div class="page-header">
     <div class="container text-center animate-fade-in">
@@ -16,16 +13,25 @@ import FaqAccordion from "../../../components/FaqAccordion.astro";
 
   <section class="section">
     <div class="container">
-      <FaqAccordion lang="de" />
+      <FaqAccordion
+        items={[
+{ question: "Was ist Mysore Style?", answer: "Mysore Style ist die traditionelle Form, Ashtanga Yoga zu unterrichten und zu praktizieren. Bei diesem Ansatz übst du die Reihe in deinem ganz eigenen Tempo. Du erhältst dabei individuelle Unterstützung durch mündliche Hinweise und direkte Hilfestellungen (Hands-on). Neue Haltungen werden schrittweise eingeführt – genau angepasst an deine Fähigkeiten und deine Bereitschaft. Dabei wird nicht nur deine körperliche Kraft berücksichtigt, sondern auch deine mentale und emotionale Verfassung. Egal, ob du ganz neu beim Ashtanga Yoga bist oder bisher noch keine Mysore-Praxis kennst: Du bist herzlich willkommen und ausdrücklich eingeladen mitzumachen!" },
+{ question: "Ich bin komplett neu im Yoga — kann ich mitmachen?", answer: "Natürlich. Anfänger sind immer willkommen. Du beginnst mit den grundlegenden Haltungen und baust von dort aus in deinem eigenen Tempo weiter auf. Plane bitte etwa 30 Minuten für deine erste Klasse ein, damit wir gemeinsam die Grundlagen durchgehen können." },
+{ question: "Wo unterrichtest du?", answer: "Wir üben im Three Boons Studio, Brunnenstr. 29/3 (Hinterhof), 10119 Berlin." },
+{ question: "Muss ich meine eigene Matte mitbringen?", answer: "Wenn du eine eigene Matte hast, kannst du sie gerne mitbringen. Matten sind auch im Studio verfügbar." },
+{ question: "Was soll ich anziehen?", answer: "Trage bequeme, atmungsaktive Kleidung, in der du dich frei bewegen kannst. Vermeide lockere oder weite Oberteile, die bei Umkehrhaltungen ins Gesicht fallen könnten." },
+{ question: "Wie kann ich Kontakt aufnehmen?", answer: "Nutze das Kontaktformular auf unserer Website, um uns eine Nachricht zu senden. Du kannst dich auch für den Newsletter anmelden, um über Klassen und Retreats auf dem Laufenden zu bleiben." }
+]}
+      />
     </div>
   </section>
 </MainLayout>
 
 <style>
   {`
-          .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
-          .page-header h1{color:#fff;margin-bottom:.5rem}
-          .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
-          .text-center{text-align:center}
-          `}
+      .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
+      .page-header h1{color:#fff;margin-bottom:.5rem}
+      .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
+      .text-center{text-align:center}
+    `}
 </style>

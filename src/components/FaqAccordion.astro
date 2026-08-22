@@ -1,6 +1,4 @@
 ---
-import { faqs } from '../data/faq';
-
 /**
  * A single FAQ entry. Both fields are plain strings so AstroCMS can edit the
  * list in its table editor (one row per question).
@@ -11,27 +9,18 @@ interface FaqItem {
 }
 
 interface Props {
-  /** FAQ entries to render. Takes precedence over the static `lang` data. */
-  items?: FaqItem[];
-  /** Language of the static fallback data (used when `items` is not provided). */
-  lang?: 'en' | 'de';
+  /** FAQ entries to render (content lives in the MDX file, CMS-editable). */
+  items: FaqItem[];
 }
 
-const { items, lang = 'en' } = Astro.props;
-
-// Prefer content passed from MDX (CMS-editable); fall back to the static
-// data file for pages that have not been converted yet.
-const list: FaqItem[] = items ?? faqs[lang].map((item) => ({
-  question: item.question,
-  answer: item.answer.join(' '),
-}));
+const { items = [] } = Astro.props;
 
 // FAQPage JSON-LD derived from the entries actually rendered, so the schema
 // always matches the visible content (single source of truth).
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: list.map((item) => ({
+  mainEntity: items.map((item) => ({
     '@type': 'Question',
     name: item.question,
     acceptedAnswer: {
@@ -45,7 +34,7 @@ const faqSchema = {
 <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
 <div class="faq-accordion">
-  {list.map((item) => (
+  {items.map((item) => (
     <details class="faq-item">
       <summary class="faq-question">
         <span class="faq-text">{item.question}</span>
