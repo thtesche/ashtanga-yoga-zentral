@@ -3,26 +3,7 @@ title: FAQ
 description: Frequently asked questions about Ashtanga Yoga, Mysore Style, classes, and the studio in Berlin.
 ---
 
-import MainLayout from "../../layouts/MainLayout.astro";
-import FaqAccordion from "../../components/FaqAccordion.astro";
-import { faqs } from "../../data/faq";
-
-<MainLayout
-  title={frontmatter.title}
-  description={frontmatter.description}
-  structuredData={{
-"@context": "https://schema.org",
-"@type": "FAQPage",
-mainEntity: faqs.en.map((item) => ({
-"@type": "Question",
-name: item.question,
-acceptedAnswer: {
-"@type": "Answer",
-text: item.answer.join(' '),
-},
-})),
-}}
->
+<MainLayout title={frontmatter.title} description={frontmatter.description}>
   <div class="page-header">
     <div class="container text-center animate-fade-in">
       <h1>FAQ</h1>
@@ -32,16 +13,25 @@ text: item.answer.join(' '),
 
   <section class="section">
     <div class="container">
-      <FaqAccordion lang="en" />
+      <FaqAccordion
+        items={[
+{ question: "What is Mysore Style?", answer: "Mysore Style is the traditional way Ashtanga Yoga is taught and practiced. In this approach, students move through the sequence at their own pace, receiving individual guidance through verbal cues and hands-on support from the teacher. Postures are introduced gradually, based on each practitioner's ability and readiness—taking into account not only physical capacity but also mental and emotional preparedness. New students, whether to Ashtanga or Mysore-style practice, are welcome and encouraged to join." },
+{ question: "I am completely new to yoga — can I join?", answer: "Absolutely. Beginners are always welcome. You will start with the foundational postures and build from there at your own pace. Please allow around 30 minutes for your first class so we can go through the basics together." },
+{ question: "Where do you teach?", answer: "We practice at Three Boons Studio, Brunnen Str. 29/3 (backyard), 10119 Berlin." },
+{ question: "Do I need to bring my own mat?", answer: "If you have your own mat, feel free to bring it. Mats are also available at the studio." },
+{ question: "What should I wear?", answer: "Wear comfortable, breathable clothing that allows you to move freely. Avoid loose or baggy tops that may fall over your face during inversions." },
+{ question: "How can I get in touch?", answer: "Use the contact form on our website to send us a message. You can also sign up for the newsletter to stay updated on classes and retreats." }
+]}
+      />
     </div>
   </section>
 </MainLayout>
 
 <style>
   {`
-                .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
-                .page-header h1{color:#fff;margin-bottom:.5rem}
-                .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
-                .text-center{text-align:center}
+                  .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
+                  .page-header h1{color:#fff;margin-bottom:.5rem}
+                  .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
+                  .text-center{text-align:center}
                 `}
 </style>

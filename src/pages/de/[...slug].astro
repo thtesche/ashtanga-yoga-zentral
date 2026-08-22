@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { mdxComponents } from '../../components';
 
 /**
  * Dynamic route for all German pages under /de/.
@@ -50,4 +51,4 @@ if (!entry) {
 const { Content } = await render(entry);
 ---
 
-<Content />
+<Content components={mdxComponents} />

@@ -3,26 +3,10 @@ title: FAQ
 description: Häufig gestellte Fragen über Ashtanga Yoga, Mysore Style, Klassen und das Studio in Berlin.
 ---
 
-import MainLayout from "../../../layouts/MainLayout.astro";
+import MainLayout from "../../../components/MainLayout.astro";
 import FaqAccordion from "../../../components/FaqAccordion.astro";
-import { faqs } from "../../../data/faq";
 
-<MainLayout
-  title={frontmatter.title}
-  description={frontmatter.description}
-  structuredData={{
-"@context": "https://schema.org",
-"@type": "FAQPage",
-mainEntity: faqs.de.map((item) => ({
-"@type": "Question",
-name: item.question,
-acceptedAnswer: {
-  "@type": "Answer",
-  text: item.answer.join(' '),
-},
-})),
-}}
->
+<MainLayout title={frontmatter.title} description={frontmatter.description}>
   <div class="page-header">
     <div class="container text-center animate-fade-in">
       <h1>FAQ</h1>
@@ -39,9 +23,9 @@ acceptedAnswer: {
 
 <style>
   {`
-      .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
-      .page-header h1{color:#fff;margin-bottom:.5rem}
-      .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
-      .text-center{text-align:center}
-      `}
+          .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
+          .page-header h1{color:#fff;margin-bottom:.5rem}
+          .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
+          .text-center{text-align:center}
+          `}
 </style>

@@ -1,26 +1,61 @@
 ---
 import { faqs } from '../data/faq';
 
-interface Props {
-	lang?: 'en' | 'de';
+/**
+ * A single FAQ entry. Both fields are plain strings so AstroCMS can edit the
+ * list in its table editor (one row per question).
+ */
+interface FaqItem {
+  question: string;
+  answer: string;
 }
 
-const { lang = 'en' } = Astro.props;
-const items = faqs[lang];
+interface Props {
+  /** FAQ entries to render. Takes precedence over the static `lang` data. */
+  items?: FaqItem[];
+  /** Language of the static fallback data (used when `items` is not provided). */
+  lang?: 'en' | 'de';
+}
+
+const { items, lang = 'en' } = Astro.props;
+
+// Prefer content passed from MDX (CMS-editable); fall back to the static
+// data file for pages that have not been converted yet.
+const list: FaqItem[] = items ?? faqs[lang].map((item) => ({
+  question: item.question,
+  answer: item.answer.join(' '),
+}));
+
+// FAQPage JSON-LD derived from the entries actually rendered, so the schema
+// always matches the visible content (single source of truth).
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: list.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
 ---
 
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
 <div class="faq-accordion">
-	{items.map((item) => (
-		<details class="faq-item">
-			<summary class="faq-question">
-				<span class="faq-text">{item.question}</span>
-				<span class="faq-icon" aria-hidden="true">+</span>
-			</summary>
-			<div class="faq-answer">
-				{item.answer.map((p) => <p>{p}</p>)}
-			</div>
-		</details>
-	))}
+  {list.map((item) => (
+    <details class="faq-item">
+      <summary class="faq-question">
+        <span class="faq-text">{item.question}</span>
+        <span class="faq-icon" aria-hidden="true">+</span>
+      </summary>
+      <div class="faq-answer">
+        {item.answer && <p>{item.answer}</p>}
+      </div>
+    </details>
+  ))}
 </div>
 
 <style>

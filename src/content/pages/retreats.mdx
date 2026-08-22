@@ -3,7 +3,7 @@ title: Retreats & Events
 description: Discover upcoming Ashtanga Yoga and meditation retreats with Elinore Burke.
 ---
 
-import MainLayout from "../../layouts/MainLayout.astro";
+import MainLayout from "../../components/MainLayout.astro";
 import { Image } from "astro:assets";
 import img1 from "../../assets/images/img_1_elinore_retreat_mecklenburg.webp";
 import img2 from "../../assets/images/img_2_yogaPulia_retreat_centre_images.webp";
@@ -18,9 +18,9 @@ import { getLocalizedLink } from "../../components/i18n-config.astro";
 "@context": "https://schema.org",
 "@graph": [
 {
-  "@type": "YogaStudio",
-  "name": "Ashtanga Yoga Zentral",
-  "url": "https://www.ashtangayogazentralberlin.de/",
+"@type": "YogaStudio",
+"name": "Ashtanga Yoga Zentral",
+"url": "https://www.ashtangayogazentralberlin.de/",
 
 "address": {
 "@type": "PostalAddress",
@@ -57,15 +57,13 @@ import { getLocalizedLink } from "../../components/i18n-config.astro";
 }
 ]
 }}
-
 >
-
-<div class="page-header">
-  <div class="container text-center animate-fade-in">
-    <h1>Retreats & Events</h1>
-    <p class="subtitle">Yoga & Meditation Retreats</p>
+  <div class="page-header">
+    <div class="container text-center animate-fade-in">
+      <h1>Retreats & Events</h1>
+      <p class="subtitle">Yoga & Meditation Retreats</p>
+    </div>
   </div>
-</div>
 
   <section class="section bg-light">
     <div class="container">
@@ -75,7 +73,9 @@ import { getLocalizedLink } from "../../components/i18n-config.astro";
         <div class="retreat-date">1 – 7 August 2026</div>
 
         <div class="retreat-content">
-          <Image src={img2} alt="Yoga Puglia Retreat" class="retreat-img" width={400} height={180} loading="eager" />
+          <Image src={img2} alt="Yoga Puglia Retreat" class="retreat-img" width={400} height={180} loading="eager">
+
+          </Image>
 
           <h3>Ashtanga Yoga Retreat – Puglia, Italy</h3>
           <p>We had an amazing week at YogApulia, a boutique retreat center in the gorgeous Puglia region of Southern Italy.</p>
@@ -125,34 +125,33 @@ import { getLocalizedLink } from "../../components/i18n-config.astro";
         </div>
       </div>
     </div>
-
   </section>
 </MainLayout>
 
 <style>
   {`
-      .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
-      .page-header h1{color:#fff;margin-bottom:.5rem}
-      .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
-      .text-center{text-align:center}
-      .text-secondary{color:var(--color-secondary)}
-      .text-muted{color:#777}
-      .bg-light{background-color:#f8f5f0}
-      .mb-2{margin-bottom:1rem}
-      .mb-4{margin-bottom:3rem}
-      .mt-4{margin-top:3rem}
-      .retreat-card{display:flex;padding:0;overflow:hidden}
-      .retreat-date{background-color:var(--color-secondary);color:#fff;padding:2.5rem 1.5rem;min-width:250px;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:1.5rem;font-weight:500;text-align:center}
-      .retreat-img{width:100%;max-height:400px;object-fit:cover;border-radius:8px;margin-bottom:1.5rem}
-      .retreat-content{padding:2.5rem;flex-grow:1}
-      .retreat-footer{display:flex;align-items:center;gap:1.5rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--color-border);flex-wrap:wrap}
-      .price{font-family:var(--font-heading);font-weight:600;font-size:1.25rem;color:var(--color-primary);margin-right:auto}
-      .price-stack{display:flex;flex-direction:column;margin-right:auto;font-family:var(--font-heading);color:var(--color-primary);font-weight:500}
-      .grid-2-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
-      .event-details{margin-top:1.5rem;padding-left:1.5rem;color:#4a5550}
-      .event-details li{margin-bottom:.5rem}
-      .event-card{display:flex;flex-direction:column}
-      .event-img{width:100%;height:auto;object-fit:contain;border-radius:8px;margin-bottom:1.5rem}
-      @media (max-width: 768px){.retreat-card{flex-direction:column}.retreat-date{min-width:100%;padding:1.5rem;font-size:1.25rem}.grid-2-col{grid-template-columns:1fr}.retreat-footer{flex-direction:column;align-items:flex-start}.price{margin-bottom:1rem}}
-      `}
+        .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
+        .page-header h1{color:#fff;margin-bottom:.5rem}
+        .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
+        .text-center{text-align:center}
+        .text-secondary{color:var(--color-secondary)}
+        .text-muted{color:#777}
+        .bg-light{background-color:#f8f5f0}
+        .mb-2{margin-bottom:1rem}
+        .mb-4{margin-bottom:3rem}
+        .mt-4{margin-top:3rem}
+        .retreat-card{display:flex;padding:0;overflow:hidden}
+        .retreat-date{background-color:var(--color-secondary);color:#fff;padding:2.5rem 1.5rem;min-width:250px;display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-size:1.5rem;font-weight:500;text-align:center}
+        .retreat-img{width:100%;max-height:400px;object-fit:cover;border-radius:8px;margin-bottom:1.5rem}
+        .retreat-content{padding:2.5rem;flex-grow:1}
+        .retreat-footer{display:flex;align-items:center;gap:1.5rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--color-border);flex-wrap:wrap}
+        .price{font-family:var(--font-heading);font-weight:600;font-size:1.25rem;color:var(--color-primary);margin-right:auto}
+        .price-stack{display:flex;flex-direction:column;margin-right:auto;font-family:var(--font-heading);color:var(--color-primary);font-weight:500}
+        .grid-2-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+        .event-details{margin-top:1.5rem;padding-left:1.5rem;color:#4a5550}
+        .event-details li{margin-bottom:.5rem}
+        .event-card{display:flex;flex-direction:column}
+        .event-img{width:100%;height:auto;object-fit:contain;border-radius:8px;margin-bottom:1.5rem}
+        @media (max-width: 768px){.retreat-card{flex-direction:column}.retreat-date{min-width:100%;padding:1.5rem;font-size:1.25rem}.grid-2-col{grid-template-columns:1fr}.retreat-footer{flex-direction:column;align-items:flex-start}.price{margin-bottom:1rem}}
+        `}
 </style>
