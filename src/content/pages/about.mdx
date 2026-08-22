@@ -3,6 +3,7 @@ title: About Elinore Burke
 description: Learn more about Elinore Burke, an authorized Level 2 Ashtanga Yoga teacher and yoga therapist.
 ---
 
+import '../../styles/about.css';
 import MainLayout from "../../components/MainLayout.astro";
 import { Image } from "astro:assets";
 import img0 from "../../assets/images/eka_pada_sirsasana_elinore_burke.png";
@@ -67,23 +68,3 @@ import img0 from "../../assets/images/eka_pada_sirsasana_elinore_burke.png";
     </div>
   </section>
 </MainLayout>
-
-<style>
-  {`
-                                .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
-                                .page-header h1{color:#fff;margin-bottom:.5rem}
-                                .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
-                                .text-center{text-align:center}
-                                .text-secondary{color:var(--color-secondary)}
-                                .bg-light{background-color:#f8f5f0}
-                                .mb-4{margin-bottom:4rem}
-                                .about-content{max-width:800px;margin:0 auto;position:relative;z-index:10}
-                                .about-image{float:right;margin:0 0 1.5rem 2rem;border-radius:8px;box-shadow:var(--shadow-sm)}
-                                .content-block p{font-size:1.15rem;line-height:1.8}
-                                .content-block p:last-child{margin-bottom:0}
-                                .testimonials-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2rem}
-                                .testimonial-card{display:flex;flex-direction:column;height:100%}
-                                .testimonial-card p{font-style:italic;flex-grow:1;color:#4a5550}
-                           .author{font-family:var(--font-heading);font-weight:500;color:var(--color-primary);text-align:right;margin-top:1.5rem}
-                                `}
-</style>

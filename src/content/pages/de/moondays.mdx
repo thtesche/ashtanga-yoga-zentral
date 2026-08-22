@@ -3,6 +3,7 @@ title: Moondays 2026
 description: Erfahre, an welchen Tagen die Shala 2026 wegen der Mondzyklen geschlossen ist.
 ---
 
+import '../../../styles/moondays.css';
 import MainLayout from "../../../components/MainLayout.astro";
 
 <MainLayout title={frontmatter.title} description={frontmatter.description}>
@@ -140,63 +141,3 @@ import MainLayout from "../../../components/MainLayout.astro";
 
   <script is:inline set:html="document.addEventListener('DOMContentLoaded',()=>{const m=new Date().getMonth();document.querySelectorAll('[data-month]').forEach(c=>{const cm=parseInt(c.getAttribute('data-month'),10);if(cm<m){c.classList.add('past')}else if(cm===m){c.classList.add('current')}})})" />
 </MainLayout>
-
-<style>
-  {`
-    .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
-    .page-header h1{color:#fff;margin-bottom:.5rem}
-    .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
-    .text-center{text-align:center}
-    .mb-4{margin-bottom:3rem}
-    .large-text{font-size:1.25rem;color:var(--color-primary);font-weight:500}
-    .moon-content{max-width:600px;margin:-3rem auto 3rem;position:relative;z-index:10;padding:2rem!important}
-    .moon-legend{display:flex;justify-content:center;gap:2rem;margin-top:1rem;font-family:var(--font-heading)}
-    .legend-item{display:flex;align-items:center;gap:.5rem}
-    .moon-icon{font-size:1.2rem;display:inline-block;}
-    .moon-icon.full{color:#333}
-    .moon-icon.new{color:var(--color-secondary)}
-
-    .calendar-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-    gap:2rem;
-    }
-
-    .month-card{text-align:center;padding:20px 0;transition: all 0.3s ease;}
-    .month-card h3{text-align:center;color:var(--color-secondary);border-bottom:1px solid var(--color-border);padding-bottom:1rem;margin-bottom:1.5rem}
-
-    .month-card.current {
-    border: 2px solid var(--color-secondary);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    }
-
-    .month-card.past {
-    display: none;
-    }
-
-    .month-card.past h3 {
-    border-bottom-color: transparent;
-    }
-
-    .moon-list{
-    list-style:none;
-    padding:0;
-    display:inline-block;
-    text-align:left;
-    }
-    .moon-list li{
-    display:flex;
-    align-items:center;
-    margin-bottom:1rem;
-    font-size:1.1rem;
-    }
-    .moon-list .moon-icon {
-    width: 28px;
-    }
-    .moon-list .moon-date {
-    font-variant-numeric: tabular-nums;
-    }
-
-    @media (max-width: 768px){.calendar-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem}}
-    `}
-</style>
