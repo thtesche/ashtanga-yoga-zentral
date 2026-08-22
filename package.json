@@ -21,7 +21,8 @@
     "astrocms": "^0.1.4"
   },
   "devDependencies": {
-    "prettier": "^3.9.5"
+    "prettier": "^3.9.5",
+    "prettier-plugin-astro": "^0.14.1"
   },
   "allowScripts": {
     "es5-ext@0.10.64": true,
