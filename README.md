@@ -32,6 +32,12 @@ Follow these steps to get the project running locally.
     ```
     The site should now be accessible in your browser (usually at `http://localhost:4321/`).
 
+## 📝 Content Management (CMS)
+
+The site's content is managed with [AstroCMS](https://github.com/lonestone/astrocms), a database-free CMS that edits the MDX files in `src/content/pages/` directly (with visual editing, media uploads, and Git commit/push from the browser). Start it with `npm run astrocms` → <http://localhost:4001/astrocms>.
+
+📖 Full documentation: [CMS.md](./CMS.md)
+
 ## 📂 Project Structure
 
 The website follows a standard Astro/frontend structure:
