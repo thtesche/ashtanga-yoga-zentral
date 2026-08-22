@@ -3,7 +3,7 @@ title: Moondays 2026
 description: Erfahre, an welchen Tagen die Shala 2026 wegen der Mondzyklen geschlossen ist.
 ---
 
-import MainLayout from '../../../layouts/MainLayout.astro';
+import MainLayout from "../../../layouts/MainLayout.astro";
 
 <MainLayout title={frontmatter.title} description={frontmatter.description}>
   <div class="page-header">
@@ -135,6 +135,7 @@ import MainLayout from '../../../layouts/MainLayout.astro';
         </div>
       </div>
     </div>
+
   </section>
 
   <script is:inline set:html="document.addEventListener('DOMContentLoaded',()=>{const m=new Date().getMonth();document.querySelectorAll('[data-month]').forEach(c=>{const cm=parseInt(c.getAttribute('data-month'),10);if(cm<m){c.classList.add('past')}else if(cm===m){c.classList.add('current')}})})" />

@@ -3,9 +3,9 @@ title: FAQ
 description: Frequently asked questions about Ashtanga Yoga, Mysore Style, classes, and the studio in Berlin.
 ---
 
-import MainLayout from '../../layouts/MainLayout.astro';
-import FaqAccordion from '../../components/FaqAccordion.astro';
-import { faqs } from '../../data/faq';
+import MainLayout from "../../layouts/MainLayout.astro";
+import FaqAccordion from "../../components/FaqAccordion.astro";
+import { faqs } from "../../data/faq";
 
 <MainLayout
   title={frontmatter.title}
@@ -39,9 +39,9 @@ text: item.answer.join(' '),
 
 <style>
   {`
-        .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
-        .page-header h1{color:#fff;margin-bottom:.5rem}
-        .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
-        .text-center{text-align:center}
-        `}
+            .page-header{background-color:var(--color-primary);color:#fff;padding:6rem 0 4rem}
+            .page-header h1{color:#fff;margin-bottom:.5rem}
+            .subtitle{font-family:var(--font-heading);font-size:1.25rem;color:#ffffffe6}
+            .text-center{text-align:center}
+            `}
 </style>

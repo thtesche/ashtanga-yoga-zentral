@@ -12,8 +12,8 @@ Follow these steps to get the project running locally.
 
 ### Prerequisites
 
-*   Node.js (Recommended LTS version)
-*   npm (Node Package Manager)
+- Node.js (Recommended LTS version)
+- npm (Node Package Manager)
 
 ### Installation
 
@@ -36,37 +36,37 @@ Follow these steps to get the project running locally.
 
 The website follows a standard Astro/frontend structure:
 
-*   **`public/`**: Stores static assets like images (`images/`) and configuration files (`.nojekyll`).
-*   **`src/`**: Contains all the core source code.
-    *   **`pages/`**: Astro routing pages. This project uses internationalization (i18n) with English (`en`) and German (`de`) locales.
-        *   `index.astro`: The main landing page (Home).
-        *   `about.astro`: Information about the authorized teacher, Elinore Burke.
-        *   `contact.astro`: Contact information and newsletter signup.
-        *   `moon-days.astro`: Specific page related to class exceptions (Moondays).
-        *   `retreats.astro`: Information about retreat packages.
-    *   **`layouts/`**: Defines the reusable layout structure for the site (`MainLayout.astro`).
-    *   **`components/`**: Contains reusable UI components (e.g., `Navigation.astro`, `CookieConsent.astro`).
-    *   **`styles/`**: Global CSS styles (`global.css`).
+- **`public/`**: Stores static assets like images (`images/`) and configuration files (`.nojekyll`).
+- **`src/`**: Contains all the core source code.
+  - **`pages/`**: Astro routing pages. This project uses internationalization (i18n) with English (`en`) and German (`de`) locales.
+    - `index.astro`: The main landing page (Home).
+    - `about.astro`: Information about the authorized teacher, Elinore Burke.
+    - `contact.astro`: Contact information and newsletter signup.
+    - `moon-days.astro`: Specific page related to class exceptions (Moondays).
+    - `retreats.astro`: Information about retreat packages.
+  - **`layouts/`**: Defines the reusable layout structure for the site (`MainLayout.astro`).
+  - **`components/`**: Contains reusable UI components (e.g., `Navigation.astro`, `CookieConsent.astro`).
+  - **`styles/`**: Global CSS styles (`global.css`).
 
 ## ✨ Key Features & Sections
 
 The website is divided into several core areas:
 
 1.  **Home Page (`/`):**
-    *   **Hero Section:** Prominently features "Morning Ashtanga Yoga (Mysore style) in Berlin."
-    *   **Introduction:** A supportive welcome to the Shala.
-    *   **Schedule:** Displays class times and the location (Three Boons Studio, Berlin).
-    *   **Pricing:** Details various membership options (Trial Month, Unlimited Month, 12x Month, Drop-In, etc.) with a special note about financial discounts.
+    - **Hero Section:** Prominently features "Morning Ashtanga Yoga (Mysore style) in Berlin."
+    - **Introduction:** A supportive welcome to the Shala.
+    - **Schedule:** Displays class times and the location (Three Boons Studio, Berlin).
+    - **Pricing:** Details various membership options (Trial Month, Unlimited Month, 12x Month, Drop-In, etc.) with a special note about financial discounts.
 
 2.  **About Page (`/about`):**
-    *   Profiles Elinore Burke, the Authorized-Level 2 Ashtanga Yoga Teacher.
-    *   Highlights her extensive background, training in Mysore, India, and qualifications (Yoga Therapy, Mindfulness Meditation).
-    *   Includes testimonials to build trust and community.
+    - Profiles Elinore Burke, the Authorized-Level 2 Ashtanga Yoga Teacher.
+    - Highlights her extensive background, training in Mysore, India, and qualifications (Yoga Therapy, Mindfulness Meditation).
+    - Includes testimonials to build trust and community.
 
 ## 🎨 Design & Styling
 
-*   The project uses **Tailwind CSS** (implied by class names like `text-primary`, `bg-light`) and a custom CSS file (`src/styles/global.css`) for specific styling (e.g., `.hero-section`, `.testimonial-card`).
-*   The color palette is defined by CSS variables, emphasizing primary and secondary colors relevant to yoga and mindfulness.
+- The project uses **Tailwind CSS** (implied by class names like `text-primary`, `bg-light`) and a custom CSS file (`src/styles/global.css`) for specific styling (e.g., `.hero-section`, `.testimonial-card`).
+- The color palette is defined by CSS variables, emphasizing primary and secondary colors relevant to yoga and mindfulness.
 
 ## 🏗️ Build and Deployment
 

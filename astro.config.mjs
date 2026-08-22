@@ -1,33 +1,32 @@
-import { defineConfig } from 'astro/config';
-import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
+import { defineConfig } from "astro/config";
+import mdx from "@astrojs/mdx";
+import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
       i18n: {
-        defaultLocale: 'en',
+        defaultLocale: "en",
         locales: {
-          en: 'en-US',
-          de: 'de-DE',
+          en: "en-US",
+          de: "de-DE",
         },
       },
     }),
   ],
-  site: 'https://www.ashtangayogazentralberlin.de',
-  base: '',
+  site: "https://www.ashtangayogazentralberlin.de",
+  base: "",
 
   i18n: {
-    defaultLocale: 'en',
-    locales: ['de', 'en'],
+    defaultLocale: "en",
+    locales: ["de", "en"],
     routing: {
       prefixDefaultLocale: false,
-      fallbackType: 'redirect'
+      fallbackType: "redirect",
     },
     fallback: {
-      de: 'en'
-    }
-  }
-
+      de: "en",
+    },
+  },
 });

@@ -1,17 +1,17 @@
 /* Fonts are now imported in MainLayout.astro via @fontsource */
 
 :root {
-  --color-bg: #FAF8F5;
-  --color-text: #2C3531;
-  --color-primary: #637B69;
-  --color-primary-hover: #4C6051;
-  --color-secondary: #D4BFA7;
-  --color-accent: #C26D5C;
-  --color-surface: #FFFFFF;
-  --color-border: #E8E3DD;
+  --color-bg: #faf8f5;
+  --color-text: #2c3531;
+  --color-primary: #637b69;
+  --color-primary-hover: #4c6051;
+  --color-secondary: #d4bfa7;
+  --color-accent: #c26d5c;
+  --color-surface: #ffffff;
+  --color-border: #e8e3dd;
 
-  --font-heading: 'Outfit', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-heading: "Outfit", sans-serif;
+  --font-body: "Inter", sans-serif;
 
   --shadow-sm: 0 2px 8px rgba(44, 53, 49, 0.05);
   --shadow-md: 0 8px 24px rgba(44, 53, 49, 0.08);
@@ -130,7 +130,9 @@ a:hover {
   border-radius: 12px;
   padding: 2.5rem;
   box-shadow: var(--shadow-sm);
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal);
 }
 
 .surface:hover {
@@ -171,7 +173,9 @@ textarea {
   font-size: 1rem;
   margin-bottom: 1.5rem;
   background-color: var(--color-surface);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 input:focus,
@@ -257,7 +261,7 @@ main {
 
 .hero-section {
   padding: 8rem 0 6rem;
-  background: linear-gradient(to bottom, var(--color-bg), #F2EBE1);
+  background: linear-gradient(to bottom, var(--color-bg), #f2ebe1);
   text-align: center;
 }
 
@@ -285,7 +289,7 @@ main {
 }
 
 .bg-light {
-  background-color: #F8F5F0;
+  background-color: #f8f5f0;
 }
 
 .mb-3 {
@@ -304,7 +308,7 @@ main {
   font-size: 1.25rem;
   max-width: 700px;
   margin: 0 auto 2.5rem;
-  color: #4A5550;
+  color: #4a5550;
 }
 
 .hero-actions {
@@ -592,7 +596,9 @@ main {
 
 /* Accessibility: respect prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

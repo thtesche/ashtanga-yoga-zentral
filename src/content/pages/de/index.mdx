@@ -3,10 +3,10 @@ title: Morning Ashtanga Yoga Berlin
 description: Erfahre mehr über unsere Ashtanga Yoga Klassen in Berlin.
 ---
 
-import MainLayout from '../../../layouts/MainLayout.astro';
-import { Image } from 'astro:assets';
-import img3 from '../../../assets/images/img_3_ashtanga_yoga_zentral_berlin_mysore_studio.webp';
-import { getLocalizedLink } from '../../../components/i18n-config.astro';
+import MainLayout from "../../../layouts/MainLayout.astro";
+import { Image } from "astro:assets";
+import img3 from "../../../assets/images/img_3_ashtanga_yoga_zentral_berlin_mysore_studio.webp";
+import { getLocalizedLink } from "../../../components/i18n-config.astro";
 
 <MainLayout
   title={frontmatter.title}
@@ -19,33 +19,35 @@ import { getLocalizedLink } from '../../../components/i18n-config.astro';
 "url": "https://www.ashtangayogazentralberlin.de/de/",
 
 "address": {
-  "@type": "PostalAddress",
-  "streetAddress": "Brunnenstr. 29/3 (Hinterhof)",
-  "addressLocality": "Berlin",
-  "postalCode": "10119",
-  "addressCountry": "DE"
+"@type": "PostalAddress",
+"streetAddress": "Brunnenstr. 29/3 (Hinterhof)",
+"addressLocality": "Berlin",
+"postalCode": "10119",
+"addressCountry": "DE"
 },
 "geo": {
-  "@type": "GeoCoordinates",
-  "latitude": 52.5304,
-  "longitude": 13.3967
+"@type": "GeoCoordinates",
+"latitude": 52.5304,
+"longitude": 13.3967
 },
 "openingHoursSpecification": [
-  {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-    "opens": "06:30",
-    "closes": "09:00"
-  },
-  {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Sunday"],
-    "opens": "07:30",
-    "closes": "09:45"
-  }
+{
+"@type": "OpeningHoursSpecification",
+"dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+"opens": "06:30",
+"closes": "09:00"
+},
+{
+"@type": "OpeningHoursSpecification",
+"dayOfWeek": ["Sunday"],
+"opens": "07:30",
+"closes": "09:45"
+}
 ]
 }}
+
 >
+
   <section class="hero-section section">
     <div class="container hero-container animate-fade-in">
       <h1>Ashtanga Yoga Mysore Style in Berlin-Mitte</h1>
@@ -55,6 +57,7 @@ import { getLocalizedLink } from '../../../components/i18n-config.astro';
         <a href="#schedule" class="btn btn-outline">Stundenplan ansehen</a>
       </div>
     </div>
+
   </section>
 
   <section class="intro-section section bg-light">
@@ -67,6 +70,7 @@ import { getLocalizedLink } from '../../../components/i18n-config.astro';
         <p class="large-text">Wir bieten dir eine ruhige, unterstützende Atmosphäre, in der du persönliche Anleitung erhältst und gleichzeitig die Dynamik der Gruppe spürst. Du fängst gerade erst an? Für deine erste Stunde reichen rund 30 Minuten völlig aus.</p>
       </div>
     </div>
+
   </section>
 
   <section id="schedule" class="schedule-section section">
@@ -108,6 +112,7 @@ import { getLocalizedLink } from '../../../components/i18n-config.astro';
         </div>
       </div>
     </div>
+
   </section>
 
   <section class="pricing-section section bg-light">
@@ -182,5 +187,6 @@ import { getLocalizedLink } from '../../../components/i18n-config.astro';
         <p class="discount-note">Ermäßigungen bei finanziellen Engpässen sind möglich. Bitte melde dich über das Formular auf der <a href={getLocalizedLink('de', 'kontakt')}>Kontakt</a>-Seite.</p>
       </div>
     </div>
+
   </section>
 </MainLayout>

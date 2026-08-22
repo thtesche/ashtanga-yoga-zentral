@@ -1,5 +1,6 @@
-import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { defineCollection } from "astro:content";
+import { z as zod } from "astro/zod";
+import { glob } from "astro/loaders";
 
 /**
  * All site pages (EN + DE) as MDX content.
@@ -12,12 +13,12 @@ import { glob } from 'astro/loaders';
  */
 const pages = defineCollection({
   loader: glob({
-    pattern: '**/*.mdx',
-    base: './src/content/pages',
+    pattern: "**/*.mdx",
+    base: "./src/content/pages",
   }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
+  schema: zod.object({
+    title: zod.string(),
+    description: zod.string(),
   }),
 });
 
