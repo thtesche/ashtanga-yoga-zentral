@@ -1,46 +1,77 @@
 ---
-import { Image } from 'astro:assets';
-import { i18nData, getLocalizedLink } from './i18n-config.astro';
-import logo from '../assets/images/logo.webp';
-import flagEn from '../assets/images/flag-en.svg';
-import flagDe from '../assets/images/flag-de.svg';
+import { Image } from "astro:assets";
+import { i18nData, getLocalizedLink } from "./i18n-config.astro";
+import logo from "../assets/images/logo.webp";
+import flagEn from "../assets/images/flag-en.svg";
+import flagDe from "../assets/images/flag-de.svg";
 
 // Derive locale from URL path. Astro.url.pathname includes base path.
 // Check if the path contains /de (works with or without base prefix).
-const rawPath = Astro.url?.pathname || '/';
-let currentLang: keyof typeof i18nData = rawPath.includes('/de') ? 'de' : 'en';
+const rawPath = Astro.url?.pathname || "/";
+let currentLang: keyof typeof i18nData = rawPath.includes("/de") ? "de" : "en";
 const currentNav = i18nData[currentLang].nav;
 
 const navItems = [
-  { key: 'home', label: currentNav.home.label, path: currentNav.home.path },
-  { key: 'about', label: currentNav.about.label, path: currentNav.about.path },
-  { key: 'retreats', label: currentNav.retreats.label, path: currentNav.retreats.path },
-  { key: 'moonDays', label: currentNav.moonDays.label, path: currentNav.moonDays.path },
-  { key: 'faq', label: currentNav.faq.label, path: currentNav.faq.path },
-  { key: 'contact', label: currentNav.contact.label, path: currentNav.contact.path },
+  { key: "home", label: currentNav.home.label, path: currentNav.home.path },
+  { key: "about", label: currentNav.about.label, path: currentNav.about.path },
+  {
+    key: "retreats",
+    label: currentNav.retreats.label,
+    path: currentNav.retreats.path,
+  },
+  {
+    key: "moonDays",
+    label: currentNav.moonDays.label,
+    path: currentNav.moonDays.path,
+  },
+  { key: "faq", label: currentNav.faq.label, path: currentNav.faq.path },
+  {
+    key: "contact",
+    label: currentNav.contact.label,
+    path: currentNav.contact.path,
+  },
 ];
 ---
 
 <nav class="main-nav">
   <div class="container nav-container">
     <a href={getLocalizedLink(currentLang, currentNav.home.path)} class="logo">
-        <Image src={logo} alt="Ashtanga Yoga Zentral Logo" class="nav-logo-img" width={100} height={100} loading="eager"/>
+      <Image
+        src={logo}
+        alt="Ashtanga Yoga Zentral Logo"
+        class="nav-logo-img"
+        width={100}
+        height={100}
+        loading="eager"
+      />
       <div class="logo-text">
         <span>Ashtanga Yoga</span>
         <span>Zentral Berlin</span>
       </div>
     </a>
-    
+
     <div class="nav-links" id="mobile-nav-links" role="menubar">
-      {navItems.map(item => (
-        <a href={getLocalizedLink(currentLang, item.path)} role="menuitem">{item.label}</a>
-      ))}
+      {
+        navItems.map((item) => (
+          <a href={getLocalizedLink(currentLang, item.path)} role="menuitem">
+            {item.label}
+          </a>
+        ))
+      }
 
       <div class="lang-switcher" role="menuitem">
-        <a href={getLocalizedLink('en', currentNav.home.path)} class={currentLang === 'en' ? 'active' : ''} title="English">
+        <a
+          href={getLocalizedLink("en", currentNav.home.path)}
+          class={currentLang === "en" ? "active" : ""}
+          title="English"
+        >
           <Image src={flagEn} alt="EN" width="20" height="14" loading="eager" />
         </a>
-        <a href={getLocalizedLink('de', currentNav.home.path)} class={currentLang === 'de' ? 'active' : ''} title="Deutsch">
+        <a
+          href={getLocalizedLink("de", currentNav.home.path)}
+          class={currentLang === "de" ? "active" : ""}
+          title="Deutsch"
+        >
           <Image src={flagDe} alt="DE" width="20" height="14" loading="eager" />
         </a>
       </div>
@@ -53,7 +84,16 @@ const navItems = [
       aria-expanded="false"
       aria-controls="mobile-nav-links"
     >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <line x1="3" y1="12" x2="21" y2="12"></line>
         <line x1="3" y1="6" x2="21" y2="6"></line>
         <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -69,58 +109,63 @@ const navItems = [
 
   function openMenu() {
     isOpen = true;
-    if (menu) menu.style.display = 'flex';
-    if (btn) btn.setAttribute('aria-expanded', 'true');
+    if (menu) menu.style.display = "flex";
+    if (btn) btn.setAttribute("aria-expanded", "true");
   }
 
   function closeMenu() {
     isOpen = false;
-    if (menu) menu.style.display = '';
-    if (btn) btn.setAttribute('aria-expanded', 'false');
+    if (menu) menu.style.display = "";
+    if (btn) btn.setAttribute("aria-expanded", "false");
     if (btn) btn.focus();
   }
 
   function setupMobileMenu() {
-    btn = document.querySelector('.mobile-menu-btn') as HTMLButtonElement | null;
-    menu = document.querySelector('.nav-links') as HTMLElement | null;
+    btn = document.querySelector(
+      ".mobile-menu-btn",
+    ) as HTMLButtonElement | null;
+    menu = document.querySelector(".nav-links") as HTMLElement | null;
 
     if (!btn || !menu) return;
 
-    btn.addEventListener('click', () => {
+    btn.addEventListener("click", () => {
       if (isOpen) {
         closeMenu();
       } else {
         openMenu();
         // Move focus to the currently active (current page) link
         const currentPath = window.location.pathname;
-        const activeLink = Array.from(menu?.querySelectorAll('a') ?? [])
-          .find(a => a.getAttribute('href')?.replace(/\/$/, '') === currentPath.replace(/\/$/, ''))
-          ?? (menu?.querySelector('a') ?? null) as HTMLAnchorElement | null;
+        const activeLink =
+          Array.from(menu?.querySelectorAll("a") ?? []).find(
+            (a) =>
+              a.getAttribute("href")?.replace(/\/$/, "") ===
+              currentPath.replace(/\/$/, ""),
+          ) ?? ((menu?.querySelector("a") ?? null) as HTMLAnchorElement | null);
         if (activeLink) activeLink.focus();
       }
     });
 
     // Close on Escape and trap focus within the menu
-    document.addEventListener('keydown', (e) => {
+    document.addEventListener("keydown", (e) => {
       if (!isOpen) return;
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         e.preventDefault();
         closeMenu();
         return;
       }
 
       // Focus trap: Arrow keys cycle through links
-      const links = Array.from(menu?.querySelectorAll('a') ?? []);
+      const links = Array.from(menu?.querySelectorAll("a") ?? []);
       if (links.length === 0) return;
       const active = document.activeElement as HTMLElement | null;
       const idx = links.indexOf(active);
       if (idx === -1) return;
 
-      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
         e.preventDefault();
         const next = links[(idx + 1) % links.length];
         if (next) next.focus();
-      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
         e.preventDefault();
         const prev = links[(idx - 1 + links.length) % links.length];
         if (prev) prev.focus();
@@ -132,7 +177,7 @@ const navItems = [
   setupMobileMenu();
 
   // Run on Astro page transitions if they are used
-  document.addEventListener('astro:after-swap', setupMobileMenu);
+  document.addEventListener("astro:after-swap", setupMobileMenu);
 </script>
 
 <style>
@@ -271,7 +316,7 @@ const navItems = [
       justify-content: center;
       gap: 0.75rem;
     }
-    
+
     .mobile-menu-btn {
       display: block;
     }

@@ -1,8 +1,8 @@
 ---
-import { i18nData } from './i18n-config.astro';
+import { i18nData } from "./i18n-config.astro";
 
 interface Props {
-    currentLang: 'de' | 'en';
+  currentLang: "de" | "en";
 }
 
 const { currentLang } = Astro.props;
@@ -10,160 +10,167 @@ const t = i18nData[currentLang].cookieConsent;
 ---
 
 <div id="cookie-consent-banner" class="cookie-consent-banner hidden">
-    <div class="cookie-consent-container">
-        <div class="cookie-consent-content">
-            <h3>{t.title}</h3>
-            <p>{t.message}</p>
-        </div>
-        <div class="cookie-consent-actions">
-            <button id="cookie-accept" class="btn-accept" aria-label="{t.accept}">{t.accept}</button>
-            <button id="cookie-decline" class="btn-decline" aria-label="{t.decline}">{t.decline}</button>
-        </div>
+  <div class="cookie-consent-container">
+    <div class="cookie-consent-content">
+      <h3>{t.title}</h3>
+      <p>{t.message}</p>
     </div>
+    <div class="cookie-consent-actions">
+      <button id="cookie-accept" class="btn-accept" aria-label="{t.accept}"
+        >{t.accept}</button
+      >
+      <button id="cookie-decline" class="btn-decline" aria-label="{t.decline}"
+        >{t.decline}</button
+      >
+    </div>
+  </div>
 </div>
 
 <style>
-    .cookie-consent-banner {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: #ffffff;
-        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-        z-index: 9999;
-        padding: 1.5rem 0;
-        border-top: 1px solid var(--color-border, #eee);
-    }
+  .cookie-consent-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--color-border, #eee);
+  }
 
+  .cookie-consent-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
     .cookie-consent-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 1.5rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        align-items: center;
+      flex-direction: row;
+      justify-content: space-between;
     }
+  }
 
-    @media (min-width: 768px) {
-        .cookie-consent-container {
-            flex-direction: row;
-            justify-content: space-between;
-        }
-    }
+  .cookie-consent-content h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    color: var(--color-text, #333);
+  }
 
-    .cookie-consent-content h3 {
-        margin: 0 0 0.5rem 0;
-        font-size: 1.25rem;
-        color: var(--color-text, #333);
-    }
+  .cookie-consent-content p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-text-light, #666);
+    line-height: 1.4;
+  }
 
-    .cookie-consent-content p {
-        margin: 0;
-        font-size: 0.9rem;
-        color: var(--color-text-light, #666);
-        line-height: 1.4;
-    }
+  .cookie-consent-actions {
+    display: flex;
+    gap: 1rem;
+  }
 
-    .cookie-consent-actions {
-        display: flex;
-        gap: 1rem;
-    }
+  .btn-accept,
+  .btn-decline {
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+  }
 
-    .btn-accept, .btn-decline {
-        padding: 0.6rem 1.5rem;
-        border-radius: 4px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-size: 0.9rem;
-    }
+  .btn-accept {
+    background-color: var(--color-primary, #000);
+    color: white;
+    border: none;
+  }
 
-    .btn-accept {
-        background-color: var(--color-primary, #000);
-        color: white;
-        border: none;
-    }
+  .btn-accept:hover {
+    opacity: 0.9;
+  }
 
-    .btn-accept:hover {
-        opacity: 0.9;
-    }
+  .btn-decline {
+    background-color: transparent;
+    border: 1px solid var(--color-border, #ccc);
+    color: var(--color-text, #333);
+  }
 
-    .btn-decline {
-        background-color: transparent;
-        border: 1px solid var(--color-border, #ccc);
-        color: var(--color-text, #333);
-    }
+  .btn-decline:hover {
+    background-color: #f5f5f5;
+  }
 
-    .btn-decline:hover {
-        background-color: #f5f5f5;
-    }
+  .btn-reset {
+    background-color: transparent;
+    border: none;
+    text-decoration: underline;
+    color: var(--color-primary, #000);
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
 
-    .btn-reset {
-        background-color: transparent;
-        border: none;
-        text-decoration: underline;
-        color: var(--color-primary, #000);
-        font-size: 0.8rem;
-        cursor: pointer;
-    }
+  .btn-reset:hover {
+    opacity: 0.7;
+  }
 
-    .btn-reset:hover {
-        opacity: 0.7;
-    }
-
-    .hidden {
-        display: none;
-    }
+  .hidden {
+    display: none;
+  }
 </style>
 
 <script is:inline>
-    (function() {
-        const CONSENT_KEY = 'cookie_consent';
-        const banner = document.getElementById('cookie-consent-banner');
-        const acceptBtn = document.getElementById('cookie-accept');
-        const declineBtn = document.getElementById('cookie-decline');
+  (function () {
+    const CONSENT_KEY = "cookie_consent";
+    const banner = document.getElementById("cookie-consent-banner");
+    const acceptBtn = document.getElementById("cookie-accept");
+    const declineBtn = document.getElementById("cookie-decline");
 
-        function setConsent(status) {
-            localStorage.setItem(CONSENT_KEY, status);
-            banner.classList.add('hidden');
-            if (status === 'accepted') {
-                window.dispatchEvent(new CustomEvent('cookieConsentAccepted'));
-            }
-        }
+    function setConsent(status) {
+      localStorage.setItem(CONSENT_KEY, status);
+      banner.classList.add("hidden");
+      if (status === "accepted") {
+        window.dispatchEvent(new CustomEvent("cookieConsentAccepted"));
+      }
+    }
 
-        function checkConsent() {
-            const consent = localStorage.getItem(CONSENT_KEY);
-            if (!consent) {
-                banner.classList.remove('hidden');
-            } else if (consent === 'accepted') {
-                window.dispatchEvent(new CustomEvent('cookieConsentAccepted'));
-            }
-        }
+    function checkConsent() {
+      const consent = localStorage.getItem(CONSENT_KEY);
+      if (!consent) {
+        banner.classList.remove("hidden");
+      } else if (consent === "accepted") {
+        window.dispatchEvent(new CustomEvent("cookieConsentAccepted"));
+      }
+    }
 
-        if (acceptBtn) {
-            acceptBtn.addEventListener('click', () => setConsent('accepted'));
-        }
+    if (acceptBtn) {
+      acceptBtn.addEventListener("click", () => setConsent("accepted"));
+    }
 
-        if (declineBtn) {
-            declineBtn.addEventListener('click', () => setConsent('declined'));
-        }
+    if (declineBtn) {
+      declineBtn.addEventListener("click", () => setConsent("declined"));
+    }
 
-        const resetBtn = document.getElementById('cookie-reset');
-        if (resetBtn) {
-            resetBtn.addEventListener('click', () => window.cookieConsentManager.resetConsent());
-        }
+    const resetBtn = document.getElementById("cookie-reset");
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () =>
+        window.cookieConsentManager.resetConsent(),
+      );
+    }
 
-        // Initial check
-        checkConsent();
+    // Initial check
+    checkConsent();
 
-        // Expose for global use if needed, though CustomEvent is cleaner
-        window.cookieConsentManager = {
-            getConsent: () => localStorage.getItem(CONSENT_KEY),
-            resetConsent: () => {
-                localStorage.removeItem(CONSENT_KEY);
-                location.reload();
-            }
-        };
-    })();
+    // Expose for global use if needed, though CustomEvent is cleaner
+    window.cookieConsentManager = {
+      getConsent: () => localStorage.getItem(CONSENT_KEY),
+      resetConsent: () => {
+        localStorage.removeItem(CONSENT_KEY);
+        location.reload();
+      },
+    };
+  })();
 </script>

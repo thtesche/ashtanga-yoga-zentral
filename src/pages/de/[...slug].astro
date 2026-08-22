@@ -1,6 +1,6 @@
 ---
-import { getCollection, render } from 'astro:content';
-import { mdxComponents } from '../../components';
+import { getCollection, render } from "astro:content";
+import { mdxComponents } from "../../components";
 
 /**
  * Dynamic route for all German pages under /de/.
@@ -10,12 +10,19 @@ import { mdxComponents } from '../../components';
 export async function getStaticPaths() {
   // Maps a collection id to the slug used under /de/ (index entries map to "").
   // Must live inside getStaticPaths: it is hoisted out of the frontmatter scope.
-  const toSlug = (id: string) => (id === 'index' || id === 'de' ? '' : id.replace(/^de\//, ''));
-  const entries = await getCollection('pages');
-  const deEntries = entries.filter((entry) => entry.id === 'de' || entry.id.startsWith('de/'));
-  const enEntries = entries.filter((entry) => entry.id !== 'de' && !entry.id.startsWith('de/'));
+  const toSlug = (id: string) =>
+    id === "index" || id === "de" ? "" : id.replace(/^de\//, "");
+  const entries = await getCollection("pages");
+  const deEntries = entries.filter(
+    (entry) => entry.id === "de" || entry.id.startsWith("de/"),
+  );
+  const enEntries = entries.filter(
+    (entry) => entry.id !== "de" && !entry.id.startsWith("de/"),
+  );
 
-  const paths = deEntries.map((entry) => ({ params: { slug: toSlug(entry.id) } }));
+  const paths = deEntries.map((entry) => ({
+    params: { slug: toSlug(entry.id) },
+  }));
 
   // Replicate Astro's i18n fallback (fallbackType: 'redirect'): for every
   // English page without a German counterpart, emit the locale-prefixed path.
@@ -31,20 +38,22 @@ export async function getStaticPaths() {
   return paths;
 }
 
-const { slug = '' } = Astro.params;
-const entries = await getCollection('pages');
-const entry = entries.find((e) => e.id === (slug === '' ? 'de' : `de/${slug}`));
+const { slug = "" } = Astro.params;
+const entries = await getCollection("pages");
+const entry = entries.find((e) => e.id === (slug === "" ? "de" : `de/${slug}`));
 
 if (!entry) {
   // No German page for this slug. If the English page exists, redirect to it —
   // same behavior as Astro's i18n fallback for missing DE routes.
-  const hasEnglishCounterpart = entries.some((e) => e.id === (slug === '' ? 'index' : slug));
+  const hasEnglishCounterpart = entries.some(
+    (e) => e.id === (slug === "" ? "index" : slug),
+  );
   if (!hasEnglishCounterpart) {
     throw new Response(null, { status: 404 });
   }
   // Strip the /de locale segment from the current URL, preserving base and
   // trailing slash (e.g. /de/about/ -> /about/, or with a base prefix).
-  const englishPath = Astro.url.pathname.replace(/\/de(?=\/|$)/, '');
+  const englishPath = Astro.url.pathname.replace(/\/de(?=\/|$)/, "");
   return Astro.redirect(englishPath);
 }
 

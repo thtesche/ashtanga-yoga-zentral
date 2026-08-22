@@ -1,7 +1,7 @@
 ---
-import { getRelativeLocaleUrl } from 'astro:i18n';
+import { getRelativeLocaleUrl } from "astro:i18n";
 
-export type SupportedLocale = 'en' | 'de';
+export type SupportedLocale = "en" | "de";
 
 /**
  * Centralized i18n data for navigation and common UI elements.
@@ -10,54 +10,56 @@ export type SupportedLocale = 'en' | 'de';
 export const i18nData: Record<SupportedLocale, any> = {
   en: {
     nav: {
-      home: { path: '', label: 'Home' },
-      about: { path: 'about', label: 'About Us' },
-      retreats: { path: 'retreats', label: 'Retreats & Events' },
-      moonDays: { path: 'moondays', label: 'Moondays' },
-      faq: { path: 'faq', label: 'FAQ' },
-      contact: { path: 'contact', label: 'Contact' },
+      home: { path: "", label: "Home" },
+      about: { path: "about", label: "About Us" },
+      retreats: { path: "retreats", label: "Retreats & Events" },
+      moonDays: { path: "moondays", label: "Moondays" },
+      faq: { path: "faq", label: "FAQ" },
+      contact: { path: "contact", label: "Contact" },
     },
     footer: {
-      location: 'Location',
-      links: 'Links',
-      contact: { path: 'contact', label: 'Contact' },
-      legalNotice: { path: 'legal_notice', label: 'Legal Notice' },
-      gdpr: { path: 'gdpr', label: 'Privacy Policy' },
-      copyright: 'All rights reserved.'
+      location: "Location",
+      links: "Links",
+      contact: { path: "contact", label: "Contact" },
+      legalNotice: { path: "legal_notice", label: "Legal Notice" },
+      gdpr: { path: "gdpr", label: "Privacy Policy" },
+      copyright: "All rights reserved.",
     },
     cookieConsent: {
-      title: 'Cookie Settings',
-      message: 'We use cookies to improve your experience. Technical cookies are necessary. We need your consent for Google Tag Manager.',
-      accept: 'Accept',
-      decline: 'Decline',
-      changeSettings: 'Change Cookie Settings'
-    }
+      title: "Cookie Settings",
+      message:
+        "We use cookies to improve your experience. Technical cookies are necessary. We need your consent for Google Tag Manager.",
+      accept: "Accept",
+      decline: "Decline",
+      changeSettings: "Change Cookie Settings",
+    },
   },
   de: {
     nav: {
-      home: { path: '', label: 'Home' },
-      about: { path: 'ueber_uns', label: 'Über uns' },
-      retreats: { path: 'retreats', label: 'Retreats & Events' },
-      moonDays: { path: 'moondays', label: 'Moondays' },
-      faq: { path: 'faq', label: 'FAQ' },
-      contact: { path: 'kontakt', label: 'Kontakt' },
+      home: { path: "", label: "Home" },
+      about: { path: "ueber_uns", label: "Über uns" },
+      retreats: { path: "retreats", label: "Retreats & Events" },
+      moonDays: { path: "moondays", label: "Moondays" },
+      faq: { path: "faq", label: "FAQ" },
+      contact: { path: "kontakt", label: "Kontakt" },
     },
     footer: {
-      location: 'Standort',
-      links: 'Links',
-      contact: { path: 'kontakt', label: 'Kontakt' },
-      legalNotice: { path: 'impressum', label: 'Impressum' },
-      gdpr: { path: 'datenschutz', label: 'Datenschutz' },
-      copyright: 'Alle Rechte vorbehalten.'
+      location: "Standort",
+      links: "Links",
+      contact: { path: "kontakt", label: "Kontakt" },
+      legalNotice: { path: "impressum", label: "Impressum" },
+      gdpr: { path: "datenschutz", label: "Datenschutz" },
+      copyright: "Alle Rechte vorbehalten.",
     },
     cookieConsent: {
-      title: 'Cookie-Einstellungen',
-      message: 'Wir verwenden Cookies, um Ihr Erlebnis zu verbessern. Technische Cookies sind erlaubt. Für Google Tag Manager benötigen wir Ihre Zustimmung.',
-      accept: 'Akzeptieren',
-      decline: 'Ablehnen',
-      changeSettings: 'Cookie-Einstellungen ändern'
-    }
-  }
+      title: "Cookie-Einstellungen",
+      message:
+        "Wir verwenden Cookies, um Ihr Erlebnis zu verbessern. Technische Cookies sind erlaubt. Für Google Tag Manager benötigen wir Ihre Zustimmung.",
+      accept: "Akzeptieren",
+      decline: "Ablehnen",
+      changeSettings: "Cookie-Einstellungen ändern",
+    },
+  },
 };
 
 export function getLocalizedLink(locale: string, path: string) {
@@ -65,9 +67,9 @@ export function getLocalizedLink(locale: string, path: string) {
   // correct relative path from the current page, respecting base + i18n
   // routing (prefixDefaultLocale: false). Using raw paths for 'en' caused
   // relative resolution bugs (e.g. /contact/moondays/ instead of /moondays/).
-  if (!path || path === '') {
+  if (!path || path === "") {
     // Home: link to locale root
-    return getRelativeLocaleUrl(locale, '');
+    return getRelativeLocaleUrl(locale, "");
   }
   return getRelativeLocaleUrl(locale, path);
 }

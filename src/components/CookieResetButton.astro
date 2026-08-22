@@ -9,19 +9,26 @@ const { title = "Cookie Settings", buttonLabel } = Astro.props;
 
 <div class="mt-4 p-4 bg-gray-100 rounded">
   <p>
-    <button id="reset-cookie-consent" class="text-primary underline" aria-label={buttonLabel}>{buttonLabel}</button>
+    <button
+      id="reset-cookie-consent"
+      class="text-primary underline"
+      aria-label={buttonLabel}>{buttonLabel}</button
+    >
   </p>
 </div>
 
 <script is:inline>
-  document.addEventListener('DOMContentLoaded', function() {
-    const btn = document.getElementById('reset-cookie-consent');
+  document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("reset-cookie-consent");
     if (btn) {
-      btn.addEventListener('click', function() {
-        if (window.cookieConsentManager && typeof window.cookieConsentManager.resetConsent === 'function') {
+      btn.addEventListener("click", function () {
+        if (
+          window.cookieConsentManager &&
+          typeof window.cookieConsentManager.resetConsent === "function"
+        ) {
           window.cookieConsentManager.resetConsent();
         } else {
-          localStorage.removeItem('cookie_consent');
+          localStorage.removeItem("cookie_consent");
           location.reload();
         }
       });

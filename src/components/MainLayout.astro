@@ -1,130 +1,179 @@
 ---
-import '../styles/global.css';
-import '@fontsource/inter/300.css';
-import '@fontsource/inter/400.css';
-import '@fontsource/outfit/500.css';
-import '@fontsource/outfit/600.css';
+import "../styles/global.css";
+import "@fontsource/inter/300.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/outfit/500.css";
+import "@fontsource/outfit/600.css";
 
-import inter300Url from '@fontsource/inter/files/inter-latin-300-normal.woff2?url';
-import inter400Url from '@fontsource/inter/files/inter-latin-400-normal.woff2?url';
-import outfit500Url from '@fontsource/outfit/files/outfit-latin-500-normal.woff2?url';
-import outfit600Url from '@fontsource/outfit/files/outfit-latin-600-normal.woff2?url';
+import inter300Url from "@fontsource/inter/files/inter-latin-300-normal.woff2?url";
+import inter400Url from "@fontsource/inter/files/inter-latin-400-normal.woff2?url";
+import outfit500Url from "@fontsource/outfit/files/outfit-latin-500-normal.woff2?url";
+import outfit600Url from "@fontsource/outfit/files/outfit-latin-600-normal.woff2?url";
 
-import Navigation from '../components/Navigation.astro';
-import CookieConsent from '../components/CookieConsent.astro';
-import JsonLd from '../components/JsonLd.astro';
-import { i18nData, getLocalizedLink } from '../components/i18n-config.astro';
-import { getAbsoluteLocaleUrl } from 'astro:i18n';
+import Navigation from "../components/Navigation.astro";
+import CookieConsent from "../components/CookieConsent.astro";
+import JsonLd from "../components/JsonLd.astro";
+import { i18nData, getLocalizedLink } from "../components/i18n-config.astro";
+import { getAbsoluteLocaleUrl } from "astro:i18n";
 
 interface Props {
-    title: string;
-    description?: string;
-    structuredData?: any;
+  title: string;
+  description?: string;
+  structuredData?: any;
 }
 
 const { title, description, structuredData } = Astro.props;
 // Derive locale from URL path. Astro.url.pathname includes base path.
 // Check if the path contains /de (works with or without base prefix).
-const rawPath = Astro.url?.pathname || '/';
-let currentLang: keyof typeof i18nData = rawPath.includes('/de') ? 'de' : 'en';
+const rawPath = Astro.url?.pathname || "/";
+let currentLang: keyof typeof i18nData = rawPath.includes("/de") ? "de" : "en";
 
 // Locale-independent path for hreflang tags (e.g. /de/faq -> faq, / -> '')
-const localizedPath = rawPath === '/' ? '' : rawPath.replace('/de', '').replace(/\/$/, '');
+const localizedPath =
+  rawPath === "/" ? "" : rawPath.replace("/de", "").replace(/\/$/, "");
 
 const currentFooter = i18nData[currentLang].footer;
 
 // Locale-aware fallback so a missing description never leaks the wrong language.
-const defaultDescription = currentLang === 'de'
-  ? 'Morgen-Ashtanga-Yoga (Mysore Style) in Berlin mit Elinore Burke'
-  : 'Morning Ashtanga Yoga (Mysore style) in Berlin with Elinore Burke';
+const defaultDescription =
+  currentLang === "de"
+    ? "Morgen-Ashtanga-Yoga (Mysore Style) in Berlin mit Elinore Burke"
+    : "Morning Ashtanga Yoga (Mysore style) in Berlin with Elinore Burke";
 ---
 
 <!doctype html>
 <html lang={currentLang}>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="description" content={description || defaultDescription} />
-        <meta name="viewport" content="width=device-width" />
-        <link rel="icon" type="image/png" href="/favicon.png" />
-        <!-- Preload critical fonts to break the request chain -->
-        <link rel="preload" href={inter300Url} as="font" type="font/woff2" crossorigin />
-        <link rel="preload" href={inter400Url} as="font" type="font/woff2" crossorigin />
-        <link rel="preload" href={outfit500Url} as="font" type="font/woff2" crossorigin />
-        <link rel="preload" href={outfit600Url} as="font" type="font/woff2" crossorigin />
-        <!-- Hreflang tags for SEO i18n -->
-        <link rel="alternate" hreflang="en" href={getAbsoluteLocaleUrl('en', localizedPath)} />
-        <link rel="alternate" hreflang="de" href={getAbsoluteLocaleUrl('de', localizedPath)} />
-        <link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl('en', localizedPath)} />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description || defaultDescription} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <!-- Preload critical fonts to break the request chain -->
+    <link
+      rel="preload"
+      href={inter300Url}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={inter400Url}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={outfit500Url}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={outfit600Url}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <!-- Hreflang tags for SEO i18n -->
+    <link
+      rel="alternate"
+      hreflang="en"
+      href={getAbsoluteLocaleUrl("en", localizedPath)}
+    />
+    <link
+      rel="alternate"
+      hreflang="de"
+      href={getAbsoluteLocaleUrl("de", localizedPath)}
+    />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={getAbsoluteLocaleUrl("en", localizedPath)}
+    />
 
-        <title>{title} | Ashtanga Yoga Zentral</title>
+    <title>{title} | Ashtanga Yoga Zentral</title>
 
-        <!-- Google Tag Manager (GA4) - Loaded conditionally via CookieConsent -->
-        <script is:inline>
-            (function() {
-                const CONSENT_KEY = 'cookie_consent';
-                const GTM_ID = 'G-DMTRVZQ6QD';
+    <!-- Google Tag Manager (GA4) - Loaded conditionally via CookieConsent -->
+    <script is:inline>
+      (function () {
+        const CONSENT_KEY = "cookie_consent";
+        const GTM_ID = "G-DMTRVZQ6QD";
 
-                function loadGTM() {
-                    const script = document.createElement('script');
-                    script.async = true;
-                    script.src = `//www.googletagmanager.com/gtag/js?id=${GTM_ID}`;
-                    document.head.appendChild(script);
+        function loadGTM() {
+          const script = document.createElement("script");
+          script.async = true;
+          script.src = `//www.googletagmanager.com/gtag/js?id=${GTM_ID}`;
+          document.head.appendChild(script);
 
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-                    gtag('config', GTM_ID);
-                }
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag("js", new Date());
+          gtag("config", GTM_ID);
+        }
 
-                const consent = localStorage.getItem(CONSENT_KEY);
-                if (consent === 'accepted') {
-                    loadGTM();
-                } else {
-                    // Listen for the custom event from CookieConsent component
-                    window.addEventListener('cookieConsentAccepted', loadGTM);
-                }
-            })();
-        </script>
+        const consent = localStorage.getItem(CONSENT_KEY);
+        if (consent === "accepted") {
+          loadGTM();
+        } else {
+          // Listen for the custom event from CookieConsent component
+          window.addEventListener("cookieConsentAccepted", loadGTM);
+        }
+      })();
+    </script>
 
-        {structuredData && <JsonLd data={structuredData} />}
+    {structuredData && <JsonLd data={structuredData} />}
 
-        <!-- No automatic browser-language redirect. Locale is derived from URL path. -->
-    </head>
-    <body>
-        <a href="#main-content" class="skip-link">Skip to content</a>
-        <Navigation />
-        <main id="main-content">
-            <slot />
-        </main>
+    <!-- No automatic browser-language redirect. Locale is derived from URL path. -->
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <Navigation />
+    <main id="main-content">
+      <slot />
+    </main>
 
-        <CookieConsent currentLang={currentLang} />
-        
-        <footer class="site-footer">
-          <div class="container footer-container">
-            <div class="footer-col">
-              <h3>Ashtanga Yoga Zentral</h3>
-              <p>Morning Ashtanga Yoga in Berlin</p>
-            </div>
-            <div class="footer-col">
-              <h4>{currentFooter.location}</h4>
-              <p>Three Boons Studio<br/>Brunnen Str. 29/3 (Hinterhof)<br/>Berlin</p>
-            </div>
-          </div>
+    <CookieConsent currentLang={currentLang} />
 
-          <div class="footer-col">
-            <div class="footer-legal-links">
-              <a href={getLocalizedLink(currentLang, currentFooter.contact.path)}>{currentFooter.contact.label}</a>
-              <a href={getLocalizedLink(currentLang, currentFooter.legalNotice.path)}>{currentFooter.legalNotice.label}</a>
-              <a href={getLocalizedLink(currentLang, currentFooter.gdpr.path)}>{currentFooter.gdpr.label}</a>
-            </div>
-          </div>
-        </footer>
-    </body>
+    <footer class="site-footer">
+      <div class="container footer-container">
+        <div class="footer-col">
+          <h3>Ashtanga Yoga Zentral</h3>
+          <p>Morning Ashtanga Yoga in Berlin</p>
+        </div>
+        <div class="footer-col">
+          <h4>{currentFooter.location}</h4>
+          <p>
+            Three Boons Studio<br />Brunnen Str. 29/3 (Hinterhof)<br />Berlin
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-legal-links">
+          <a href={getLocalizedLink(currentLang, currentFooter.contact.path)}
+            >{currentFooter.contact.label}</a
+          >
+          <a
+            href={getLocalizedLink(currentLang, currentFooter.legalNotice.path)}
+            >{currentFooter.legalNotice.label}</a
+          >
+          <a href={getLocalizedLink(currentLang, currentFooter.gdpr.path)}
+            >{currentFooter.gdpr.label}</a
+          >
+        </div>
+      </div>
+    </footer>
+  </body>
 </html>
 
 <style>
-/* Skip-to-content link */
-.skip-link {
+  /* Skip-to-content link */
+  .skip-link {
     position: absolute;
     top: -100%;
     left: 0;
@@ -135,18 +184,18 @@ const defaultDescription = currentLang === 'de'
     font-family: var(--font-heading);
     text-decoration: none;
     border-radius: 0 0 4px 0;
-}
+  }
 
-.skip-link:focus {
+  .skip-link:focus {
     top: 0;
-}
+  }
 
-/* Keeping minimal styles necessary for the layout component structure */
-main {
+  /* Keeping minimal styles necessary for the layout component structure */
+  main {
     /* Placeholder for min-height if needed, but better handled by global CSS */
-}
+  }
 
-.footer-bottom {
+  .footer-bottom {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -154,9 +203,9 @@ main {
     padding-top: 2rem;
     border-top: 1px solid var(--color-border);
     margin-top: 2rem;
-}
+  }
 
-.footer-legal-links {
+  .footer-legal-links {
     display: flex;
     gap: 1.5rem;
     justify-content: center;
@@ -165,16 +214,16 @@ main {
     padding: 1rem 2rem;
     border-radius: 8px;
     box-shadow: var(--shadow-sm);
-}
+  }
 
-.footer-legal-links a {
+  .footer-legal-links a {
     font-size: 1rem;
     text-decoration: underline;
     color: var(--color-primary);
     transition: color var(--transition-fast);
-}
+  }
 
-.footer-legal-links a:hover {
+  .footer-legal-links a:hover {
     color: var(--color-text);
-}
+  }
 </style>

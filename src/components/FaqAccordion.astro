@@ -18,13 +18,13 @@ const { items = [] } = Astro.props;
 // FAQPage JSON-LD derived from the entries actually rendered, so the schema
 // always matches the visible content (single source of truth).
 const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
   mainEntity: items.map((item) => ({
-    '@type': 'Question',
+    "@type": "Question",
     name: item.question,
     acceptedAnswer: {
-      '@type': 'Answer',
+      "@type": "Answer",
       text: item.answer,
     },
   })),
@@ -34,80 +34,82 @@ const faqSchema = {
 <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
 <div class="faq-accordion">
-  {items.map((item) => (
-    <details class="faq-item">
-      <summary class="faq-question">
-        <span class="faq-text">{item.question}</span>
-        <span class="faq-icon" aria-hidden="true">+</span>
-      </summary>
-      <div class="faq-answer">
-        {item.answer && <p>{item.answer}</p>}
-      </div>
-    </details>
-  ))}
+  {
+    items.map((item) => (
+      <details class="faq-item">
+        <summary class="faq-question">
+          <span class="faq-text">{item.question}</span>
+          <span class="faq-icon" aria-hidden="true">
+            +
+          </span>
+        </summary>
+        <div class="faq-answer">{item.answer && <p>{item.answer}</p>}</div>
+      </details>
+    ))
+  }
 </div>
 
 <style>
-	.faq-accordion {
-		max-width: 700px;
-		margin: 0 auto;
-	}
+  .faq-accordion {
+    max-width: 700px;
+    margin: 0 auto;
+  }
 
-	.faq-item {
-		border-bottom: 1px solid var(--color-border);
-	}
+  .faq-item {
+    border-bottom: 1px solid var(--color-border);
+  }
 
-	.faq-question {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 1.25rem 0;
-		cursor: pointer;
-		list-style: none;
-		font-family: var(--font-heading);
-		font-size: 1.1rem;
-		font-weight: 500;
-		color: var(--color-text);
-		user-select: none;
-	}
+  .faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 0;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-text);
+    user-select: none;
+  }
 
-	.faq-question::-webkit-details-marker {
-		display: none;
-	}
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
 
-	.faq-text {
-		padding-right: 1rem;
-	}
+  .faq-text {
+    padding-right: 1rem;
+  }
 
-	.faq-icon {
-		flex-shrink: 0;
-		width: 1.5rem;
-		height: 1.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.4rem;
-		font-weight: 300;
-		color: var(--color-primary);
-		transition: transform 0.2s ease;
-	}
+  .faq-icon {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--color-primary);
+    transition: transform 0.2s ease;
+  }
 
-	.faq-item[open] .faq-icon {
-		transform: rotate(45deg);
-	}
+  .faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+  }
 
-	.faq-answer {
-		padding: 0 0 1.25rem 0;
-		font-family: var(--font-body);
-		color: var(--color-text-secondary, #555);
-		line-height: 1.6;
-	}
+  .faq-answer {
+    padding: 0 0 1.25rem 0;
+    font-family: var(--font-body);
+    color: var(--color-text-secondary, #555);
+    line-height: 1.6;
+  }
 
-	.faq-answer p {
-		margin: 0 0 0.75rem 0;
-	}
+  .faq-answer p {
+    margin: 0 0 0.75rem 0;
+  }
 
-	.faq-answer p:last-child {
-		margin-bottom: 0;
-	}
+  .faq-answer p:last-child {
+    margin-bottom: 0;
+  }
 </style>
