@@ -47,12 +47,12 @@ AstroCMS reads its configuration from [`astrocms.json`](astrocms.json) in the pr
 }
 ```
 
-| Field | Meaning in this project |
-|---|---|
-| `contentDir` | Directory containing the content collections → `src/content/` |
+| Field           | Meaning in this project                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------- |
+| `contentDir`    | Directory containing the content collections → `src/content/`                            |
 | `contentConfig` | Path to the Zod schema file → `src/content.config.ts` (source for the frontmatter forms) |
-| `assetsDir` | Target directory for media uploads → `src/assets/` (images land in `src/assets/images/`) |
-| `componentsDir` | Astro components available in the MDX editor → `src/components/` |
+| `assetsDir`     | Target directory for media uploads → `src/assets/` (images land in `src/assets/images/`) |
+| `componentsDir` | Astro components available in the MDX editor → `src/components/`                         |
 
 Every field can additionally be overridden via environment variables (`ASTROCMS_CONTENT_DIR`, `ASTROCMS_CONTENT_CONFIG`, `ASTROCMS_ASSETS_DIR`, `ASTROCMS_COMPONENTS_DIR`) — mainly relevant for Docker deployments.
 
@@ -85,10 +85,10 @@ src/content/pages/
 
 **Frontmatter schema** (defined in [`src/content.config.ts`](src/content.config.ts)):
 
-| Field | Type | Required |
-|---|---|---|
-| `title` | String | yes — used as the page title (browser tab, SEO) |
-| `description` | String | yes — used as the meta description (SEO) |
+| Field         | Type   | Required                                        |
+| ------------- | ------ | ----------------------------------------------- |
+| `title`       | String | yes — used as the page title (browser tab, SEO) |
+| `description` | String | yes — used as the meta description (SEO)        |
 
 The CMS generates the frontmatter form in the editor automatically from this schema. New required fields in the schema will appear there accordingly.
 
@@ -151,7 +151,7 @@ services:
   cms:
     image: ghcr.io/lonestone/astrocms:latest
     ports:
-      - '4001:4001'
+      - "4001:4001"
     environment:
       - GIT_REPO_URL=https://github.com/<user>/<repo>
       - GIT_BRANCH=main
@@ -167,14 +167,14 @@ volumes:
 
 Key environment variables:
 
-| Variable | Description | Default |
-|---|---|---|
-| `GIT_REPO_URL` | URL of the Git repository (cloned into the container) | *(auto-detected)* |
-| `GIT_BRANCH` | Branch to work on | `main` |
-| `GIT_PAT` | GitHub Personal Access Token (Contents: Read and write) | *(none)* |
-| `ASTROCMS_PASSWORD` | Password protection for the CMS instance | *(none)* |
-| `ASTROCMS_DEV_CMD` / `ASTROCMS_DEV_PORT` | Optional: start the website dev server inside the container and proxy it under `/` (CMS stays at `/astrocms`) | *(none)* / `4321` |
-| `GIT_USER_NAME` / `GIT_USER_EMAIL` | Commit author/email inside the container | `AstroCMS` / `cms@astrocms.dev` |
+| Variable                                 | Description                                                                                                   | Default                         |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| `GIT_REPO_URL`                           | URL of the Git repository (cloned into the container)                                                         | _(auto-detected)_               |
+| `GIT_BRANCH`                             | Branch to work on                                                                                             | `main`                          |
+| `GIT_PAT`                                | GitHub Personal Access Token (Contents: Read and write)                                                       | _(none)_                        |
+| `ASTROCMS_PASSWORD`                      | Password protection for the CMS instance                                                                      | _(none)_                        |
+| `ASTROCMS_DEV_CMD` / `ASTROCMS_DEV_PORT` | Optional: start the website dev server inside the container and proxy it under `/` (CMS stays at `/astrocms`) | _(none)_ / `4321`               |
+| `GIT_USER_NAME` / `GIT_USER_EMAIL`       | Commit author/email inside the container                                                                      | `AstroCMS` / `cms@astrocms.dev` |
 
 **Generating a GitHub PAT:** GitHub → Settings → Developer settings → Personal access tokens → Fine-grained token, repository access limited to this repo only, permission **Contents: Read and write**.
 
