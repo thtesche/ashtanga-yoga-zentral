@@ -3,7 +3,7 @@ title: Retreats & Events
 description: Discover upcoming Ashtanga Yoga and meditation retreats with Elinore Burke.
 ---
 
-import '../../styles/retreats.css';
+import "../../styles/retreats.css";
 import MainLayout from "../../components/MainLayout.astro";
 import { Image } from "astro:assets";
 import img1 from "../../assets/images/img_1_elinore_retreat_mecklenburg.webp";
@@ -58,13 +58,15 @@ import { getLocalizedLink } from "../../components/i18n-config.astro";
 }
 ]
 }}
+
 >
-  <div class="page-header">
-    <div class="container text-center animate-fade-in">
-      <h1>Retreats & Events</h1>
-      <p class="subtitle">Yoga & Meditation Retreats</p>
-    </div>
+
+<div class="page-header">
+  <div class="container text-center animate-fade-in">
+    <h1>Retreats & Events</h1>
+    <p class="subtitle">Yoga & Meditation Retreats</p>
   </div>
+</div>
 
   <section class="section bg-light">
     <div class="container">
@@ -126,5 +128,6 @@ import { getLocalizedLink } from "../../components/i18n-config.astro";
         </div>
       </div>
     </div>
+
   </section>
 </MainLayout>
