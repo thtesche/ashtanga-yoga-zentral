@@ -1,0 +1,91 @@
+---
+import { Image } from "astro:assets";
+import { resolveImagePath } from "./image-assets.ts";
+
+/**
+ * Teacher bio section: several paragraphs with a photo floating top-right.
+ *
+ * The image is referenced by path (relative to the MDX file) so AstroCMS can
+ * edit it with its image picker; `resolveImagePath()` maps the path to an
+ * eagerly imported asset for optimized rendering.
+ */
+
+/** Marker type: AstroCMS renders an image picker for props typed `ImagePath`. */
+type ImagePath = string;
+
+/** A single bio paragraph. Plain string so AstroCMS can edit the list in its table editor (one row per paragraph). */
+interface Paragraph {
+  /** The paragraph text. Wrap phrases in **double asterisks** for bold. */
+  text: string;
+}
+
+interface Props {
+  /** Path to the teacher photo, relative to the MDX file (e.g. ../../assets/images/foo.png). */
+  image?: ImagePath;
+  /** Alt text for the photo. */
+  alt?: string;
+  /** Bio paragraphs in display order (content lives in the MDX file, CMS-editable). */
+  paragraphs: Paragraph[];
+}
+
+const { image, alt = "", paragraphs = [] } = Astro.props;
+
+// Resolved at build time from the CMS path; null skips the image gracefully.
+const src = resolveImagePath(image);
+
+/** Escape HTML first, then support **bold** so CMS text can emphasize phrases. */
+function paragraphHtml(text: string): string {
+  const escaped = text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+  return escaped.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+}
+---
+
+<section class="section">
+  <div class="container animate-fade-in-delay">
+    <div class="surface about-content">
+      <div class="content-block">
+        {
+          src && (
+            <Image
+              src={src}
+              alt={alt}
+              class="about-image"
+              style="width: 50%; height: auto;"
+              loading="eager"
+            />
+          )
+        }
+
+        {paragraphs.map((p) => <p set:html={paragraphHtml(p.text)} />)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+  }
+
+  .about-image {
+    float: right;
+    margin: 0 0 1.5rem 2rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .content-block p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+  }
+
+  .content-block p:last-child {
+    margin-bottom: 0;
+  }
+</style>

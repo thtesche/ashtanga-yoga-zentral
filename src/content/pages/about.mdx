@@ -3,10 +3,7 @@ title: About Elinore Burke
 description: Learn more about Elinore Burke, an authorized Level 2 Ashtanga Yoga teacher and yoga therapist.
 ---
 
-import '../../styles/about.css';
-import MainLayout from "../../components/MainLayout.astro";
-import { Image } from "astro:assets";
-import img0 from "../../assets/images/eka_pada_sirsasana_elinore_burke.png";
+import "../../styles/about.css";
 
 <MainLayout title={frontmatter.title} description={frontmatter.description}>
   <div class="page-header">
@@ -16,55 +13,31 @@ import img0 from "../../assets/images/eka_pada_sirsasana_elinore_burke.png";
     </div>
   </div>
 
-  <section class="section">
-    <div class="container animate-fade-in-delay">
-      <div class="surface about-content">
-        <div class="content-block">
-          <Image src={img0} alt="Eka Pada Sirsasana" class="about-image" style="width: 50%; height: auto;" loading="eager" />
+<TeacherSection
+  image="../../assets/images/eka_pada_sirsasana_elinore_burke.png"
+  alt="Eka Pada Sirsasana"
+  paragraphs={[
+    {
+      text: "**Elinore has practiced yoga since 1996 and taught since 2004.** She began her journey with the Bihar School of Yoga in Northern India and explored Vipassana meditation through extended silent retreats. In New York, she discovered Ashtanga Yoga with Eddie Stern and was captivated by its meditative flow. It has been her daily practice since 2001.",
+    },
+    {
+      text: "She is a Level 2 Authorized teacher by KPJAYI/SYC in Mysore, India. Her studies began there in 2004 with the late Sri K. Pattabhi Jois and continued for many years with his grandson, Sharath Jois. She also holds a Yoga Therapy qualification from Yogacampus in London (2016) and completed a Mindfulness Meditation Teacher Training with Christopher Titmuss (2018).",
+    },
+    {
+      text: "For Elinore, yoga is a way to connect more deeply with the unfolding of life. She teaches traditional Ashtanga Yoga as it was transmitted to her over many years of study in Mysore. Rooted in yoga therapy and meditation, her classes invite students into a process of self-discovery that nurtures awareness and inner strength.",
+    },
+  ]}
+/>
 
-          <p><strong>Elinore has practiced yoga since 1996 and taught since 2004.</strong> She began her journey with the Bihar School of Yoga in Northern India and explored Vipassana meditation through extended silent retreats. In New York, she discovered Ashtanga Yoga with Eddie Stern and was captivated by its meditative flow. It has been her daily practice since 2001.</p>
-          <p>She is a Level 2 Authorized teacher by KPJAYI/SYC in Mysore, India. Her studies began there in 2004 with the late Sri K. Pattabhi Jois and continued for many years with his grandson, Sharath Jois. She also holds a Yoga Therapy qualification from Yogacampus in London (2016) and completed a Mindfulness Meditation Teacher Training with Christopher Titmuss (2018).</p>
-          <p>For Elinore, yoga is a way to connect more deeply with the unfolding of life. She teaches traditional Ashtanga Yoga as it was transmitted to her over many years of study in Mysore. Rooted in yoga therapy and meditation, her classes invite students into a process of self-discovery that nurtures awareness and inner strength.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section bg-light testimonials-section">
-    <div class="container">
-      <h2 class="text-center text-secondary mb-4">Testimonials</h2>
-
-      <div class="testimonials-grid">
-        <div class="surface testimonial-card">
-          <p>"Good teachers know how to teach. Great teachers are holding a space for their students to learn. Elinore's way of sharing her knowledge and experience of the practice is always precise, calm and encouraging."</p>
-          <div class="author">— Julia, Berlin</div>
-        </div>
-
-        <div class="surface testimonial-card">
-          <p>"Elinore introduced me to self practice, the reason I fell in love with Ashtanga. Although we no longer live in the same city, I attend her classes whenever I get the opportunity. She is a serious and disciplined teacher, but also one with warmth, tenderness and understanding."</p>
-          <div class="author">— Sean, London</div>
-        </div>
-
-        <div class="surface testimonial-card">
-          <p>"I met Elinore at the beginning of my Ashtanga journey. Her deep knowledge of yoga, trust in the practice and her relaxed nature helped me tremendously to gain confidence and settle into my own practice. In the Mysore room she creates an atmosphere where everyone feels seen and well cared for."</p>
-          <div class="author">— Thorben, Göttingen</div>
-        </div>
-
-        <div class="surface testimonial-card">
-          <p>"Elinore was my yoga teacher for 6 years in Berlin. She was very attentive and I loved her precise instructions and the way she would gently push me deeper into the pose. After each session I felt very balanced and grateful. I learned to trust her completely and loved her attentive, heart-warming manner."</p>
-          <div class="author">— Claudia, Berlin</div>
-        </div>
-
-        <div class="surface testimonial-card">
-          <p>"I am very grateful for the practice with Elinore, and wish I would have had more time to learn from her. I have seen her teaching absolute beginners and advanced practitioners alike with the same patient manner. With her many years of experience, deep understanding of the practice and kind soul, she is an absolute inspiration of a yoga teacher."</p>
-          <div class="author">— Hanna, Australia</div>
-        </div>
-
-        <div class="surface testimonial-card">
-          <p>"Elinore's knowledge of and enthusiasm for Ashtanga yoga is both astounding and inspiring. She practices and teaches with such sincere conviction that it encourages the student to share her immense enthusiasm. Her friendly, easy-going nature makes you feel comfortable from the first class, whatever your ability. You will leave her class feeling you have had expert guidance and made a great friend."</p>
-          <div class="author">— Johanna, London</div>
-        </div>
-      </div>
-    </div>
-  </section>
+  <TestimonialsSection
+    title="Testimonials"
+    items={[
+{ text: "\"Good teachers know how to teach. Great teachers are holding a space for their students to learn. Elinore's way of sharing her knowledge and experience of the practice is always precise, calm and encouraging.\"", author: "Julia, Berlin" },
+{ text: "\"Elinore introduced me to self practice, the reason I fell in love with Ashtanga. Although we no longer live in the same city, I attend her classes whenever I get the opportunity. She is a serious and disciplined teacher, but also one with warmth, tenderness and understanding.\"", author: "Sean, London" },
+{ text: "\"I met Elinore at the beginning of my Ashtanga journey. Her deep knowledge of yoga, trust in the practice and her relaxed nature helped me tremendously to gain confidence and settle into my own practice. In the Mysore room she creates an atmosphere where everyone feels seen and well cared for.\"", author: "Thorben, Göttingen" },
+{ text: "\"Elinore was my yoga teacher for 6 years in Berlin. She was very attentive and I loved her precise instructions and the way she would gently push me deeper into the pose. After each session I felt very balanced and grateful. I learned to trust her completely and loved her attentive, heart-warming manner.\"", author: "Claudia, Berlin" },
+{ text: "\"I am very grateful for the practice with Elinore, and wish I would have had more time to learn from her. I have seen her teaching absolute beginners and advanced practitioners alike with the same patient manner. With her many years of experience, deep understanding of the practice and kind soul, she is an absolute inspiration of a yoga teacher.\"", author: "Hanna, Australia" },
+{ text: "\"Elinore's knowledge of and enthusiasm for Ashtanga yoga is both astounding and inspiring. She practices and teaches with such sincere conviction that it encourages the student to share her immense enthusiasm. Her friendly, easy-going nature makes you feel comfortable from the first class, whatever your ability. You will leave her class feeling you have had expert guidance and made a great friend.\"", author: "Johanna, London" }
+]}
+  />
 </MainLayout>

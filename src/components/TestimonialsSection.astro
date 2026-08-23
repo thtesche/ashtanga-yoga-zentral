@@ -1,0 +1,74 @@
+---
+/**
+ * A single testimonial entry. Both fields are plain strings so AstroCMS can
+ * edit the list in its table editor (one row per quote).
+ */
+interface Testimonial {
+  /** The quote text. */
+  text: string;
+  /** Attribution, e.g. "Julia, Berlin". */
+  author: string;
+}
+
+interface Props {
+  /** Section heading (e.g. "Testimonials" / "Erfahrungsberichte"). */
+  title?: string;
+  /** Testimonials to render (content lives in the MDX file, CMS-editable). */
+  items: Testimonial[];
+}
+
+const { title, items = [] } = Astro.props;
+---
+
+<section class="section bg-light testimonials-section">
+  <div class="container">
+    {
+      title && (
+        <h2 class="testimonials-title text-center text-secondary">{title}</h2>
+      )
+    }
+
+    <div class="testimonials-grid">
+      {
+        items.map((item) => (
+          <div class="surface testimonial-card">
+            <p>{item.text}</p>
+            <div class="author">— {item.author}</div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials-title {
+    margin-bottom: 4rem;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .testimonial-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .testimonial-card p {
+    font-style: italic;
+    flex-grow: 1;
+    color: #4a5550;
+  }
+
+  .author {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    color: var(--color-primary);
+    text-align: right;
+    margin-top: 1.5rem;
+  }
+</style>
