@@ -18,6 +18,11 @@ import { getAbsoluteLocaleUrl } from "astro:i18n";
 
 interface Props {
   title: string;
+  /**
+   * Optional full <title> override. When set, the " | Ashtanga Yoga Zentral"
+   * suffix is skipped (e.g. for titles that already contain the brand name).
+   */
+  fullTitle?: string;
   description?: string;
   structuredData?: any;
   /**
@@ -28,7 +33,7 @@ interface Props {
   canonical?: string;
 }
 
-const { title, description, structuredData, canonical } = Astro.props;
+const { title, fullTitle, description, structuredData, canonical } = Astro.props;
 // Derive locale from URL path. Astro.url.pathname includes base path.
 // Check if the path contains /de (works with or without base prefix).
 const rawPath = Astro.url?.pathname || "/";
@@ -107,7 +112,7 @@ const defaultDescription =
       href={getAbsoluteLocaleUrl("en", localizedPath)}
     />
 
-    <title>{title} | Ashtanga Yoga Zentral</title>
+    <title>{fullTitle ?? `${title} | Ashtanga Yoga Zentral`}</title>
 
     <!-- Google Tag Manager (GA4) - Loaded conditionally via CookieConsent -->
     <script is:inline>
