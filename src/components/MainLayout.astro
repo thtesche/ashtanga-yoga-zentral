@@ -20,9 +20,15 @@ interface Props {
   title: string;
   description?: string;
   structuredData?: any;
+  /**
+   * Optional canonical URL override. Defaults to a self-referencing
+   * canonical built from the configured site (https + www), so EN/DE
+   * duplicates and apex/non-www domain variants consolidate correctly.
+   */
+  canonical?: string;
 }
 
-const { title, description, structuredData } = Astro.props;
+const { title, description, structuredData, canonical } = Astro.props;
 // Derive locale from URL path. Astro.url.pathname includes base path.
 // Check if the path contains /de (works with or without base prefix).
 const rawPath = Astro.url?.pathname || "/";
@@ -31,6 +37,11 @@ let currentLang: keyof typeof i18nData = rawPath.includes("/de") ? "de" : "en";
 // Locale-independent path for hreflang tags (e.g. /de/faq -> faq, / -> '')
 const localizedPath =
   rawPath === "/" ? "" : rawPath.replace("/de", "").replace(/\/$/, "");
+
+// Self-referencing canonical: same source as the hreflang tags above, so it
+// always points at this page's own locale URL on the configured site.
+const canonicalUrl =
+  canonical ?? getAbsoluteLocaleUrl(currentLang, localizedPath);
 
 const currentFooter = i18nData[currentLang].footer;
 
@@ -48,6 +59,8 @@ const defaultDescription =
     <meta name="description" content={description || defaultDescription} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <!-- Self-referencing canonical (normalizes domain + locale duplicates) -->
+    <link rel="canonical" href={canonicalUrl} />
     <!-- Preload critical fonts to break the request chain -->
     <link
       rel="preload"

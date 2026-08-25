@@ -294,6 +294,41 @@ for (const rel of hreflangPages) {
   }
 }
 
+// ── Canonical tags ─────────────────────────────────────
+console.log("\nCanonical tags:");
+const canonicalRegex = /<link\s+rel="canonical"\s+href="([^"]*)"/g;
+
+// Content pages: exactly one self-referencing canonical on the configured domain.
+for (const route of [...enRoutes, ...deRoutes]) {
+  const html = readHTML(route);
+  const canonicals = [...html.matchAll(canonicalRegex)].map((m) => m[1]);
+  assert(
+    canonicals.length === 1,
+    `${route} has exactly one canonical tag`,
+  );
+  const expected = domain + "/" + route.replace(/index\.html$/, "");
+  assert(
+    canonicals[0] === expected,
+    `${route} canonical is self-referencing: ${expected}`,
+  );
+}
+
+// Fallback redirect pages (DE without German counterpart): canonical points
+// at the English destination, matching the meta-refresh target.
+for (const fb of [
+  { de: "de/about/index.html", en: domain + "/about/" },
+  { de: "de/contact/index.html", en: domain + "/contact/" },
+  { de: "de/legal_notice/index.html", en: domain + "/legal_notice/" },
+  { de: "de/gdpr/index.html", en: domain + "/gdpr/" },
+]) {
+  const html = readHTML(fb.de);
+  const canonicals = [...html.matchAll(canonicalRegex)].map((m) => m[1]);
+  assert(
+    canonicals.length === 1 && canonicals[0] === fb.en,
+    `${fb.de} canonical points to EN destination: ${fb.en}`,
+  );
+}
+
 // ── FAQPage structured data ────────────────────────────────────────
 console.log("\nFAQPage JSON-LD:");
 const enFaq = readHTML("faq/index.html");
