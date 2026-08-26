@@ -315,6 +315,72 @@ for (const rel of hreflangPages) {
   }
 }
 
+// Page pairs whose EN/DE slugs differ must cross-reference each other via
+// hreflang (not point at redirect pages or 404s).
+console.log("\nHreflang counterparts (mismatched slugs):");
+const counterpartPages = [
+  { rel: "about/index.html", en: domain + "/about/", de: domain + "/de/ueber_uns/" },
+  { rel: "contact/index.html", en: domain + "/contact/", de: domain + "/de/kontakt/" },
+  { rel: "gdpr/index.html", en: domain + "/gdpr/", de: domain + "/de/datenschutz/" },
+  {
+    rel: "legal_notice/index.html",
+    en: domain + "/legal_notice/",
+    de: domain + "/de/impressum/",
+  },
+  {
+    rel: "de/ueber_uns/index.html",
+    en: domain + "/about/",
+    de: domain + "/de/ueber_uns/",
+  },
+  {
+    rel: "de/kontakt/index.html",
+    en: domain + "/contact/",
+    de: domain + "/de/kontakt/",
+  },
+  {
+    rel: "de/datenschutz/index.html",
+    en: domain + "/gdpr/",
+    de: domain + "/de/datenschutz/",
+  },
+  {
+    rel: "de/impressum/index.html",
+    en: domain + "/legal_notice/",
+    de: domain + "/de/impressum/",
+  },
+];
+for (const p of counterpartPages) {
+  const html = readHTML(p.rel);
+  const hrefFor = (lang) => {
+    const m = html.match(new RegExp(`hreflang="${lang}"\\s+href="([^"]*)"`));
+    return m ? m[1] : null;
+  };
+  assert(hrefFor("en") === p.en, `${p.rel} hreflang=en -> ${p.en}`);
+  assert(hrefFor("de") === p.de, `${p.rel} hreflang=de -> ${p.de}`);
+}
+
+// Language switcher links to the counterpart page, not the home page.
+// (getRelativeLocaleUrl emits root-absolute hrefs in this setup.)
+console.log("\nLanguage switcher (counterpart pages):");
+const switcherChecks = [
+  { rel: "de/datenschutz/index.html", enHref: 'href="/gdpr/"' },
+  { rel: "de/impressum/index.html", enHref: 'href="/legal_notice/"' },
+  { rel: "de/ueber_uns/index.html", enHref: 'href="/about/"' },
+  { rel: "de/kontakt/index.html", enHref: 'href="/contact/"' },
+  { rel: "gdpr/index.html", deHref: 'href="/de/datenschutz/"' },
+  { rel: "legal_notice/index.html", deHref: 'href="/de/impressum/"' },
+  { rel: "about/index.html", deHref: 'href="/de/ueber_uns/"' },
+  { rel: "contact/index.html", deHref: 'href="/de/kontakt/"' },
+];
+for (const s of switcherChecks) {
+  const html = readHTML(s.rel);
+  if (s.enHref) {
+    assert(html.includes(s.enHref), `${s.rel} EN switcher links to ${s.enHref}`);
+  }
+  if (s.deHref) {
+    assert(html.includes(s.deHref), `${s.rel} DE switcher links to ${s.deHref}`);
+  }
+}
+
 // ── Canonical tags ─────────────────────────────────────
 console.log("\nCanonical tags:");
 const canonicalRegex = /<link\s+rel="canonical"\s+href="([^"]*)"/g;

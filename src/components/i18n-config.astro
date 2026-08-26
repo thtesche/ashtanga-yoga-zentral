@@ -73,4 +73,32 @@ export function getLocalizedLink(locale: string, path: string) {
   }
   return getRelativeLocaleUrl(locale, path);
 }
+
+/**
+ * Explicit slug mapping for page pairs whose EN and DE slugs differ.
+ * Pages not listed here use the same slug in both locales (e.g. "faq", "").
+ */
+export const localeSlugMap: Record<SupportedLocale, Partial<Record<string, string>>> = {
+  en: {
+    about: "ueber_uns",
+    contact: "kontakt",
+    gdpr: "datenschutz",
+    legal_notice: "impressum",
+  },
+  de: {
+    ueber_uns: "about",
+    kontakt: "contact",
+    datenschutz: "gdpr",
+    impressum: "legal_notice",
+  },
+};
+
+/**
+ * Returns the slug of the counterpart page in the other locale.
+ * Falls back to the given slug when no explicit mapping exists
+ * (same-slug pages like "faq" and the home page "").
+ */
+export function getCounterpartSlug(fromLocale: SupportedLocale, slug: string): string {
+  return localeSlugMap[fromLocale][slug] ?? slug;
+}
 ---

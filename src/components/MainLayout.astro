@@ -13,7 +13,11 @@ import outfit600Url from "@fontsource/outfit/files/outfit-latin-600-normal.woff2
 import Navigation from "../components/Navigation.astro";
 import CookieConsent from "../components/CookieConsent.astro";
 import JsonLd from "../components/JsonLd.astro";
-import { i18nData, getLocalizedLink } from "../components/i18n-config.astro";
+import {
+  i18nData,
+  getLocalizedLink,
+  getCounterpartSlug,
+} from "../components/i18n-config.astro";
 import { getAbsoluteLocaleUrl } from "astro:i18n";
 
 interface Props {
@@ -35,16 +39,26 @@ interface Props {
 
 const { title, fullTitle, description, structuredData, canonical } = Astro.props;
 // Derive locale from URL path. Astro.url.pathname includes base path.
-// Check if the path contains /de (works with or without base prefix).
+// The German locale is identified by the /de prefix (not a substring match,
+// so English slugs starting with "de" are not misdetected).
 const rawPath = Astro.url?.pathname || "/";
-let currentLang: keyof typeof i18nData = rawPath.includes("/de") ? "de" : "en";
+const isGerman = rawPath === "/de" || rawPath.startsWith("/de/");
+let currentLang: keyof typeof i18nData = isGerman ? "de" : "en";
 
-// Locale-independent path for hreflang tags (e.g. /de/faq -> faq, / -> '')
-const localizedPath =
-  rawPath === "/" ? "" : rawPath.replace("/de", "").replace(/\/$/, "");
+// Locale-independent slug of the current page (e.g. /de/faq -> faq, / -> '')
+const localizedPath = isGerman
+  ? rawPath.replace(/^\/de(\/|$)/, "").replace(/\/$/, "")
+  : rawPath.replace(/^\//, "").replace(/\/$/, "");
 
-// Self-referencing canonical: same source as the hreflang tags above, so it
-// always points at this page's own locale URL on the configured site.
+// Counterpart slugs for the hreflang tags: page pairs whose EN/DE slugs
+// differ (e.g. gdpr <-> datenschutz) are mapped explicitly, see localeSlugMap.
+const enHreflangSlug =
+  currentLang === "de" ? getCounterpartSlug("de", localizedPath) : localizedPath;
+const deHreflangSlug =
+  currentLang === "en" ? getCounterpartSlug("en", localizedPath) : localizedPath;
+
+// Self-referencing canonical: always points at this page's own locale URL
+// on the configured site (unlike the hreflang tags, which use counterpart slugs).
 const canonicalUrl =
   canonical ?? getAbsoluteLocaleUrl(currentLang, localizedPath);
 
@@ -95,21 +109,21 @@ const defaultDescription =
       type="font/woff2"
       crossorigin
     />
-    <!-- Hreflang tags for SEO i18n -->
+    <!-- Hreflang tags for SEO i18n (counterpart slugs via localeSlugMap) -->
     <link
       rel="alternate"
       hreflang="en"
-      href={getAbsoluteLocaleUrl("en", localizedPath)}
+      href={getAbsoluteLocaleUrl("en", enHreflangSlug)}
     />
     <link
       rel="alternate"
       hreflang="de"
-      href={getAbsoluteLocaleUrl("de", localizedPath)}
+      href={getAbsoluteLocaleUrl("de", deHreflangSlug)}
     />
     <link
       rel="alternate"
       hreflang="x-default"
-      href={getAbsoluteLocaleUrl("en", localizedPath)}
+      href={getAbsoluteLocaleUrl("en", enHreflangSlug)}
     />
 
     <title>{fullTitle ?? `${title} | Ashtanga Yoga Zentral`}</title>

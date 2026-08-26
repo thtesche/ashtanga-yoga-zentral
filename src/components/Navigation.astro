@@ -1,15 +1,33 @@
 ---
 import { Image } from "astro:assets";
-import { i18nData, getLocalizedLink } from "./i18n-config.astro";
+import {
+  i18nData,
+  getLocalizedLink,
+  getCounterpartSlug,
+} from "./i18n-config.astro";
 import logo from "../assets/images/logo.webp";
 import flagEn from "../assets/images/flag-en.svg";
 import flagDe from "../assets/images/flag-de.svg";
 
 // Derive locale from URL path. Astro.url.pathname includes base path.
-// Check if the path contains /de (works with or without base prefix).
+// The German locale is identified by the /de prefix (not a substring match,
+// so English slugs starting with "de" are not misdetected).
 const rawPath = Astro.url?.pathname || "/";
-let currentLang: keyof typeof i18nData = rawPath.includes("/de") ? "de" : "en";
+const isGerman = rawPath === "/de" || rawPath.startsWith("/de/");
+let currentLang: keyof typeof i18nData = isGerman ? "de" : "en";
 const currentNav = i18nData[currentLang].nav;
+
+// Slug of the current page without locale prefix (e.g. /de/faq -> faq, / -> '')
+const currentSlug = isGerman
+  ? rawPath.replace(/^\/de(\/|$)/, "").replace(/\/$/, "")
+  : rawPath.replace(/^\//, "").replace(/\/$/, "");
+
+// The language switcher links to the counterpart page in the other locale
+// (e.g. /de/datenschutz -> /gdpr), not to the home page.
+const enSwitcherSlug =
+  currentLang === "de" ? getCounterpartSlug("de", currentSlug) : currentSlug;
+const deSwitcherSlug =
+  currentLang === "en" ? getCounterpartSlug("en", currentSlug) : currentSlug;
 
 const navItems = [
   { key: "home", label: currentNav.home.label, path: currentNav.home.path },
@@ -61,14 +79,14 @@ const navItems = [
 
       <div class="lang-switcher" role="menuitem">
         <a
-          href={getLocalizedLink("en", currentNav.home.path)}
+          href={getLocalizedLink("en", enSwitcherSlug)}
           class={currentLang === "en" ? "active" : ""}
           title="English"
         >
           <Image src={flagEn} alt="EN" width="20" height="14" loading="eager" />
         </a>
         <a
-          href={getLocalizedLink("de", currentNav.home.path)}
+          href={getLocalizedLink("de", deSwitcherSlug)}
           class={currentLang === "de" ? "active" : ""}
           title="Deutsch"
         >
