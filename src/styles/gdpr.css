@@ -39,3 +39,27 @@
 .surface {
   background: var(--color-white, #fff);
 }
+
+/* --- Content blocks (Datenschutz / Privacy Policy) ---
+   Replaces former Tailwind utility classes that are not available in this project. */
+.gdpr-subsection {
+  font-weight: 700;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.gdpr-question {
+  font-weight: 600;
+}
+
+.gdpr-source {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.gdpr-source-heading {
+  font-weight: 700;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.25rem;
+}

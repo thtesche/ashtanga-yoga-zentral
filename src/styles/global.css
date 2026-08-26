@@ -1,7 +1,8 @@
 /* Fonts are now imported in MainLayout.astro via @fontsource */
 
 :root {
-  --color-bg: #faf8f5;
+  /* Base background matches .bg-light so all content sections share one uniform color */
+  --color-bg: #f8f5f0;
   --color-text: #2c3531;
   --color-primary: #637b69;
   --color-primary-hover: #4c6051;
@@ -218,7 +219,8 @@ main {
   background-color: var(--color-text);
   color: #fff;
   padding: 4rem 0 0;
-  margin-top: 4rem;
+  /* No extra top margin: the last .section already provides 5rem bottom padding */
+  margin-top: 0;
 }
 
 .footer-container {
