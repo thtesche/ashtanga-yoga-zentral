@@ -228,8 +228,20 @@ for (const file of mdxFiles) {
         : `${rel}/index.html`;
   const html = readHTML(rel);
   const metaMatch = html.match(/name="description"\s+content="([^"]*)"/);
+  // Decode HTML entities so e.g. "&" in frontmatter matches "&amp;" in output
+  const entityMap = {
+    "&amp;": "&",
+    "&lt;": "<",
+    "&gt;": ">",
+    "&quot;": '"',
+    "&#39;": "'",
+    "&apos;": "'",
+  };
+  const actual =
+    metaMatch &&
+    metaMatch[1].replace(/&(?:amp|lt|gt|quot|#39|apos);/g, (m) => entityMap[m]);
   assert(
-    metaMatch && metaMatch[1] === expected,
+    metaMatch && actual === expected,
     `${rel} meta description matches frontmatter`,
   );
 }
@@ -248,12 +260,12 @@ const ldPages = [
   {
     path: "retreats/index.html",
     name: "EN Retreats",
-    types: ["YogaStudio", "Event"],
+    types: ["YogaStudio"],
   },
   {
     path: "de/retreats/index.html",
     name: "DE Retreats",
-    types: ["YogaStudio", "Event"],
+    types: ["YogaStudio"],
   },
 ];
 
@@ -270,6 +282,15 @@ for (const page of ldPages) {
       `${page.name} contains @type: ${type}`,
     );
   }
+}
+
+// Past retreats must not be advertised as scheduled/in-stock events.
+for (const page of ldPages.filter((p) => p.path.includes("retreats"))) {
+  const html = readHTML(page.path);
+  assert(
+    !html.includes("EventScheduled") && !html.includes("InStock"),
+    `${page.name} has no stale scheduled-event JSON-LD`,
+  );
 }
 
 // ── Hreflang tags ───────────────────────────────────────
