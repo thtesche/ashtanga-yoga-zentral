@@ -147,6 +147,44 @@ if (fs.existsSync(sitemapFile)) {
   assert(sitemap.includes("<?xml"), "Sitemap is valid XML (has declaration)");
   assert(sitemap.includes("/de/"), "Sitemap references DE routes");
   assert(sitemap.includes("/about"), "Sitemap references EN about route");
+
+  // Noindex fallback redirect pages (EN-only slugs under /de/) must not be in the sitemap
+  const noindexRedirectPaths = [
+    "/de/about/",
+    "/de/contact/",
+    "/de/gdpr/",
+    "/de/legal_notice/",
+  ];
+  for (const p of noindexRedirectPaths) {
+    assert(!sitemap.includes(p), `Sitemap excludes noindex redirect: ${p}`);
+  }
+
+  // All real pages must still be present (full URLs, base is "")
+  const sitemapSite = "https://www.ashtangayogazentralberlin.de";
+  const sitemapPages = [
+    "/",
+    "/about/",
+    "/contact/",
+    "/faq/",
+    "/gdpr/",
+    "/legal_notice/",
+    "/moondays/",
+    "/retreats/",
+    "/de/",
+    "/de/ueber_uns/",
+    "/de/kontakt/",
+    "/de/faq/",
+    "/de/datenschutz/",
+    "/de/impressum/",
+    "/de/moondays/",
+    "/de/retreats/",
+  ];
+  for (const p of sitemapPages) {
+    assert(
+      sitemap.includes(`${sitemapSite}${p}</loc>`),
+      `Sitemap includes page: ${p}`,
+    );
+  }
 }
 
 // ── Fallback redirects ──────────────────────────────────────────
