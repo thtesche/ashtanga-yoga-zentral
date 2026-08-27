@@ -1,0 +1,14 @@
+---
+import { getLocalizedLink } from "./i18n-config.astro";
+
+interface Props {
+  /** Locale the link should point to ("en" | "de"). */
+  locale: string;
+  /** Slug of the target page ("" for the home page). */
+  to: string;
+}
+
+const { locale, to } = Astro.props;
+---
+
+<a href={getLocalizedLink(locale, to)}><slot /></a>

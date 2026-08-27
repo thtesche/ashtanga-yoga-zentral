@@ -535,6 +535,39 @@ assert(
   "cookieConsentManager global kept (used by CookieResetButton)",
 );
 
+// ── Contact form hardening ─────────────────────────────────────
+console.log("\nContact form hardening:");
+const contactPages = [
+  { file: "contact/index.html", faqHref: "/faq/", label: "EN" },
+  { file: "de/kontakt/index.html", faqHref: "/de/faq/", label: "DE" },
+];
+for (const page of contactPages) {
+  const html = readHTML(page.file);
+  assert(html.includes('name="botcheck"'), `${page.label}: Web3Forms honeypot present`);
+  assert(
+    !html.includes("innerHTML = data.message"),
+    `${page.label}: no innerHTML injection of server message (XSS)`,
+  );
+  assert(
+    html.includes("result.textContent"),
+    `${page.label}: form feedback uses textContent`,
+  );
+  assert(
+    html.includes("try {") && html.includes("catch"),
+    `${page.label}: fetch wrapped in try/catch`,
+  );
+  assert(
+    html.includes(`href="${page.faqHref}"`),
+    `${page.label}: FAQ link localized (${page.faqHref})`,
+  );
+  // MDX wraps multi-line text inside <p> in its own <p>, producing invalid
+  // nested paragraphs that break Prettier's postbuild parse.
+  assert(
+    !html.includes("</p></p>"),
+    `${page.label}: no nested/double </p> (invalid HTML)`,
+  );
+}
+
 // ── Summary ─────────────────────────────────────────────────────
 console.log(`\n${"=".repeat(50)}`);
 console.log(`Total: ${total} | Passed: ${passed} | Failed: ${failures.length}`);

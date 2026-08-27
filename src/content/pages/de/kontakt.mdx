@@ -35,6 +35,15 @@ import MainLayout from "../../../components/MainLayout.astro";
           <form id="form">
             <input type="hidden" name="access_key" value={import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY} />
 
+            {/* Web3Forms honeypot: hidden from humans, filled by bots */}
+            <input
+              type="text"
+              name="botcheck"
+              style="display: none;"
+              tabindex="-1"
+              autocomplete="off"
+            />
+
             <div class="form-group">
               <label for="name">Name (erforderlich)</label>
 
@@ -53,10 +62,10 @@ import MainLayout from "../../../components/MainLayout.astro";
               <textarea id="message" name="message" rows="6" required />
             </div>
 
-            <div id="result" />
+            <div id="result" role="status" aria-live="polite"></div>
 
             <button type="submit" class="btn btn-submit">Nachricht senden</button>
-            <p class="faq-link">Vielleicht findest du Antworten auf unserer <a href="/de/faq">FAQ-Seite</a>.</p>
+            <p class="faq-link">Vielleicht findest du Antworten auf unserer <LocalizedLink locale="de" to="faq">FAQ-Seite</LocalizedLink>.</p>
           </form>
         </div>
       </div>
@@ -72,20 +81,24 @@ import MainLayout from "../../../components/MainLayout.astro";
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      result.innerHTML = "Sende...";
+      result.textContent = "Sende...";
 
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: new FormData(form),
-      });
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          body: new FormData(form),
+        });
 
-      const data = await response.json();
-      if (data.success) {
-        result.innerHTML = "Vielen Dank für Ihre Nachricht. Sie wurde gesendet.";
-        form.reset();
-      } else {
-        result.innerHTML = data.message;
+        const data = await response.json();
+        if (data.success) {
+          result.textContent = "Vielen Dank für Ihre Nachricht. Sie wurde gesendet.";
+          form.reset();
+        } else {
+          result.textContent = data.message || "Etwas ist schiefgelaufen. Bitte versuche es erneut.";
+        }
+      } catch {
+        result.textContent = "Etwas ist schiefgelaufen. Bitte versuche es erneut.";
       }
     });
-    `}
+  `}
 </script>
