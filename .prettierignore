@@ -1,0 +1,6 @@
+# Prettier ignore file for the postbuild step.
+#
+# IMPORTANT: This file must be passed explicitly via --ignore-path in the
+# "postbuild" script (see package.json). Without that flag, Prettier reads
+# BOTH .prettierignore AND .gitignore by default — and .gitignore excludes
+# dist/, so no build output would be formatted at all.

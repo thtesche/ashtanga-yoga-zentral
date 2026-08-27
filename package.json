@@ -4,9 +4,9 @@
   "version": "0.9.0",
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
+    "start": "astro preview",
     "build": "astro build",
-    "postbuild": "prettier --write \"dist/**/*.html\" --ignore-path ./.prettierignore-empty",
+    "postbuild": "prettier --write \"dist/**/*.html\" --ignore-path ./.prettierignore",
     "preview": "astro preview",
     "test": "node test/build-tests.js",
     "astro": "astro",
