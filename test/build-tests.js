@@ -274,6 +274,22 @@ for (const file of mdxFiles) {
   );
 }
 
+// ── No component imports in MDX (AstroCMS compatibility) ───────
+console.log("\nNo component imports in MDX:");
+for (const file of mdxFiles) {
+  const content = fs.readFileSync(file, "utf-8");
+  // AstroCMS edits MDX files directly and does not compile them, so component
+  // imports (MainLayout, Image from astro:assets, ...) would break the build.
+  // Components are provided via <Content components={mdxComponents} /> instead.
+  const badImport = content.match(
+    /import\s+[^;]*?from\s*["'][^"']*components\/|from\s*["']astro:assets["']/,
+  );
+  assert(
+    !badImport,
+    `${file} has no component imports (use mdxComponents)`,
+  );
+}
+
 // ── Meta descriptions match frontmatter ────────────────────────
 console.log("\nMeta descriptions:");
 for (const file of mdxFiles) {

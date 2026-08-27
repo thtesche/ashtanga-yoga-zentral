@@ -3,10 +3,7 @@ title: Morning Ashtanga Yoga Berlin
 description: Join Elinore Burke for morning Ashtanga Yoga (Mysore style) in Berlin. Classes are open to all levels, including beginners.
 ---
 
-import MainLayout from "../../components/MainLayout.astro";
-import { Image } from "astro:assets";
 import img3 from "../../assets/images/img_3_ashtanga_yoga_zentral_berlin_mysore_studio.webp";
-import { getLocalizedLink } from "../../components/i18n-config.astro";
 
 <MainLayout
   title={frontmatter.title}
@@ -96,7 +93,7 @@ import { getLocalizedLink } from "../../components/i18n-config.astro";
             </li>
 
             <li>
-              <strong>Closed on <a href={getLocalizedLink('en', 'moondays')}>Moondays</a></strong>
+              <strong>Closed on <LocalizedLink locale="en" to="moondays">Moondays</LocalizedLink></strong>
             </li>
           </ul>
         </div>
@@ -184,7 +181,7 @@ import { getLocalizedLink } from "../../components/i18n-config.astro";
 
         <hr class="divider" />
 
-        <p class="discount-note">Discount available due to financial difficulties. Please get in touch using the form on the <a href={getLocalizedLink('en', 'contact')}>Contact</a> page.</p>
+        <p class="discount-note">Discount available due to financial difficulties. Please get in touch using the form on the <LocalizedLink locale="en" to="contact">Contact</LocalizedLink> page.</p>
       </div>
     </div>
 
