@@ -207,6 +207,34 @@ for (const fb of fallbackRoutes) {
   );
 }
 
+// ── 404 page ─────────────────────────────────────────────────────
+console.log("\n404 page:");
+const notFoundPath = path.join(DIST, "404.html");
+assert(fs.existsSync(notFoundPath), "Custom 404 page exists: /404.html");
+if (fs.existsSync(notFoundPath)) {
+  const notFound = fs.readFileSync(notFoundPath, "utf-8");
+  assert(
+    notFound.includes('<html lang="en"'),
+    "404 page uses MainLayout (lang=en, default locale)",
+  );
+  assert(
+    notFound.includes('name="robots"') && notFound.includes("noindex"),
+    "404 page has noindex meta tag",
+  );
+  assert(
+    !notFound.includes('rel="canonical"'),
+    "404 page has no canonical tag (would point at a non-existent URL)",
+  );
+  assert(
+    !notFound.includes("hreflang"),
+    "404 page has no hreflang tags (would point at non-existent URLs)",
+  );
+  assert(
+    notFound.includes('href="/"') && notFound.includes("Back to home"),
+    "404 page links back to home",
+  );
+}
+
 // ── Language-consistent internal links ───────────────────────────
 console.log("\nLanguage-consistent internal links:");
 const deRetreats = readHTML("de/retreats/index.html");

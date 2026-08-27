@@ -35,9 +35,22 @@ interface Props {
    * duplicates and apex/non-www domain variants consolidate correctly.
    */
   canonical?: string;
+  /**
+   * For pages that should never be indexed (e.g. the 404 page): emits a
+   * noindex meta tag and suppresses canonical + hreflang, which would
+   * otherwise point at URLs that do not exist.
+   */
+  noindex?: boolean;
 }
 
-const { title, fullTitle, description, structuredData, canonical } = Astro.props;
+const {
+  title,
+  fullTitle,
+  description,
+  structuredData,
+  canonical,
+  noindex = false,
+} = Astro.props;
 // Derive locale from URL path. Astro.url.pathname includes base path.
 // The German locale is identified by the /de prefix (not a substring match,
 // so English slugs starting with "de" are not misdetected).
@@ -78,8 +91,13 @@ const defaultDescription =
     <meta name="description" content={description || defaultDescription} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <!-- Self-referencing canonical (normalizes domain + locale duplicates) -->
-    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {!
+      noindex && (
+        // Self-referencing canonical (normalizes domain + locale duplicates)
+        <link rel="canonical" href={canonicalUrl} />
+      )
+    }
     <!-- Preload critical fonts to break the request chain -->
     <link
       rel="preload"
@@ -109,22 +127,28 @@ const defaultDescription =
       type="font/woff2"
       crossorigin
     />
-    <!-- Hreflang tags for SEO i18n (counterpart slugs via localeSlugMap) -->
-    <link
-      rel="alternate"
-      hreflang="en"
-      href={getAbsoluteLocaleUrl("en", enHreflangSlug)}
-    />
-    <link
-      rel="alternate"
-      hreflang="de"
-      href={getAbsoluteLocaleUrl("de", deHreflangSlug)}
-    />
-    <link
-      rel="alternate"
-      hreflang="x-default"
-      href={getAbsoluteLocaleUrl("en", enHreflangSlug)}
-    />
+    {!
+      noindex && (
+        // Hreflang tags for SEO i18n (counterpart slugs via localeSlugMap)
+        <>
+          <link
+            rel="alternate"
+            hreflang="en"
+            href={getAbsoluteLocaleUrl("en", enHreflangSlug)}
+          />
+          <link
+            rel="alternate"
+            hreflang="de"
+            href={getAbsoluteLocaleUrl("de", deHreflangSlug)}
+          />
+          <link
+            rel="alternate"
+            hreflang="x-default"
+            href={getAbsoluteLocaleUrl("en", enHreflangSlug)}
+          />
+        </>
+      )
+    }
 
     <title>{fullTitle ?? `${title} | Ashtanga Yoga Zentral`}</title>
 
