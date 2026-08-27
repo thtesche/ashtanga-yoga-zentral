@@ -10,8 +10,8 @@ import fs from "fs";
 import path from "path";
 
 const DIST = path.resolve("dist");
-// CI builds with --base /ashtanga-yoga-zentral/; local builds use ''
-// Note: Astro puts files at root of dist/ regardless of base — base only affects hrefs
+// The site is served from the domain root (base: "" in astro.config.mjs).
+// Set BASE_PATH to test a build that was made with a base prefix.
 const BASE = (process.env.BASE_PATH || "").replace(/\/+$/, "") || "/";
 const failures = [];
 let passed = 0;
@@ -33,7 +33,7 @@ function readHTML(relative) {
 }
 
 function href(route) {
-  // Returns the href as it appears in HTML (e.g. '/ashtanga-yoga-zentral/de/kontakt/')
+  // Returns the href as it appears in HTML (e.g. '/de/kontakt/')
   const prefix = BASE === "/" ? "" : BASE.replace(/\/$/, "");
   return prefix + (route.startsWith("/") ? route : "/" + route) + "/";
 }

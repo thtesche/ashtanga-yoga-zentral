@@ -4,55 +4,58 @@
 
 This repository contains the source code for the official website of Ashtanga Yoga Zentral, a yoga studio located in Berlin. The website is built using **Astro**, a modern static site generator, and is designed to promote the studio's classes, services, and the specialized instruction provided by Elinore Burke.
 
-The goal of the website is to provide a clear, welcoming, and informative digital presence for the yoga community.
+The site is bilingual: English (default, no URL prefix) and German (`/de/`).
 
 ## 🚀 Getting Started
 
-Follow these steps to get the project running locally.
-
 ### Prerequisites
 
-- Node.js (Recommended LTS version)
-- npm (Node Package Manager)
+- Node.js (LTS)
+- npm
 
 ### Installation
 
 1.  **Clone the repository:**
     ```bash
-    git clone [repository-url]
-    cd ashtanga_yoga_zentral_astro
+    git clone https://github.com/thtesche/ashtanga-yoga-zentral.git
+    cd ashtanga-yoga-zentral
     ```
 2.  **Install dependencies:**
     ```bash
     npm install
     ```
-3.  **Start the development server:**
+3.  **(Optional) Configure the contact form:**
+    ```bash
+    cp .env.example .env
+    ```
+    The contact form uses [Web3Forms](https://web3forms.com/). The key in `.env.example` is a shared dev/test key — replace it with your own if you like.
+4.  **Start the development server:**
     ```bash
     npm run dev
     ```
     The site should now be accessible in your browser (usually at `http://localhost:4321/`).
 
+    > Note: build-only artifacts (e.g. `sitemap-0.xml`) do not exist in dev mode. To preview the production output, run `npm run build && npm run start`.
+
 ## 📝 Content Management (CMS)
 
 The site's content is managed with [AstroCMS](https://github.com/lonestone/astrocms), a database-free CMS that edits the MDX files in `src/content/pages/` directly (with visual editing, media uploads, and Git commit/push from the browser). Start it with `npm run astrocms` → <http://localhost:4001/astrocms>.
+
+MDX files must not import components — they are provided via `<Content components={mdxComponents} />`, which auto-discovers everything in `src/components/` (see `src/components/index.ts`).
 
 📖 Full documentation: [CMS.md](./CMS.md)
 
 ## 📂 Project Structure
 
-The website follows a standard Astro/frontend structure:
-
-- **`public/`**: Stores static assets like images (`images/`) and configuration files (`.nojekyll`).
-- **`src/`**: Contains all the core source code.
-  - **`pages/`**: Astro routing pages. This project uses internationalization (i18n) with English (`en`) and German (`de`) locales.
-    - `index.astro`: The main landing page (Home).
-    - `about.astro`: Information about the authorized teacher, Elinore Burke.
-    - `contact.astro`: Contact information and newsletter signup.
-    - `moon-days.astro`: Specific page related to class exceptions (Moondays).
-    - `retreats.astro`: Information about retreat packages.
-  - **`layouts/`**: Defines the reusable layout structure for the site (`MainLayout.astro`).
-  - **`components/`**: Contains reusable UI components (e.g., `Navigation.astro`, `CookieConsent.astro`).
-  - **`styles/`**: Global CSS styles (`global.css`).
+- **`public/`**: Static assets served as-is (`CNAME`, `favicon.png`, `robots.txt`).
+- **`src/pages/`**: Routing only — no page content.
+  - `[...slug].astro`: Catch-all route serving every English MDX entry from the `pages` content collection.
+  - `de/[...slug].astro`: Same for German entries; additionally emits noindex redirect pages for English-only slugs (e.g. `/de/contact/` → `/contact/`).
+  - `404.astro`: Custom not-found page.
+- **`src/content/pages/`**: All page content as MDX — English at the top level, German under `de/`. This is what AstroCMS edits.
+- **`src/components/`**: Reusable UI components (`MainLayout.astro`, `Navigation.astro`, `CookieConsent.astro`, …). `index.ts` auto-discovers them into `mdxComponents` for use in MDX.
+- **`src/styles/`**: Plain CSS — `global.css` plus one stylesheet per page.
+- **`test/build-tests.js`**: Zero-dependency test suite that validates the built `dist/` output.
 
 ## ✨ Key Features & Sections
 
@@ -71,34 +74,24 @@ The website is divided into several core areas:
 
 ## 🎨 Design & Styling
 
-- The project uses **Tailwind CSS** (implied by class names like `text-primary`, `bg-light`) and a custom CSS file (`src/styles/global.css`) for specific styling (e.g., `.hero-section`, `.testimonial-card`).
+- Plain, hand-written CSS: `src/styles/global.css` plus per-page stylesheets (e.g. `retreats.css`, `gdpr.css`). No CSS framework.
 - The color palette is defined by CSS variables, emphasizing primary and secondary colors relevant to yoga and mindfulness.
 
-## 🏗️ Build and Deployment
-
-To generate the optimized static assets for deployment (e.g., GitHub Pages, Netlify):
+## 🏗️ Build, Test & Deployment
 
 ```bash
-npm run build
+npm run build   # builds to dist/ (postbuild runs Prettier on the HTML output)
+npm test        # validates the built dist/ — run after npm run build
+npm run start   # serves the built site locally (astro preview)
 ```
 
-The resulting static files will be placed in the `dist/` directory.
+### Deployment
 
-### 🛠️ Development Workflow
+- **GitHub Pages** (primary): automatic on push to `main` via `.github/workflows/deploy.yml`. The Web3Forms key is injected from the GitHub variable `PUBLIC_WEB3FORMS_GITHUB_KEY`.
+- **GoDaddy SFTP** (manual): `.github/workflows/deploy-godaddy.yml`, triggered from the Actions tab. Uses `PUBLIC_WEB3FORMS_GODADDY_KEY`.
 
-1.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-2.  **Run development server:**
-    ```bash
-    npm run dev
-    ```
-3.  **Build for production:**
-    ```bash
-    npm run build
-    ```
+> ⚠️ The two targets are deployed independently — after a GoDaddy deploy, the SFTP copy can drift from GitHub Pages until it is re-run.
 
 ### 🧪 Linting and Formatting
 
-The project uses **Prettier** to ensure consistent code formatting. You can run the build process, which includes a post-build formatting step, or format files manually.
+The project uses **Prettier** to ensure consistent code formatting. The build process includes a post-build formatting step for `dist/`; you can also format files manually with `npx prettier --write <file>`.
