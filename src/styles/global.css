@@ -7,7 +7,6 @@
   --color-primary: #637b69;
   --color-primary-hover: #4c6051;
   --color-secondary: #d4bfa7;
-  --color-accent: #c26d5c;
   --color-surface: #ffffff;
   --color-border: #e8e3dd;
 
@@ -251,14 +250,6 @@ main {
   color: var(--color-secondary);
 }
 
-.footer-bottom {
-  text-align: center;
-  padding: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.9rem;
-}
-
 /* Styles from index.mdx (Shared components and structure) */
 
 .hero-section {
@@ -362,14 +353,6 @@ main {
   border-radius: 12px;
   font-weight: normal;
   color: var(--color-text);
-}
-
-.highlight-item {
-  background-color: rgba(194, 109, 92, 0.05);
-  padding: 1rem;
-  border-radius: 8px;
-  margin-top: 1rem;
-  border-bottom: none !important;
 }
 
 .pricing-grid {
@@ -537,20 +520,6 @@ main {
 
 .usc-prices li:last-child {
   border-bottom: none;
-}
-
-.badge-top {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-secondary);
-  color: #fff;
-  padding: 0.2rem 1rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-family: var(--font-heading);
-  white-space: nowrap;
 }
 
 .divider {

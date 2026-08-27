@@ -68,16 +68,16 @@ const navItems = [
       </div>
     </a>
 
-    <div class="nav-links" id="mobile-nav-links" role="menubar">
+    <div class="nav-links" id="mobile-nav-links">
       {
         navItems.map((item) => (
-          <a href={getLocalizedLink(currentLang, item.path)} role="menuitem">
+          <a href={getLocalizedLink(currentLang, item.path)}>
             {item.label}
           </a>
         ))
       }
 
-      <div class="lang-switcher" role="menuitem">
+      <div class="lang-switcher">
         <a
           href={getLocalizedLink("en", enSwitcherSlug)}
           class={currentLang === "en" ? "active" : ""}
@@ -286,15 +286,6 @@ const navItems = [
       outline-offset: 0.25rem;
       border-radius: 0.125rem;
     }
-  }
-
-  .btn-nav {
-    padding: 0.5rem 1.25rem;
-    color: #fff !important;
-  }
-
-  .btn-nav:hover {
-    color: #fff !important;
   }
 
   .mobile-menu-btn {

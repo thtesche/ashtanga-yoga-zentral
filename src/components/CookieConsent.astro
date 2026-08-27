@@ -104,19 +104,6 @@ const t = i18nData[currentLang].cookieConsent;
     background-color: #f5f5f5;
   }
 
-  .btn-reset {
-    background-color: transparent;
-    border: none;
-    text-decoration: underline;
-    color: var(--color-primary, #000);
-    font-size: 0.8rem;
-    cursor: pointer;
-  }
-
-  .btn-reset:hover {
-    opacity: 0.7;
-  }
-
   .hidden {
     display: none;
   }
@@ -152,13 +139,6 @@ const t = i18nData[currentLang].cookieConsent;
 
     if (declineBtn) {
       declineBtn.addEventListener("click", () => setConsent("declined"));
-    }
-
-    const resetBtn = document.getElementById("cookie-reset");
-    if (resetBtn) {
-      resetBtn.addEventListener("click", () =>
-        window.cookieConsentManager.resetConsent(),
-      );
     }
 
     // Initial check

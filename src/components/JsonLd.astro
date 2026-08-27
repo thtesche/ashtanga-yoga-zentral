@@ -9,15 +9,4 @@
 const { data } = Astro.props;
 ---
 
-<script is:inline>
-  /* Runtime fallback: if Astro SSR fails, inject JSON-LD client-side */
-  (function () {
-    var scripts = document.querySelectorAll(
-      'script[type="application/ld+json"]',
-    );
-    /* If any SSR-rendered scripts exist, do nothing */
-    if (scripts.length > 0) return;
-  })();
-</script>
-
 <script type="application/ld+json" set:html={JSON.stringify(data)} />

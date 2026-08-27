@@ -494,6 +494,47 @@ assert(deFaq.includes('"@type": "FAQPage"'), "DE FAQ has @type: FAQPage");
 assert(deFaq.includes('"@type": "Question"'), "DE FAQ has @type: Question");
 assert(deFaq.includes('"@type": "Answer"'), "DE FAQ has @type: Answer");
 
+// ── Code hygiene (dead code) ───────────────────────────────────
+console.log("\nCode hygiene (dead code):");
+const allCss = fs
+  .readdirSync(path.join(DIST, "_astro"))
+  .filter((f) => f.endsWith(".css"))
+  .map((f) => fs.readFileSync(path.join(DIST, "_astro", f), "utf-8"))
+  .join("\n");
+
+const deadCssSelectors = [
+  ".footer-bottom",
+  ".btn-nav",
+  ".highlight-item",
+  ".badge-top",
+];
+for (const sel of deadCssSelectors) {
+  assert(!allCss.includes(sel), `Dead CSS removed: ${sel}`);
+}
+assert(
+  !allCss.includes("--color-accent"),
+  "Dead CSS variable removed: --color-accent",
+);
+
+const enIndexHtml = readHTML("index.html");
+assert(!enIndexHtml.includes('role="menubar"'), "No ARIA menubar role in nav");
+assert(
+  !enIndexHtml.includes('role="menuitem"'),
+  "No ARIA menuitem role in nav",
+);
+assert(
+  !enIndexHtml.includes("Runtime fallback"),
+  "No no-op JSON-LD script in output",
+);
+assert(
+  !enIndexHtml.includes('getElementById("cookie-reset")'),
+  "No dead #cookie-reset listener",
+);
+assert(
+  enIndexHtml.includes("cookieConsentManager"),
+  "cookieConsentManager global kept (used by CookieResetButton)",
+);
+
 // ── Summary ─────────────────────────────────────────────────────
 console.log(`\n${"=".repeat(50)}`);
 console.log(`Total: ${total} | Passed: ${passed} | Failed: ${failures.length}`);
