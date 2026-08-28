@@ -6,8 +6,6 @@ import {
   getCounterpartSlug,
 } from "./i18n-config.astro";
 import logo from "../assets/images/logo.webp";
-import flagEn from "../assets/images/flag-en.svg";
-import flagDe from "../assets/images/flag-de.svg";
 
 // Derive locale from URL path. Astro.url.pathname includes base path.
 // The German locale is identified by the /de prefix (not a substring match,
@@ -22,12 +20,14 @@ const currentSlug = isGerman
   ? rawPath.replace(/^\/de(\/|$)/, "").replace(/\/$/, "")
   : rawPath.replace(/^\//, "").replace(/\/$/, "");
 
-// The language switcher links to the counterpart page in the other locale
-// (e.g. /de/datenschutz -> /gdpr), not to the home page.
-const enSwitcherSlug =
-  currentLang === "de" ? getCounterpartSlug("de", currentSlug) : currentSlug;
-const deSwitcherSlug =
-  currentLang === "en" ? getCounterpartSlug("en", currentSlug) : currentSlug;
+// Single language switcher: one text link to the counterpart page in the
+// other locale (e.g. /de/datenschutz -> /gdpr), not to the home page.
+// Flags symbolize countries, not languages — a text link with the ISO code
+// ("EN" / "DE") is unambiguous and screen-reader friendly. The `lang`
+// attribute marks the link text itself.
+const otherLang: keyof typeof i18nData = currentLang === "de" ? "en" : "de";
+const otherSwitcherSlug = getCounterpartSlug(currentLang, currentSlug);
+const otherLabel = currentLang === "de" ? "EN" : "DE";
 
 const navItems = [
   { key: "home", label: currentNav.home.label, path: currentNav.home.path },
@@ -77,22 +77,15 @@ const navItems = [
         ))
       }
 
-      <div class="lang-switcher">
-        <a
-          href={getLocalizedLink("en", enSwitcherSlug)}
-          class={currentLang === "en" ? "active" : ""}
-          title="English"
-        >
-          <Image src={flagEn} alt="EN" width="20" height="14" loading="eager" />
-        </a>
-        <a
-          href={getLocalizedLink("de", deSwitcherSlug)}
-          class={currentLang === "de" ? "active" : ""}
-          title="Deutsch"
-        >
-          <Image src={flagDe} alt="DE" width="20" height="14" loading="eager" />
-        </a>
-      </div>
+      <span class="nav-divider" aria-hidden="true"></span>
+
+      <a
+        href={getLocalizedLink(otherLang, otherSwitcherSlug)}
+        class="lang-switch"
+        lang={otherLang}
+      >
+        {otherLabel}
+      </a>
     </div>
 
     <!-- Mobile menu toggle -->
@@ -269,6 +262,24 @@ const navItems = [
     color: var(--color-primary);
   }
 
+  /* Decorative divider between the menu items and the language switcher,
+     so it reads as a separate control, not another nav item. */
+  .nav-divider {
+    width: 1px;
+    height: 1.5rem;
+    background-color: var(--color-border);
+  }
+
+  /* Single language switcher: plain text link to the other locale, like
+     the other nav links. min-height guarantees a >=44px touch target
+     (Lighthouse). Hover color comes from .nav-links a:hover. */
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-weight: 500;
+  }
+
   /* Mobile menu focus ring — always visible in mobile context */
   .nav-links a:focus {
     outline: 2px solid var(--color-primary);
@@ -320,10 +331,10 @@ const navItems = [
       margin-left: 0;
     }
 
-    .lang-switcher {
-      display: flex;
-      justify-content: center;
-      gap: 0.75rem;
+    /* In the stacked mobile menu the divider becomes a short horizontal line */
+    .nav-divider {
+      width: 3rem;
+      height: 1px;
     }
 
     .mobile-menu-btn {

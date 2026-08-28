@@ -65,23 +65,30 @@ assert(
 );
 assert(deIndex.includes("Kontakt"), 'DE index has German "Kontakt"');
 
-// ── Language switcher ──────────────────────────────────────────
+// ── Language switcher (single text link to the other language) ───────
 console.log("\nLanguage switcher:");
+// Flags symbolize countries, not languages — the switcher must be a text
+// link with the target language's ISO code, marked via `lang`.
+const switcherRe =
+  /<a[^>]*class="lang-switch[^"]*"[^>]*lang="(en|de)"[^>]*>(EN|DE)<\/a/;
+const enSwitcher = enIndex.match(switcherRe);
 assert(
-  enIndex.includes('title="Deutsch"'),
-  "EN index has Deutsch switcher link",
+  enSwitcher && enSwitcher[1] === "de" && enSwitcher[2] === "DE",
+  'EN index has single text switcher link: <a lang="de">DE</a>',
+);
+const deSwitcher = deIndex.match(switcherRe);
+assert(
+  deSwitcher && deSwitcher[1] === "en" && deSwitcher[2] === "EN",
+  'DE index has single text switcher link: <a lang="en">EN</a>',
 );
 assert(
-  enIndex.includes('title="English"'),
-  "EN index has English switcher link",
+  !enIndex.includes("flag-") && !deIndex.includes("flag-"),
+  "No flag icons in the language switcher",
 );
 assert(
-  deIndex.includes('title="Deutsch"'),
-  "DE index has Deutsch switcher link",
-);
-assert(
-  deIndex.includes('title="English"'),
-  "DE index has English switcher link",
+  enIndex.includes('class="nav-divider"') &&
+    deIndex.includes('class="nav-divider"'),
+  "Divider separates the language switcher from the menu items",
 );
 
 // Check that DE page has a link back to EN
@@ -455,11 +462,19 @@ const switcherChecks = [
 ];
 for (const s of switcherChecks) {
   const html = readHTML(s.rel);
+  // The single switcher link (class="lang-switch") must carry the counterpart
+  // href. Attributes may be rendered on separate lines, so allow whitespace.
   if (s.enHref) {
-    assert(html.includes(s.enHref), `${s.rel} EN switcher links to ${s.enHref}`);
+    assert(
+      new RegExp(`${s.enHref}\\s+class="lang-switch"`).test(html),
+      `${s.rel} EN switcher links to ${s.enHref}`,
+    );
   }
   if (s.deHref) {
-    assert(html.includes(s.deHref), `${s.rel} DE switcher links to ${s.deHref}`);
+    assert(
+      new RegExp(`${s.deHref}\\s+class="lang-switch"`).test(html),
+      `${s.rel} DE switcher links to ${s.deHref}`,
+    );
   }
 }
 
