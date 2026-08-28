@@ -25,7 +25,8 @@
 }
 .moon-content {
   max-width: 600px;
-  margin: -3rem auto 3rem;
+  /* Compensates the .section top padding (3.5rem) so the card sits 2rem below the green header */
+  margin: -1.5rem auto 3rem;
   position: relative;
   z-index: 10;
   padding: 2rem !important;
@@ -108,5 +109,10 @@
   .calendar-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 1rem;
+  }
+
+  /* Mobile .section padding is 2.5rem: keep the card flush with the green header as before */
+  .moon-content {
+    margin-top: -2.5rem;
   }
 }
