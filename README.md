@@ -95,3 +95,4 @@ npm run start   # serves the built site locally (astro preview)
 ### 🧪 Linting and Formatting
 
 The project uses **Prettier** to ensure consistent code formatting. The build process includes a post-build formatting step for `dist/`; you can also format files manually with `npx prettier --write <file>`.
+
