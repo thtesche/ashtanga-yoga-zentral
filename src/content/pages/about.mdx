@@ -5,7 +5,30 @@ description: Learn more about Elinore Burke, an authorized Level 2 Ashtanga Yoga
 
 import "../../styles/about.css";
 
-<MainLayout title={frontmatter.title} description={frontmatter.description}>
+<MainLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  structuredData={{
+"@context": "https://schema.org",
+"@type": "Person",
+"@id": "https://www.ashtangayogazentralberlin.de/about/#elinore-burke",
+"name": "Elinore Burke",
+"description": frontmatter.description,
+"jobTitle": "Authorized Level 2 Ashtanga Yoga Teacher & Yoga Therapist",
+"url": "https://www.ashtangayogazentralberlin.de/about/",
+"knowsAbout": [
+  "Ashtanga Yoga",
+  "Mysore Style Practice",
+  "Yoga Therapy",
+  "Mindfulness Meditation"
+],
+"worksFor": {
+  "@type": "YogaStudio",
+  "name": "Ashtanga Yoga Zentral",
+  "url": "https://www.ashtangayogazentralberlin.de/"
+}
+}}
+>
   <div class="page-header">
     <div class="container text-center animate-fade-in">
       <h1>Elinore Burke</h1>

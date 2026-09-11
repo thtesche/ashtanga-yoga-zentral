@@ -5,7 +5,28 @@ description: Nimm Kontakt mit Elinore Burke auf für weitere Informationen oder 
 
 import "../../../styles/contact.css";
 
-<MainLayout title={frontmatter.title} description={frontmatter.description}>
+<MainLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  structuredData={{
+"@context": "https://schema.org",
+"@type": "ContactPage",
+"name": "Kontakt – Ashtanga Yoga Zentral Berlin",
+"url": "https://www.ashtangayogazentralberlin.de/de/kontakt/",
+"mainEntity": {
+  "@type": "YogaStudio",
+  "name": "Ashtanga Yoga Zentral",
+  "url": "https://www.ashtangayogazentralberlin.de/de/",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Brunnenstr. 29/3 (Hinterhof)",
+    "addressLocality": "Berlin",
+    "postalCode": "10119",
+    "addressCountry": "DE"
+  }
+}
+}}
+>
   <div class="page-header">
     <div class="container text-center animate-fade-in">
       <h1>Kontakt</h1>

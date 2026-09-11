@@ -5,7 +5,30 @@ description: Erfahre mehr über Elinore Burke, eine autorisierte Ashtanga Yoga L
 
 import "../../../styles/about.css";
 
-<MainLayout title={frontmatter.title} description={frontmatter.description}>
+<MainLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  structuredData={{
+"@context": "https://schema.org",
+"@type": "Person",
+"@id": "https://www.ashtangayogazentralberlin.de/de/ueber_uns/#elinore-burke",
+"name": "Elinore Burke",
+"description": frontmatter.description,
+"jobTitle": "Autorisierte Level 2 Ashtanga Yoga Lehrerin & Yogatherapeutin",
+"url": "https://www.ashtangayogazentralberlin.de/de/ueber_uns/",
+"knowsAbout": [
+  "Ashtanga Yoga",
+  "Mysore Style Praxis",
+  "Yogatherapie",
+  "Achtsamkeitsmeditation"
+],
+"worksFor": {
+  "@type": "YogaStudio",
+  "name": "Ashtanga Yoga Zentral",
+  "url": "https://www.ashtangayogazentralberlin.de/de/"
+}
+}}
+>
   <div class="page-header">
     <div class="container text-center animate-fade-in">
       <h1>Elinore Burke</h1>

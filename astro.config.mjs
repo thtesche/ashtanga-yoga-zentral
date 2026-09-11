@@ -1,7 +1,8 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
-import { readdirSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { existsSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -26,6 +27,45 @@ const noindexRedirectUrls = enSlugs
   .filter((slug) => !deSlugs.has(slug))
   .map((slug) => new URL(`/de/${slug}/`, site).href);
 
+/**
+ * Last-modified date for a content file, used as the sitemap `lastmod`.
+ * Prefers the timestamp of the last git commit that touched the file (exact
+ * locally; in CI's shallow checkout every file resolves to HEAD, i.e. the
+ * deploy time). Falls back to the filesystem mtime when git is unavailable.
+ */
+function lastModifiedForFile(filePath) {
+  try {
+    const ts = execFileSync(
+      "git",
+      ["log", "-1", "--format=%ct", "--", filePath],
+      { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] },
+    ).trim();
+    if (ts) return new Date(Number(ts) * 1000);
+  } catch {
+    // Not a git repo, no history for this file, or git missing.
+  }
+  try {
+    return statSync(filePath).mtime;
+  } catch {
+    return undefined;
+  }
+}
+
+/** Map a sitemap URL to its MDX file and resolve the last-modified date. */
+function sitemapLastmod(url) {
+  const slug = decodeURIComponent(
+    new URL(url).pathname.replace(/^\//, "").replace(/\/$/, ""),
+  );
+  const file =
+    slug === ""
+      ? "index.mdx"
+      : slug === "de"
+        ? "de/index.mdx"
+        : `${slug}.mdx`;
+  const filePath = path.join(pagesDir, file);
+  return existsSync(filePath) ? lastModifiedForFile(filePath) : undefined;
+}
+
 export default defineConfig({
   integrations: [
     mdx(),
@@ -40,6 +80,11 @@ export default defineConfig({
       // @astrojs/sitemap v3: `filter` replaces the old `exclude` option.
       // Return false to drop a URL from the sitemap.
       filter: (url) => !noindexRedirectUrls.includes(url),
+      // Per-page lastmod derived from the content files (see sitemapLastmod).
+      serialize: (item) => {
+        const lastmod = sitemapLastmod(item.url);
+        return lastmod ? { ...item, lastmod } : item;
+      },
     }),
   ],
   site,

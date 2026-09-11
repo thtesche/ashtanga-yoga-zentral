@@ -10,6 +10,9 @@ import inter400Url from "@fontsource/inter/files/inter-latin-400-normal.woff2?ur
 import outfit500Url from "@fontsource/outfit/files/outfit-latin-500-normal.woff2?url";
 import outfit600Url from "@fontsource/outfit/files/outfit-latin-600-normal.woff2?url";
 
+// Default Open Graph / Twitter image (studio photo, 1200x600).
+import ogDefaultImage from "../assets/images/img_3_ashtanga_yoga_zentral_berlin_mysore_studio.webp";
+
 import Navigation from "../components/Navigation.astro";
 import CookieConsent from "../components/CookieConsent.astro";
 import JsonLd from "../components/JsonLd.astro";
@@ -28,6 +31,11 @@ interface Props {
    */
   fullTitle?: string;
   description?: string;
+  /**
+   * Optional Open Graph / Twitter image override (absolute URL or
+   * site-relative path). Defaults to the studio photo used on the home page.
+   */
+  ogImage?: string;
   structuredData?: any;
   /**
    * Optional canonical URL override. Defaults to a self-referencing
@@ -47,6 +55,7 @@ const {
   title,
   fullTitle,
   description,
+  ogImage,
   structuredData,
   canonical,
   noindex = false,
@@ -82,14 +91,23 @@ const defaultDescription =
   currentLang === "de"
     ? "Morgen-Ashtanga-Yoga (Mysore Style) in Berlin mit Elinore Burke"
     : "Morning Ashtanga Yoga (Mysore style) in Berlin with Elinore Burke";
+
+// Shared head values (used by <title>, meta description and social cards).
+const pageTitle = fullTitle ?? `${title} | Ashtanga Yoga Zentral`;
+const metaDescription = description || defaultDescription;
+
+// Absolute URL for the Open Graph / Twitter image. Pages can override it
+// with an absolute or site-relative path via the `ogImage` prop.
+const ogImageUrl = new URL(ogImage ?? ogDefaultImage.src, Astro.site).href;
 ---
 
 <!doctype html>
 <html lang={currentLang}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description || defaultDescription} />
+    <meta name="description" content={metaDescription} />
     <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#637b69" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     {!
@@ -150,7 +168,23 @@ const defaultDescription =
       )
     }
 
-    <title>{fullTitle ?? `${title} | Ashtanga Yoga Zentral`}</title>
+    {!noindex && (
+      // Open Graph + Twitter Cards (social sharing previews)
+      <>
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Ashtanga Yoga Zentral" />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={ogImageUrl} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={metaDescription} />
+        <meta name="twitter:image" content={ogImageUrl} />
+      </>
+    )}
+
+    <title>{pageTitle}</title>
 
     <!-- Google Tag Manager (GA4) - Loaded conditionally via CookieConsent -->
     <script is:inline>
