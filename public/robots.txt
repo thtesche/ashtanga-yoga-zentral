@@ -1,2 +1,3 @@
 User-agent: *
-Disallow: /
+Allow: /
+Sitemap: https://www.ashtangayogazentralberlin.com/sitemap-index.xml
