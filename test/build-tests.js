@@ -167,7 +167,7 @@ if (fs.existsSync(sitemapFile)) {
   }
 
   // All real pages must still be present (full URLs, base is "")
-  const sitemapSite = "https://www.ashtangayogazentralberlin.de";
+  const sitemapSite = "https://www.ashtangayogazentralberlin.com";
   const sitemapPages = [
     "/",
     "/about/",
@@ -341,7 +341,7 @@ assert(fs.existsSync(path.join(DIST, "robots.txt")), "robots.txt exists");
 
 // ── Structured Data (JSON-LD) ──────────────────────────────────────
 console.log("\nStructured Data:");
-const domain = "https://www.ashtangayogazentralberlin.de";
+const domain = "https://www.ashtangayogazentralberlin.com";
 
 const ldPages = [
   { path: "index.html", name: "EN Index", types: ["YogaStudio"] },
