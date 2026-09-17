@@ -212,6 +212,12 @@ for (const fb of fallbackRoutes) {
     html.includes('http-equiv="refresh"') && html.includes(`url=${fb.en}`),
     `/${fb.de} redirects to ${fb.en}`,
   );
+  // Immediate refresh (content="0;url=...") = permanent redirect per Google.
+  // A delayed refresh (e.g. content="2;url=...") would be treated as temporary.
+  assert(
+    html.includes(`content="0;url=${fb.en}"`),
+    `/${fb.de} uses an immediate meta-refresh (permanent redirect)`,
+  );
 }
 
 // ── 404 page ─────────────────────────────────────────────────────
