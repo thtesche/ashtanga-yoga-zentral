@@ -88,9 +88,6 @@ npm run start   # serves the built site locally (astro preview)
 ### Deployment
 
 - **GitHub Pages** (primary): automatic on push to `main` via `.github/workflows/deploy.yml`. The Web3Forms key is injected from the GitHub variable `PUBLIC_WEB3FORMS_GITHUB_KEY`.
-- **GoDaddy SFTP** (manual): `.github/workflows/deploy-godaddy.yml`, triggered from the Actions tab. Uses `PUBLIC_WEB3FORMS_GODADDY_KEY`.
-
-> ⚠️ The two targets are deployed independently — after a GoDaddy deploy, the SFTP copy can drift from GitHub Pages until it is re-run.
 
 ### 🧪 Linting and Formatting
 
