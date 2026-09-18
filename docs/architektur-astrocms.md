@@ -177,6 +177,26 @@ const pages = defineCollection({
 export const collections = { pages };
 ```
 
+> [!NOTE]
+> **Umsetzungsnotiz (Layout-Entkopplungs-PR):** Die JSON-LD-Vorlagen liegen nicht als
+> `schemaType`-Enum im Frontmatter, sondern in einer zentralen Registry pro Entry-ID
+> ([`src/components/structured-data.ts`](../src/components/structured-data.ts)). Gründe:
+>
+> 1. **`schemaType` reicht nicht als Schlüssel:** Die Startseite nutzt ein flaches
+>    `YogaStudio`-Objekt (mit `priceRange`, `geo`, Öffnungszeiten), die Retreat-Seiten
+>    ein `@graph`-Referenzobjekt — derselbe Typ, zwei verschiedene Strukturen.
+> 2. **FAQPage gehört nicht ins Layout:** `FaqAccordion.astro` emittiert bereits selbst
+>    das FAQPage-Schema aus den sichtbaren `items` (Single Source of Truth). Die
+>    MainLayout-Kopie in den FAQ-Seiten war eine Duplikation und wurde entfernt.
+> 3. **JSON-LD ist SEO-Daten, kein Redaktionscontent:** Adressen, Öffnungszeiten und
+>    Personendaten sind stabile Fakten — sie gehören in den Code (eine Stelle zum
+>    Pflegen), nicht ins CMS-Formular.
+>
+> Hinzugekommen ist stattdessen das optionale Frontmatter-Feld `fullTitle`
+> (deutsche Startseite: Titel enthält bereits den Markennamen, Suffix wird
+> übersprungen). `ogImage` wurde vorerst nicht eingeführt — `MainLayout` hat bereits
+> ein Default-OG-Bild und keine Seite überschreibt es aktuell.
+
 ---
 
 ## 5. Komponenten-Katalog & Priorisierungs-Roadmap

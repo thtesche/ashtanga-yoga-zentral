@@ -5,7 +5,6 @@ description: Erfahre, an welchen Tagen die Shala 2026 wegen der Mondzyklen gesch
 
 import "../../../styles/moondays.css";
 
-<MainLayout title={frontmatter.title} description={frontmatter.description}>
   <div class="page-header">
     <div class="container text-center animate-fade-in">
       <h1>Moondays 2026</h1>
@@ -139,4 +138,3 @@ import "../../../styles/moondays.css";
   </section>
 
   <script is:inline set:html="document.addEventListener('DOMContentLoaded',()=>{const m=new Date().getMonth();document.querySelectorAll('[data-month]').forEach(c=>{const cm=parseInt(c.getAttribute('data-month'),10);if(cm<m){c.classList.add('past')}else if(cm===m){c.classList.add('current')}})})" />
-</MainLayout>
