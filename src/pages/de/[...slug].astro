@@ -54,7 +54,11 @@ if (!entry) {
   // Strip the /de locale segment from the current URL, preserving base and
   // trailing slash (e.g. /de/about/ -> /about/, or with a base prefix).
   const englishPath = Astro.url.pathname.replace(/\/de(?=\/|$)/, "");
-  return Astro.redirect(englishPath);
+  // Status 301 makes Astro emit an immediate meta-refresh (content="0;url=...")
+  // in the static build. A delayed refresh (the default 302) is treated by
+  // Google as a temporary redirect; an immediate one counts as permanent.
+  // A true HTTP 301 is not possible on GitHub Pages (no _redirects/.htaccess).
+  return Astro.redirect(englishPath, 301);
 }
 
 const { Content } = await render(entry);

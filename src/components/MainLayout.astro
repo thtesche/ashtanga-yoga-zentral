@@ -151,12 +151,12 @@ const ogImageUrl = new URL(ogImage ?? ogDefaultImage.src, Astro.site).href;
         <>
           <link
             rel="alternate"
-            hreflang="en"
+            hreflang="en-US"
             href={getAbsoluteLocaleUrl("en", enHreflangSlug)}
           />
           <link
             rel="alternate"
-            hreflang="de"
+            hreflang="de-DE"
             href={getAbsoluteLocaleUrl("de", deHreflangSlug)}
           />
           <link
@@ -173,6 +173,8 @@ const ogImageUrl = new URL(ogImage ?? ogDefaultImage.src, Astro.site).href;
       <>
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Ashtanga Yoga Zentral" />
+        <meta property="og:locale" content={currentLang === "de" ? "de_DE" : "en_US"} />
+        <meta property="og:locale:alternate" content={currentLang === "de" ? "en_US" : "de_DE"} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:url" content={canonicalUrl} />

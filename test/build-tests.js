@@ -212,6 +212,12 @@ for (const fb of fallbackRoutes) {
     html.includes('http-equiv="refresh"') && html.includes(`url=${fb.en}`),
     `/${fb.de} redirects to ${fb.en}`,
   );
+  // Immediate refresh (content="0;url=...") = permanent redirect per Google.
+  // A delayed refresh (e.g. content="2;url=...") would be treated as temporary.
+  assert(
+    html.includes(`content="0;url=${fb.en}"`),
+    `/${fb.de} uses an immediate meta-refresh (permanent redirect)`,
+  );
 }
 
 // ── 404 page ─────────────────────────────────────────────────────
@@ -393,9 +399,9 @@ const hreflangPages = [
 for (const rel of hreflangPages) {
   const html = readHTML(rel);
   const hrefs = [
-    ...html.matchAll(/hreflang="(en|de|x-default)"\s+href="([^"]*)"/g),
+    ...html.matchAll(/hreflang="(en-US|de-DE|x-default)"\s+href="([^"]*)"/g),
   ].map((m) => m[2]);
-  assert(hrefs.length === 3, `${rel} has en/de/x-default hreflang tags`);
+  assert(hrefs.length === 3, `${rel} has en-US/de-DE/x-default hreflang tags`);
   for (const h of hrefs) {
     assert(
       h.startsWith(domain + "/") && !h.includes(domain + "//"),
@@ -443,8 +449,8 @@ for (const p of counterpartPages) {
     const m = html.match(new RegExp(`hreflang="${lang}"\\s+href="([^"]*)"`));
     return m ? m[1] : null;
   };
-  assert(hrefFor("en") === p.en, `${p.rel} hreflang=en -> ${p.en}`);
-  assert(hrefFor("de") === p.de, `${p.rel} hreflang=de -> ${p.de}`);
+  assert(hrefFor("en-US") === p.en, `${p.rel} hreflang=en-US -> ${p.en}`);
+  assert(hrefFor("de-DE") === p.de, `${p.rel} hreflang=de-DE -> ${p.de}`);
 }
 
 // Language switcher links to the counterpart page, not the home page.
