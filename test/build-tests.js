@@ -28,6 +28,58 @@ function assert(condition, message) {
   }
 }
 
+function extractJsonLdBlocks(html) {
+  const blocks = [];
+  const scriptRegex =
+    /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+  let match;
+  while ((match = scriptRegex.exec(html)) !== null) {
+    blocks.push(match[1].trim());
+  }
+  return blocks;
+}
+
+function safeParseJson(value) {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
+
+function collectUrlStrings(node, acc = []) {
+  if (typeof node === "string") {
+    acc.push(node);
+    return acc;
+  }
+  if (Array.isArray(node)) {
+    for (const item of node) collectUrlStrings(item, acc);
+    return acc;
+  }
+  if (node && typeof node === "object") {
+    for (const value of Object.values(node)) collectUrlStrings(value, acc);
+  }
+  return acc;
+}
+
+function hasJsonLdUrlWithHost(html, expectedHost) {
+  const blocks = extractJsonLdBlocks(html);
+  for (const block of blocks) {
+    const parsed = safeParseJson(block);
+    if (!parsed) continue;
+    const candidates = collectUrlStrings(parsed);
+    for (const candidate of candidates) {
+      try {
+        const u = new URL(candidate);
+        if (u.hostname === expectedHost) return true;
+      } catch {
+        // ignore non-URL strings
+      }
+    }
+  }
+  return false;
+}
+
 function readHTML(relative) {
   return fs.readFileSync(path.join(DIST, relative), "utf-8");
 }
@@ -348,6 +400,7 @@ assert(fs.existsSync(path.join(DIST, "robots.txt")), "robots.txt exists");
 // ── Structured Data (JSON-LD) ──────────────────────────────────────
 console.log("\nStructured Data:");
 const domain = "https://www.ashtangayogazentralberlin.com";
+const expectedDomainHost = "www.ashtangayogazentralberlin.com";
 
 const ldPages = [
   { path: "index.html", name: "EN Index", types: ["YogaStudio"] },
@@ -370,7 +423,10 @@ for (const page of ldPages) {
     html.includes("application/ld+json"),
     `${page.name} has JSON-LD script`,
   );
-  assert(html.includes(domain), `${page.name} uses correct domain in JSON-LD`);
+  assert(
+    hasJsonLdUrlWithHost(html, expectedDomainHost),
+    `${page.name} uses correct domain in JSON-LD`,
+  );
   for (const type of page.types) {
     assert(
       html.includes(`"@type": "${type}"`),
