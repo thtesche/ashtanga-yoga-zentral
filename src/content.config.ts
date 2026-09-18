@@ -19,6 +19,12 @@ const pages = defineCollection({
   schema: zod.object({
     title: zod.string(),
     description: zod.string(),
+    /**
+     * Optional full <title> override. When set, the " | Ashtanga Yoga Zentral"
+     * suffix is skipped (e.g. for titles that already contain the brand name,
+     * like the German home page). Passed through to MainLayout as-is.
+     */
+    fullTitle: zod.string().optional(),
   }),
 });
 
