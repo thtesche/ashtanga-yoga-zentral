@@ -254,6 +254,24 @@ Diese Komponenten werden auf mehreren Seiten (oft sowohl in EN als auch in DE) v
   ```
 - **Eigenschaften:** Unterstützt `title`, `subtitle` und optionale `class`-Varianten.
 
+> [!NOTE]
+> **Umsetzungsnotiz (PR 2a):** Die Komponente wurde wie spezifiziert umgesetzt
+> (`title`, `subtitle?`, optionale `class`-Variante). Die Header-Styles leben
+> jetzt als Scoped Styles in der Komponente — die per-page-CSS-Dateien
+> definieren sie nicht mehr. Details:
+>
+> 1. **Eine gemeinsame `legal_header`-Variante** statt separater
+>    GDPR-/Impressum-Classes: Beide Rechtstext-Seiten sind identisch gestylt
+>    und teilen sich daher eine Class. Die `class`-Prop ist eine
+>    String-Literal-Union (`'' | 'legal_header'`) — so rendert AstroCMS ein
+>    Drop-Down statt Freitext (ein einzelnes Literal würde auf plain string
+>    degradieren); die leere Option entfernt das Attribut wieder.
+> 2. **Reihenfolge im Style-Block ist entscheidend:** Die Variante steht
+>    nach `.page-header`, da sie bei gleicher Specificity (0,2,0) nur per
+>    Reihenfolge gewinnt.
+> 3. **Die CSS-Imports bleiben vorerst in den MDX** (Aufräumung in Phase 2,
+>    Punkt 3); `about.css` ist damit nur noch ein Kommentar.
+
 #### 3. `ContactForm.astro`
 - **Aktueller Zustand:** `contact.mdx` und `de/kontakt.mdx` enthalten rohes Formular-HTML sowie ein 30-zeiliges `<script>` mit `fetch("https://api.web3forms.com/submit")`.
 - **Ziel-Komponente:**
