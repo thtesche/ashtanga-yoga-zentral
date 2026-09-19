@@ -254,6 +254,19 @@ Diese Komponenten werden auf mehreren Seiten (oft sowohl in EN als auch in DE) v
   ```
 - **Eigenschaften:** Unterstützt `title`, `subtitle` und optionale `class`-Varianten.
 
+> [!NOTE]
+> **Umsetzungsnotiz (PR 2a):** Die Komponente wurde wie spezifiziert umgesetzt
+> (`title`, `subtitle?`, optionale `class`-Variante). Alle drei Varianten
+> (Default, `gdpr-header`, `impressum-header`) leben jetzt als Scoped Styles in
+> der Komponente — die per-page-CSS-Dateien definieren sie nicht mehr. Zwei
+> Details:
+>
+> 1. **Reihenfolge im Style-Block ist entscheidend:** Die Varianten stehen
+>    nach `.page-header`, da sie bei gleicher Specificity (0,2,0) nur per
+>    Reihenfolge gewinnen.
+> 2. **Die CSS-Imports bleiben vorerst in den MDX** (Aufräumung in Phase 2,
+>    Punkt 3); `about.css` ist damit nur noch ein Kommentar.
+
 #### 3. `ContactForm.astro`
 - **Aktueller Zustand:** `contact.mdx` und `de/kontakt.mdx` enthalten rohes Formular-HTML sowie ein 30-zeiliges `<script>` mit `fetch("https://api.web3forms.com/submit")`.
 - **Ziel-Komponente:**
