@@ -3,20 +3,25 @@
  * Shared page header for all content pages (EN + DE).
  *
  * Replaces the duplicated `<div class="page-header">` markup that used to
- * live in 14 MDX files. All header styles (default + legal-page variants)
+ * live in 14 MDX files. All header styles (default + legal-page variant)
  * are scoped here, so the per-page CSS files no longer define them.
  *
  * Usage in MDX (no import needed — auto-discovered via mdxComponents):
  *   <PageHeader title="FAQ" subtitle="Frequently Asked Questions" />
- *   <PageHeader title="Privacy Policy" class="gdpr-header" />
+ *   <PageHeader title="Privacy Policy" class="legal_header" />
  */
 interface Props {
   /** Page heading (H1). */
   title: string;
   /** Optional line below the heading. Omit for header-only pages (e.g. GDPR). */
   subtitle?: string;
-  /** Optional extra class for page-specific header variants (e.g. "gdpr-header"). */
-  class?: string;
+  /**
+   * Header variant: "" = default dark header, "legal_header" = light
+   * legal-page header (GDPR / Impressum). The "" literal is required so
+   * AstroCMS renders a dropdown instead of free text (a single string
+   * literal degrades to "string"); selecting it removes the attribute.
+   */
+  class?: '' | 'legal_header';
 }
 
 const { title, subtitle, class: variantClass } = Astro.props;
@@ -48,26 +53,15 @@ const { title, subtitle, class: variantClass } = Astro.props;
     color: #ffffffe6;
   }
 
-  /* Light variants for the legal pages (GDPR / Impressum). Scoped like
-     .page-header, so they must stay after it to win at equal specificity. */
-  .gdpr-header {
+  /* Light variant for the legal pages (GDPR / Impressum). Scoped like
+     .page-header, so it must stay after it to win at equal specificity. */
+  .legal_header {
     background-color: var(--color-info, #e9f1ff);
     color: #333;
     padding: 4rem 0 2rem;
   }
 
-  .gdpr-header h1 {
-    color: #0056b3;
-    margin-bottom: 0.5rem;
-  }
-
-  .impressum-header {
-    background-color: var(--color-info, #e9f1ff);
-    color: #333;
-    padding: 4rem 0 2rem;
-  }
-
-  .impressum-header h1 {
+  .legal_header h1 {
     color: #0056b3;
     margin-bottom: 0.5rem;
   }
