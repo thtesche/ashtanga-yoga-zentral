@@ -260,10 +260,10 @@ Diese Komponenten werden auf mehreren Seiten (oft sowohl in EN als auch in DE) v
 > jetzt als Scoped Styles in der Komponente — die per-page-CSS-Dateien
 > definieren sie nicht mehr. Details:
 >
-> 1. **Eine gemeinsame `legal_header`-Variante** statt separater
+> 1. **Eine gemeinsame `legal-header`-Variante** statt separater
 >    GDPR-/Impressum-Classes: Beide Rechtstext-Seiten sind identisch gestylt
 >    und teilen sich daher eine Class. Die `class`-Prop ist eine
->    String-Literal-Union (`'' | 'legal_header'`) — so rendert AstroCMS ein
+>    String-Literal-Union (`'' | 'legal-header'`) — so rendert AstroCMS ein
 >    Drop-Down statt Freitext (ein einzelnes Literal würde auf plain string
 >    degradieren); die leere Option entfernt das Attribut wieder.
 > 2. **Reihenfolge im Style-Block ist entscheidend:** Die Variante steht
