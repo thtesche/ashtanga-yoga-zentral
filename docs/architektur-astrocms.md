@@ -374,6 +374,27 @@ Diese Komponenten werden auf mehreren Seiten (oft sowohl in EN als auch in DE) v
   <ScheduleSection locale="en" />
   ```
 
+> [!NOTE]
+> **Umsetzungsnotiz (PR 2c):** Die Komponente wurde wie spezifiziert
+> umgesetzt (`locale`-Prop als String-Literal-Union → Drop-Down im CMS,
+> interner String-Tabelle für Überschrift, Zeilen und Badge —
+> ContactForm-Muster). Details:
+>
+> 1. **Scope: nur das Schedule-Surface** (`.surface` + `h2` +
+>    `.schedule-list`). Überschrift und Liste sind lokalisierte Inhalte
+>    eines zusammenhängenden Blocks; die `locale`-Prop deckt beides ab.
+> 2. **Seitenstruktur bleibt im MDX:** Der Section-Wrapper mit
+>    `id="schedule"` (Anker-Ziel des Hero-Buttons „View Schedule“),
+>    `.container`, `.grid-2-col` und das Standort-Surface (`h2` +
+>    `LocationCard`) verbleiben in den MDX-Dateien — die Adresse ist
+>    dort Seiteninhalt und wird nicht durchgereicht.
+> 3. **Mondtage-Link:** Der Linktext „Moondays“ ist in beiden Locales
+>    identisch (Konstante); der `href` läuft über `LocalizedLink`
+>    (`/moondays/` bzw. `/de/moondays/`).
+> 4. **Styles als Scoped Styles** in der Komponente (`.schedule-list`,
+>    `.badge`); aus `global.css` entfernt. `.badge` wurde ausschließlich
+>    hier verwendet.
+
 #### 8. `MoonCalendar.astro` / `MonthCard.astro`
 - **Aktueller Zustand:** In `moondays.mdx` und `de/moondays.mdx` sind 12 Monate mit je 2 Mondphasen hart codiert (~100 Zeilen HTML-Grid).
 - **Ziel-Komponente:**

@@ -661,6 +661,59 @@ for (const page of contactPages) {
   );
 }
 
+// ── Schedule section (ScheduleSection component) ─────────
+console.log("\nSchedule section:");
+const schedulePages = [
+  {
+    html: enIndex,
+    label: "EN",
+    heading: "Class Schedule",
+    weekdayTime: "6:30 – 9:30 am",
+    badge: "monthly",
+    closedNote: "Closed on",
+  },
+  {
+    html: deIndex,
+    label: "DE",
+    heading: "Stundenplan",
+    weekdayTime: "6:30 – 9:30 Uhr",
+    badge: "monatlich",
+    closedNote: "Geschlossen an",
+  },
+];
+for (const page of schedulePages) {
+  assert(
+    page.html.includes('id="schedule"'),
+    `${page.label}: #schedule anchor kept (hero button target)`,
+  );
+  assert(page.html.includes(page.heading), `${page.label}: schedule heading present`);
+  assert(
+    page.html.includes(page.weekdayTime),
+    `${page.label}: weekday time present (${page.weekdayTime})`,
+  );
+  assert(
+    page.html.includes("Led Primary Class"),
+    `${page.label}: led primary class row present`,
+  );
+  assert(
+    page.html.includes("7:00 – 8:30"),
+    `${page.label}: led primary class time present`,
+  );
+  assert(
+    page.html.includes("7:30 – 9:45"),
+    `${page.label}: sunday time present`,
+  );
+  assert(page.html.includes(page.badge), `${page.label}: badge present (${page.badge})`);
+  assert(
+    page.html.includes(page.closedNote),
+    `${page.label}: closed note present (${page.closedNote})`,
+  );
+  assert(
+    page.html.includes(`href="${href(page.label === "EN" ? "/moondays/" : "/de/moondays/")}"`),
+    `${page.label}: moondays link localized`,
+  );
+}
+
 // ── Summary ─────────────────────────────────────────────────────
 console.log(`\n${"=".repeat(50)}`);
 console.log(`Total: ${total} | Passed: ${passed} | Failed: ${failures.length}`);
