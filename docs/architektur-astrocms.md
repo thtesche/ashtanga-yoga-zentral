@@ -284,6 +284,29 @@ Diese Komponenten werden auf mehreren Seiten (oft sowohl in EN als auch in DE) v
   ```
 - **Eigenschaften:** Kapselt das Formular, Web3Forms-Honeypot, Umgebungsvariablen (`PUBLIC_WEB3FORMS_ACCESS_KEY`), Validierung und interaktive Statusmeldung. Im MDX verbleibt ein sauberer Einzeiler.
 
+> [!NOTE]
+> **Umsetzungsnotiz (PR 2b):** Die Komponente wurde mit einer bewussten
+> Vereinfachung der Ziel-Signatur umgesetzt: statt `buttonText`/
+> `successMessage`-Props gibt es eine einzige `locale`-Prop
+> (`'en' | 'de'`, im CMS als Drop-Down) mit interner String-Tabelle für
+> Labels, Button und Statusmeldungen. Begründung: Alle Strings sind UI-Texte
+> (kein Seiteninhalt), und eine konsistente Prop-API hätte *alle* Strings als
+> Props benötigt — das widerspräche dem Ziel „sauberer Einzeiler“ im MDX.
+> Details:
+>
+> 1. **Status-Strings als `data-*`-Attribute** auf dem `<form>`-Tag:
+>    Das Submit-Skript läuft als `<script is:inline>` (wie
+>    `CookieConsent`), damit es im Dist lesbar bleibt und die String-Checks
+>    in `test/build-tests.js` („Contact form hardening“) weiter greifen —
+>    ein von Vite verarbeitetes Skript würde minifiziert. Die Attribute
+>    vermeiden eine zweite String-Tabelle im JS (Single Source of Truth).
+> 2. **Form-Styles als Scoped Styles** in der Komponente (`.form-group`,
+>    `.btn-submit`, `#result`); aus `contact.css` entfernt.
+> 3. **Der FAQ-Link bleibt im MDX** (Seiteninhalt, CMS-editierbar) — er
+>    steht jetzt außerhalb des `<form>`-Tags.
+> 4. **Eine Instanz pro Seite:** Die IDs `form`/`result` sind nicht
+>    namespaced (wie zuvor im MDX).
+
 #### 4. `LocationCard.astro` / `StudioAddress.astro`
 - **Aktueller Zustand:** Studioadresse ("Three Boons Studio, Brunnenstr. 29"), Öffnungszeiten-Hinweis und Google Maps Link sind auf der Startseite (`index.mdx` / `de/index.mdx`) und der Kontaktseite (`contact.mdx` / `de/kontakt.mdx`) dupliziert.
 - **Ziel-Komponente:**

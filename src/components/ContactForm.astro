@@ -1,0 +1,138 @@
+---
+/**
+ * Contact form backed by Web3Forms (no backend of our own).
+ *
+ * Encapsulates the form markup, the hidden access key (from
+ * PUBLIC_WEB3FORMS_ACCESS_KEY), the Web3Forms honeypot, HTML5 validation and
+ * the submit handler with localized status feedback. In MDX it is a single
+ * line: <ContactForm locale="en" />
+ *
+ * The status strings are rendered as data-* attributes on the form so the
+ * inline script (kept readable via is:inline, like CookieConsent) can read
+ * them without duplicating the string table. One form per page — the ids
+ * ("form", "result") are not namespaced.
+ */
+
+interface Props {
+  /** Locale for the form's UI strings ("en" | "de"). */
+  locale: 'en' | 'de';
+}
+
+const { locale } = Astro.props;
+
+/** UI strings per locale — single source of truth for labels + status. */
+const STRINGS = {
+  en: {
+    nameLabel: 'Name (required)',
+    emailLabel: 'Email (required)',
+    messageLabel: 'Message (required)',
+    buttonText: 'Send Message',
+    sendingText: 'Sending...',
+    successMessage: 'Thank you for your message. It has been sent.',
+    errorMessage: 'Something went wrong. Please try again.',
+  },
+  de: {
+    nameLabel: 'Name (erforderlich)',
+    emailLabel: 'E-Mail (erforderlich)',
+    messageLabel: 'Nachricht (erforderlich)',
+    buttonText: 'Nachricht senden',
+    sendingText: 'Sende...',
+    successMessage: 'Vielen Dank für Ihre Nachricht. Sie wurde gesendet.',
+    errorMessage: 'Etwas ist schiefgelaufen. Bitte versuche es erneut.',
+  },
+} as const;
+
+const t = STRINGS[locale];
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY;
+---
+
+<form
+  id="form"
+  data-sending={t.sendingText}
+  data-success={t.successMessage}
+  data-error={t.errorMessage}
+>
+  <input type="hidden" name="access_key" value={accessKey} />
+
+  <!-- Web3Forms honeypot: hidden from humans, filled by bots -->
+  <input
+    type="text"
+    name="botcheck"
+    style="display: none;"
+    tabindex="-1"
+    autocomplete="off"
+  />
+
+  <div class="form-group">
+    <label for="name">{t.nameLabel}</label>
+
+    <input type="text" id="name" name="name" required />
+  </div>
+
+  <div class="form-group">
+    <label for="email">{t.emailLabel}</label>
+
+    <input type="email" id="email" name="email" required />
+  </div>
+
+  <div class="form-group">
+    <label for="message">{t.messageLabel}</label>
+
+    <textarea id="message" name="message" rows="6" required />
+  </div>
+
+  <div id="result" role="status" aria-live="polite"></div>
+
+  <button type="submit" class="btn btn-submit" aria-label={t.buttonText}>
+    {t.buttonText}
+  </button>
+</form>
+
+<script is:inline>
+  (function () {
+    const form = document.getElementById("form");
+    if (!form) return;
+    const result = document.getElementById("result");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      result.textContent = form.dataset.sending;
+
+      try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          body: new FormData(form),
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          result.textContent = form.dataset.success;
+          form.reset();
+        } else {
+          result.textContent = data.message || form.dataset.error;
+        }
+      } catch {
+        result.textContent = form.dataset.error;
+      }
+    });
+  })();
+</script>
+
+<style>
+  .form-group {
+    margin-bottom: 0.5rem;
+  }
+
+  .btn-submit {
+    width: 100%;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+  }
+
+  #result {
+    margin-top: 1rem;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1rem;
+  }
+</style>
