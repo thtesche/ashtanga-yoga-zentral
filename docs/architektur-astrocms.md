@@ -318,6 +318,25 @@ Diese Komponenten werden auf mehreren Seiten (oft sowohl in EN als auch in DE) v
   />
   ```
 
+> [!NOTE]
+> **Umsetzungsnotiz (PR 2b):** Umgesetzt mit zwei Ergänzungen zur
+> Ziel-Signatur: `locale` (`'en' | 'de'`) für den Button-Text („View on
+> Map“ / „Auf der Karte ansehen“) und optionales `mapUrl` (ohne Link wird
+> die Karte ohne Button gerendert). Details:
+>
+> 1. **`.surface`-Wrapper und `h2`-Überschrift bleiben im MDX** (Seiten-
+>    struktur neben dem Schedule-Surface); die Komponente ist nur die Karte.
+> 2. **Adresse als einzeiliger String** (wie spezifiziert) — das frühere
+>    `<br />` zwischen Straße und PLZ entfällt, der Text bricht im engen
+>    Surface natürlich um.
+> 3. **Der Standort-Info-Block auf der Kontaktseite bleibt vorerst
+>    unverändert:** Er hat einen anderen Layout-Kontext (`.info-block` ohne
+>    Karten-Link, andere Typografie) und wäre mit der Karte nicht 1:1
+>    abbildbar, ohne das Design zu ändern.
+> 4. Die Adresse im Footer (`MainLayout.astro`) und in
+>    `structured-data.ts` (`STUDIO_ADDRESS`) bleibt jeweils an Ort und Stelle
+>    — beides ist Layout-/Schema-Kontext, kein MDX-Inhalt.
+
 #### 5. `RetreatCard.astro`
 - **Aktueller Zustand:** In `retreats.mdx` und `de/retreats.mdx` werden Retreat-Karten (Puglia, Mecklenburg, Laruga Glaser Workshop) mit identischen verschachtelten HTML-Strukturen und Bild-Imports gepflegt.
 - **Ziel-Komponente:**

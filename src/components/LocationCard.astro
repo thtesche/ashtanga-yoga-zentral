@@ -1,0 +1,46 @@
+---
+/**
+ * Studio location card: name, address and a Google Maps button.
+ *
+ * Used on the home pages next to the class schedule. The surrounding
+ * .surface and its heading stay in the MDX (page structure); this component
+ * is just the card itself.
+ */
+
+interface Props {
+  /** Locale for the map button label ("en" | "de"). */
+  locale: 'en' | 'de';
+  /** Studio name (card heading). */
+  title: string;
+  /** Full address, rendered as a single line (wraps naturally). */
+  address: string;
+  /** Google Maps link. Omit to render the card without a map button. */
+  mapUrl?: string;
+}
+
+const { locale, title, address, mapUrl } = Astro.props;
+
+/** Map button label per locale. */
+const MAP_BUTTON_LABELS = {
+  en: 'View on Map',
+  de: 'Auf der Karte ansehen',
+} as const;
+---
+
+<div class="location-card">
+  <h3>{title}</h3>
+  <p>{address}</p>
+
+  {
+    mapUrl && (
+      <a
+        href={mapUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn-outline mt-1"
+      >
+        {MAP_BUTTON_LABELS[locale]}
+      </a>
+    )
+  }
+</div>
