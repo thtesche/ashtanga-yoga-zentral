@@ -709,8 +709,81 @@ for (const page of schedulePages) {
     `${page.label}: closed note present (${page.closedNote})`,
   );
   assert(
-    page.html.includes(`href="${href(page.label === "EN" ? "/moondays/" : "/de/moondays/")}"`),
+    page.html.includes(`href="${href(page.label === "EN" ? "/moondays" : "/de/moondays")}"`),
     `${page.label}: moondays link localized`,
+  );
+}
+
+// ── Pricing components (PricingGrid / UscTopUp) ─────────────
+console.log("\nPricing components:");
+const pricingPages = [
+  {
+    html: enIndex,
+    label: "EN",
+    heading: ">Prices<",
+    tooltip: "Unlimited classes for beginners.",
+    uscSummary: "USC Top Up — Practice More",
+    mTier: "M Membership",
+    dropInNote: "(with established practice)",
+    passName: "Visiting Berlin Pass",
+  },
+  {
+    html: deIndex,
+    label: "DE",
+    heading: ">Preise<",
+    tooltip: "Unbegrenzte Klassen für Anfänger.",
+    uscSummary: "USC Top Up — Mehr Praktizieren",
+    mTier: "M Mitgliedschaft",
+    dropInNote: "(mit etablierter Praxis)",
+    passName: "Berlin-Besucher Pass",
+  },
+];
+for (const page of pricingPages) {
+  assert(page.html.includes(page.heading), `${page.label}: prices heading present`);
+  for (const price of ["€90", "€95", "€115", "€135"]) {
+    assert(
+      page.html.includes(price),
+      `${page.label}: membership price present (${price})`,
+    );
+  }
+  assert(
+    page.html.includes(`data-tip="${page.tooltip}"`),
+    `${page.label}: trial month info tip present`,
+  );
+  assert(
+    page.html.includes("usc-topup-details"),
+    `${page.label}: USC top-up details block present`,
+  );
+  assert(
+    page.html.includes(page.uscSummary),
+    `${page.label}: USC summary localized (${page.uscSummary})`,
+  );
+  assert(page.html.includes(page.mTier), `${page.label}: M tier present`);
+  for (const price of ["€65", "€85", "€105", "€55", "€75"]) {
+    assert(
+      page.html.includes(price),
+      `${page.label}: USC top-up price present (${price})`,
+    );
+  }
+  assert(
+    !page.html.includes("\\="),
+    `${page.label}: no MDX-escaped equals left in output`,
+  );
+  // .additional-pricing block intentionally stays in the MDX (scope decision)
+  assert(page.html.includes("Drop-In"), `${page.label}: drop-in block present`);
+  assert(page.html.includes("€20"), `${page.label}: drop-in price present`);
+  assert(
+    page.html.includes(page.dropInNote),
+    `${page.label}: drop-in note localized`,
+  );
+  assert(
+    page.html.includes(page.passName),
+    `${page.label}: visiting pass present (${page.passName})`,
+  );
+  assert(page.html.includes("€80"), `${page.label}: visiting pass price present`);
+  assert(
+    page.html.includes(`href="${href(page.label === "EN" ? "/contact" : "/de/kontakt")}"`),
+    `${page.label}: discount note links to contact page`,
   );
 }
 

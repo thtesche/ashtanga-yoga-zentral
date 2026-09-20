@@ -367,6 +367,36 @@ Diese Komponenten werden auf mehreren Seiten (oft sowohl in EN als auch in DE) v
   <UscTopUp />
   ```
 
+> [!NOTE]
+> **Umsetzungsnotiz (PR 2c):** Umgesetzt mit zwei bewussten Abweichungen
+> von der Ziel-Signatur. Details:
+>
+> 1. **`cards`-Props-Array statt Slots:** `PricingGrid` erhält die Cards
+>    als plain Array (`cards: PricingCardData[]`) — gleiches Muster wie
+>    `FaqAccordion` (items). Begründung: AstroCMS editiert das Array in
+>    seinem Tabellen-Editor (eine Zeile pro Card); verschachtelte
+>    Komponenten als Slot-Kinder sind mit AstroCMS 0.3.0 ungetestet.
+>    `PricingCard` bleibt eine eigene Komponente (wiederverwendbar,
+>    wird per Auto-Detection ebenfalls im CMS verfügbar).
+> 2. **`UscTopUp` mit `locale`-Prop:** Die Spezifikation zeigte
+>    `<UscTopUp />` ohne Props, aber der Inhalt (Summary, Intro,
+>    Tier-Labels) ist lokalisiert — daher `locale` (`'en' | 'de'`,
+>    Drop-Down im CMS) mit interner String-Tabelle (ContactForm-Muster).
+> 3. **`highlighted`-Prop weggelassen:** Im aktuellen Markup gibt es
+>    keine hervorgehobene Card; sie einzuführen wäre ein visueller
+>    Change (außerhalb des Refactor-Scopes). Die `.highlight-card`-CSS
+>    bleibt in `global.css` (Aufräumung in 2f, zusammen mit dem
+>    ungenutzten `.usc-topup`).
+> 4. **`h2` „Prices/Preise“ bleibt im MDX** (Seitenstruktur-Überschrift
+>    über dem gesamten Pricing-Bereich, wie bei LocationCard).
+> 5. **Der `.additional-pricing`-Block** (Drop-In, Visiting Pass,
+>    Discount-Hinweis) **bleibt im MDX:** Er ist semantisch weder
+>    PricingCard noch UscTopUp und steht nicht in der Ziel-Signatur.
+> 6. **Styles als Scoped Styles:** `.pricing-grid` → `PricingGrid`;
+>    `.pricing-card`, `.info-tip`, `.price` → `PricingCard` (`.info-tip`
+>    wurde ausschließlich hier verwendet); alle `.usc-topup-*`-Styles →
+>    `UscTopUp`. Aus `global.css` entfernt.
+
 #### 7. `ScheduleSection.astro`
 - **Aktueller Zustand:** Tabelle/Liste der Kurszeiten (Mo–Fr 6:30–9:30, Led Primary monatlich, So 7:30–9:45, Mondtage-Hinweis).
 - **Ziel-Komponente:**
