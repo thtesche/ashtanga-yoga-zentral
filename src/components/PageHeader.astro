@@ -8,7 +8,7 @@
  *
  * Usage in MDX (no import needed — auto-discovered via mdxComponents):
  *   <PageHeader title="FAQ" subtitle="Frequently Asked Questions" />
- *   <PageHeader title="Privacy Policy" class="legal_header" />
+ *   <PageHeader title="Privacy Policy" class="legal-header" />
  */
 interface Props {
   /** Page heading (H1). */
@@ -16,12 +16,12 @@ interface Props {
   /** Optional line below the heading. Omit for header-only pages (e.g. GDPR). */
   subtitle?: string;
   /**
-   * Header variant: "" = default dark header, "legal_header" = light
+   * Header variant: "" = default dark header, "legal-header" = light
    * legal-page header (GDPR / Impressum). The "" literal is required so
    * AstroCMS renders a dropdown instead of free text (a single string
    * literal degrades to "string"); selecting it removes the attribute.
    */
-  class?: '' | 'legal_header';
+  class?: '' | 'legal-header';
 }
 
 const { title, subtitle, class: variantClass } = Astro.props;
@@ -55,13 +55,13 @@ const { title, subtitle, class: variantClass } = Astro.props;
 
   /* Light variant for the legal pages (GDPR / Impressum). Scoped like
      .page-header, so it must stay after it to win at equal specificity. */
-  .legal_header {
+  .legal-header {
     background-color: var(--color-info, #e9f1ff);
     color: #333;
     padding: 4rem 0 2rem;
   }
 
-  .legal_header h1 {
+  .legal-header h1 {
     color: #0056b3;
     margin-bottom: 0.5rem;
   }
