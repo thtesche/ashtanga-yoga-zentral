@@ -21,7 +21,7 @@
     "sharp": "^0.35.4"
   },
   "devDependencies": {
-    "astrocms": "^0.3.0",
+    "astrocms": "^0.4.0",
     "prettier": "^3.9.8",
     "prettier-plugin-astro": "^1.0.1"
   },
