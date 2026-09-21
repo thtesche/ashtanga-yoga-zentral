@@ -661,6 +661,132 @@ for (const page of contactPages) {
   );
 }
 
+// ── Schedule section (ScheduleSection component) ─────────
+console.log("\nSchedule section:");
+const schedulePages = [
+  {
+    html: enIndex,
+    label: "EN",
+    heading: "Class Schedule",
+    weekdayTime: "6:30 – 9:30 am",
+    badge: "monthly",
+    closedNote: "Closed on",
+  },
+  {
+    html: deIndex,
+    label: "DE",
+    heading: "Stundenplan",
+    weekdayTime: "6:30 – 9:30 Uhr",
+    badge: "monatlich",
+    closedNote: "Geschlossen an",
+  },
+];
+for (const page of schedulePages) {
+  assert(
+    page.html.includes('id="schedule"'),
+    `${page.label}: #schedule anchor kept (hero button target)`,
+  );
+  assert(page.html.includes(page.heading), `${page.label}: schedule heading present`);
+  assert(
+    page.html.includes(page.weekdayTime),
+    `${page.label}: weekday time present (${page.weekdayTime})`,
+  );
+  assert(
+    page.html.includes("Led Primary Class"),
+    `${page.label}: led primary class row present`,
+  );
+  assert(
+    page.html.includes("7:00 – 8:30"),
+    `${page.label}: led primary class time present`,
+  );
+  assert(
+    page.html.includes("7:30 – 9:45"),
+    `${page.label}: sunday time present`,
+  );
+  assert(page.html.includes(page.badge), `${page.label}: badge present (${page.badge})`);
+  assert(
+    page.html.includes(page.closedNote),
+    `${page.label}: closed note present (${page.closedNote})`,
+  );
+  assert(
+    page.html.includes(`href="${href(page.label === "EN" ? "/moondays" : "/de/moondays")}"`),
+    `${page.label}: moondays link localized`,
+  );
+}
+
+// ── Pricing components (PricingGrid / UscTopUp) ─────────────
+console.log("\nPricing components:");
+const pricingPages = [
+  {
+    html: enIndex,
+    label: "EN",
+    heading: ">Prices<",
+    tooltip: "Unlimited classes for beginners.",
+    uscSummary: "USC Top Up — Practice More",
+    mTier: "M Membership",
+    dropInNote: "(with established practice)",
+    passName: "Visiting Berlin Pass",
+  },
+  {
+    html: deIndex,
+    label: "DE",
+    heading: ">Preise<",
+    tooltip: "Unbegrenzte Klassen für Anfänger.",
+    uscSummary: "USC Top Up — Mehr Praktizieren",
+    mTier: "M Mitgliedschaft",
+    dropInNote: "(mit etablierter Praxis)",
+    passName: "Berlin-Besucher Pass",
+  },
+];
+for (const page of pricingPages) {
+  assert(page.html.includes(page.heading), `${page.label}: prices heading present`);
+  for (const price of ["€90", "€95", "€115", "€135"]) {
+    assert(
+      page.html.includes(price),
+      `${page.label}: membership price present (${price})`,
+    );
+  }
+  assert(
+    page.html.includes(`data-tip="${page.tooltip}"`),
+    `${page.label}: trial month info tip present`,
+  );
+  assert(
+    page.html.includes("usc-topup-details"),
+    `${page.label}: USC top-up details block present`,
+  );
+  assert(
+    page.html.includes(page.uscSummary),
+    `${page.label}: USC summary localized (${page.uscSummary})`,
+  );
+  assert(page.html.includes(page.mTier), `${page.label}: M tier present`);
+  for (const price of ["€65", "€85", "€105", "€55", "€75"]) {
+    assert(
+      page.html.includes(price),
+      `${page.label}: USC top-up price present (${price})`,
+    );
+  }
+  assert(
+    !page.html.includes("\\="),
+    `${page.label}: no MDX-escaped equals left in output`,
+  );
+  // .additional-pricing block intentionally stays in the MDX (scope decision)
+  assert(page.html.includes("Drop-In"), `${page.label}: drop-in block present`);
+  assert(page.html.includes("€20"), `${page.label}: drop-in price present`);
+  assert(
+    page.html.includes(page.dropInNote),
+    `${page.label}: drop-in note localized`,
+  );
+  assert(
+    page.html.includes(page.passName),
+    `${page.label}: visiting pass present (${page.passName})`,
+  );
+  assert(page.html.includes("€80"), `${page.label}: visiting pass price present`);
+  assert(
+    page.html.includes(`href="${href(page.label === "EN" ? "/contact" : "/de/kontakt")}"`),
+    `${page.label}: discount note links to contact page`,
+  );
+}
+
 // ── Summary ─────────────────────────────────────────────────────
 console.log(`\n${"=".repeat(50)}`);
 console.log(`Total: ${total} | Passed: ${passed} | Failed: ${failures.length}`);

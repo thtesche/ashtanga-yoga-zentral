@@ -1,0 +1,39 @@
+---
+import PricingCard from "./PricingCard.astro";
+
+/**
+ * Grid of pricing cards (memberships).
+ *
+ * The cards are passed as a plain array so AstroCMS can edit them in its
+ * table editor (one row per card) — same pattern as FaqAccordion's items.
+ */
+
+/** A single pricing card entry (field docs: see PricingCard). */
+interface PricingCardData {
+  /** Card heading, e.g. "Trial Month". */
+  title: string;
+  /** Price, rendered as-is, e.g. "€90". */
+  price: string;
+  /** Optional tooltip text shown in the info marker next to the title. */
+  tooltip?: string;
+}
+
+interface Props {
+  /** Pricing cards to render (content lives in the MDX file, CMS-editable). */
+  cards: PricingCardData[];
+}
+
+const { cards = [] } = Astro.props;
+---
+
+<div class="pricing-grid">
+  {cards.map((card) => <PricingCard {...card} />)}
+</div>
+
+<style>
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+</style>

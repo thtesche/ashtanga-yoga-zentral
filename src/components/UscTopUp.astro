@@ -1,0 +1,190 @@
+---
+/**
+ * Urban Sports Club top-up block: collapsible details with the M/L
+ * membership tiers and their additional-class prices.
+ *
+ * Used on the home pages below the pricing grid. All text is UI content, so
+ * it lives in an internal string table keyed by `locale` (ContactForm pattern).
+ */
+
+interface Props {
+  /** Locale for the top-up text ("en" | "de"). */
+  locale: 'en' | 'de';
+}
+
+const { locale } = Astro.props;
+
+/** One price row of a tier. */
+interface UscPrice {
+  /** What the price covers, e.g. "4 additional classes". */
+  label: string;
+  /** The price, e.g. "€65". */
+  price: string;
+}
+
+/** One membership tier (M or L). */
+interface UscTier {
+  /** Tier heading, e.g. "M Membership". */
+  name: string;
+  /** Included-classes note, e.g. "(4x/month included)". */
+  included: string;
+  /** Top-up price rows. */
+  prices: UscPrice[];
+}
+
+/** USC top-up text per locale — single source of truth. */
+const STRINGS = {
+  en: {
+    summary: 'USC Top Up — Practice More',
+    intro: 'Would you like to practice more than your membership allows?',
+    tiers: [
+      {
+        name: 'M Membership',
+        included: '(4x/month included)',
+        prices: [
+          { label: '4 additional classes', price: '€65' },
+          { label: '8 additional classes', price: '€85' },
+          { label: 'unlimited additional classes', price: '€105' },
+        ],
+      },
+      {
+        name: 'L Membership',
+        included: '(8x/month included)',
+        prices: [
+          { label: '4 additional classes', price: '€55' },
+          { label: 'unlimited additional classes', price: '€75' },
+        ],
+      },
+    ],
+  },
+  de: {
+    summary: 'USC Top Up — Mehr Praktizieren',
+    intro:
+      'Möchtest du häufiger praktizieren als dein Mitgliedschaftsmodell vorsieht?',
+    tiers: [
+      {
+        name: 'M Mitgliedschaft',
+        included: '(4x/Monat enthalten)',
+        prices: [
+          { label: '4 zusätzliche Klassen', price: '€65' },
+          { label: '8 zusätzliche Klassen', price: '€85' },
+          { label: 'unbegrenzte zusätzliche Klassen', price: '€105' },
+        ],
+      },
+      {
+        name: 'L Mitgliedschaft',
+        included: '(8x/Monat enthalten)',
+        prices: [
+          { label: '4 zusätzliche Klassen', price: '€55' },
+          { label: 'unbegrenzte zusätzliche Klassen', price: '€75' },
+        ],
+      },
+    ],
+  },
+} as const;
+
+const t = STRINGS[locale];
+---
+
+<details class="usc-topup-details">
+  <summary>{t.summary}</summary>
+
+  <p class="usc-topup-intro">{t.intro}</p>
+
+  <div class="grid-2-col">
+    {
+      t.tiers.map((tier) => (
+        <div class="usc-tier">
+          <strong>{tier.name}</strong>
+
+          <p class="text-muted">{tier.included}</p>
+
+          <ul class="usc-prices">
+            {tier.prices.map((row) => (
+              <li>
+                {row.label} = <strong>{row.price}</strong>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</details>
+
+<style>
+  .usc-topup-details {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin: 1.5rem auto;
+    max-width: 700px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .usc-topup-details summary {
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-primary);
+    padding: 0.3rem 0;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .usc-topup-details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .usc-topup-details summary::before {
+    content: "▸";
+    display: inline-block;
+    transition: transform var(--transition-fast);
+    font-size: 0.9rem;
+  }
+
+  .usc-topup-details[open] summary::before {
+    transform: rotate(90deg);
+  }
+
+  .usc-topup-details[open] {
+    padding: 1.5rem;
+  }
+
+  .usc-topup-intro {
+    color: #555;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .usc-tier {
+    padding: 1rem;
+  }
+
+  .usc-tier strong {
+    color: var(--color-text);
+    font-size: 1rem;
+  }
+
+  .usc-prices {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.75rem;
+  }
+
+  .usc-prices li {
+    padding: 0.4rem 0;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    border-bottom: 1px dashed var(--color-border);
+  }
+
+  .usc-prices li:last-child {
+    border-bottom: none;
+  }
+</style>

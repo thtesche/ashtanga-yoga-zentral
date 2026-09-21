@@ -35,30 +35,7 @@ import img3 from "../../../assets/images/img_3_ashtanga_yoga_zentral_berlin_myso
   <section id="schedule" class="schedule-section section">
     <div class="container">
       <div class="grid-2-col">
-        <div class="surface">
-          <h2 class="text-secondary">Stundenplan</h2>
-
-          <ul class="schedule-list">
-            <li>
-              <strong>Montag – Freitag</strong>
-              <span>6:30 – 9:30 Uhr</span>
-            </li>
-
-            <li>
-              <strong>Led Primary Class <span class="badge">monatlich</span></strong>
-              <span>7:00 – 8:30 Uhr</span>
-            </li>
-
-            <li>
-              <strong>Sonntag</strong>
-              <span>7:30 – 9:45 Uhr</span>
-            </li>
-
-            <li>
-              <strong>Geschlossen an <LocalizedLink locale="de" to="moondays">Moondays</LocalizedLink></strong>
-            </li>
-          </ul>
-        </div>
+        <ScheduleSection locale="de" />
 
         <div class="surface">
           <h2 class="text-secondary">Standort</h2>
@@ -79,55 +56,16 @@ import img3 from "../../../assets/images/img_3_ashtanga_yoga_zentral_berlin_myso
     <div class="container">
       <h2 class="text-center text-primary mb-3">Preise</h2>
 
-      <div class="pricing-grid">
-        <div class="surface pricing-card">
-          <h3>Probemonat <i class="info-tip" data-tip="Unbegrenzte Klassen für Anfänger.">i</i></h3>
-          <div class="price">€90</div>
-        </div>
+      <PricingGrid
+        cards={[
+          { title: "Probemonat", price: "€90", tooltip: "Unbegrenzte Klassen für Anfänger." },
+          { title: "8x im Monat", price: "€95" },
+          { title: "12x im Monat", price: "€115" },
+          { title: "Unbegrenzt Monat", price: "€135" }
+        ]}
+      />
 
-        <div class="surface pricing-card">
-          <h3>8x im Monat</h3>
-          <div class="price">€95</div>
-        </div>
-
-        <div class="surface pricing-card">
-          <h3>12x im Monat</h3>
-          <div class="price">€115</div>
-        </div>
-
-        <div class="surface pricing-card">
-          <h3>Unbegrenzt Monat</h3>
-          <div class="price">€135</div>
-        </div>
-      </div>
-
-      <details class="usc-topup-details">
-        <summary>USC Top Up — Mehr Praktizieren</summary>
-        <p class="usc-topup-intro">Möchtest du häufiger praktizieren als dein Mitgliedschaftsmodell vorsieht?</p>
-
-        <div class="grid-2-col">
-          <div class="usc-tier">
-            <strong>M Mitgliedschaft</strong>
-            <p class="text-muted">(4x/Monat enthalten)</p>
-
-            <ul class="usc-prices">
-              <li>4 zusätzliche Klassen \= <strong>€65</strong></li>
-              <li>8 zusätzliche Klassen \= <strong>€85</strong></li>
-              <li>unbegrenzte zusätzliche Klassen \= <strong>€105</strong></li>
-            </ul>
-          </div>
-
-          <div class="usc-tier">
-            <strong>L Mitgliedschaft</strong>
-            <p class="text-muted">(8x/Monat enthalten)</p>
-
-            <ul class="usc-prices">
-              <li>4 zusätzliche Klassen \= <strong>€55</strong></li>
-              <li>unbegrenzte zusätzliche Klassen \= <strong>€75</strong></li>
-            </ul>
-          </div>
-        </div>
-      </details>
+      <UscTopUp locale="de" />
 
       <div class="surface mt-3 text-center additional-pricing">
         <div class="grid-2-col">

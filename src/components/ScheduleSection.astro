@@ -1,0 +1,113 @@
+---
+import LocalizedLink from "./LocalizedLink.astro";
+
+/**
+ * Class schedule surface: heading and the list of class times.
+ *
+ * Used on the home pages inside the two-column schedule section; the section
+ * wrapper (with its `id="schedule"` anchor) and the location surface stay in
+ * the MDX (page structure). All text is UI content, so it lives in an
+ * internal string table keyed by `locale` (same pattern as ContactForm).
+ */
+
+interface Props {
+  /** Locale for the schedule text ("en" | "de"). */
+  locale: 'en' | 'de';
+}
+
+const { locale } = Astro.props;
+
+/** One row of the schedule list. */
+interface ScheduleEntry {
+  /** Row label, e.g. "Monday – Friday". */
+  label: string;
+  /** Optional badge next to the label, e.g. "monthly". */
+  badge?: string;
+  /** Class time, e.g. "6:30 – 9:30 am". Omitted for the closed row. */
+  time?: string;
+}
+
+/** Schedule text per locale — single source of truth. */
+const SCHEDULES = {
+  en: {
+    heading: 'Class Schedule',
+    entries: [
+      { label: 'Monday – Friday', time: '6:30 – 9:30 am' },
+      { label: 'Led Primary Class', badge: 'monthly', time: '7:00 – 8:30 am' },
+      { label: 'Sunday', time: '7:30 – 9:45 am' },
+    ],
+    closedPrefix: 'Closed on',
+  },
+  de: {
+    heading: 'Stundenplan',
+    entries: [
+      { label: 'Montag – Freitag', time: '6:30 – 9:30 Uhr' },
+      { label: 'Led Primary Class', badge: 'monatlich', time: '7:00 – 8:30 Uhr' },
+      { label: 'Sonntag', time: '7:30 – 9:45 Uhr' },
+    ],
+    closedPrefix: 'Geschlossen an',
+  },
+} as const;
+
+const schedule = SCHEDULES[locale];
+---
+
+<div class="surface">
+  <h2 class="text-secondary">{schedule.heading}</h2>
+
+  <ul class="schedule-list">
+    {
+      schedule.entries.map((entry) => (
+        <li>
+          <strong>
+            {entry.label}
+            {entry.badge && <span class="badge">{entry.badge}</span>}
+          </strong>
+          {entry.time && <span>{entry.time}</span>}
+        </li>
+      ))
+    }
+
+    <li>
+      <strong>
+        {schedule.closedPrefix}{' '}
+        <LocalizedLink locale={locale} to="moondays">Moondays</LocalizedLink>
+      </strong>
+    </li>
+  </ul>
+</div>
+
+<style>
+  .schedule-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .schedule-list li {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .schedule-list li:last-child {
+    border-bottom: none;
+  }
+
+  .schedule-list strong {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .badge {
+    font-size: 0.75rem;
+    background: var(--color-bg);
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-weight: normal;
+    color: var(--color-text);
+  }
+</style>
