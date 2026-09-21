@@ -720,7 +720,7 @@ const pricingPages = [
   {
     html: enIndex,
     label: "EN",
-    heading: ">Prices<",
+    heading: '> Prices <i class="info-tip"',
     tooltip: "Unlimited classes for beginners.",
     uscSummary: "USC Top Up — Practice More",
     mTier: "M Membership",
@@ -730,7 +730,7 @@ const pricingPages = [
   {
     html: deIndex,
     label: "DE",
-    heading: ">Preise<",
+    heading: '> Preise <i class="info-tip"',
     tooltip: "Unbegrenzte Klassen für Anfänger.",
     uscSummary: "USC Top Up — Mehr Praktizieren",
     mTier: "M Mitgliedschaft",
@@ -739,7 +739,10 @@ const pricingPages = [
   },
 ];
 for (const page of pricingPages) {
-  assert(page.html.includes(page.heading), `${page.label}: prices heading present`);
+  // Heading carries an info marker (PR #5); dist HTML is multi-line, so
+  // normalize whitespace to single spaces before matching.
+  const flat = page.html.replace(/\s+/g, " ");
+  assert(flat.includes(page.heading), `${page.label}: prices heading present`);
   for (const price of ["€90", "€95", "€115", "€135"]) {
     assert(
       page.html.includes(price),
