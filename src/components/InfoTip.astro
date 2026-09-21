@@ -19,6 +19,8 @@ const { tip } = Astro.props;
 <style>
   .info-tip {
     position: relative;
+    /* Sit the marker at the top of the text instead of on the baseline. */
+    vertical-align: text-top;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -35,7 +37,8 @@ const { tip } = Astro.props;
 
   .info-tip::after {
     content: attr(data-tip);
-    position: fixed;
+    /* Absolute (not fixed): positioned relative to the marker, not the viewport. */
+    position: absolute;
     bottom: calc(100% + 0.5rem);
     left: 50%;
     transform: translateX(-50%);
