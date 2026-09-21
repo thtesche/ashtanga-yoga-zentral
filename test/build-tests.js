@@ -790,6 +790,39 @@ for (const page of pricingPages) {
   );
 }
 
+// ── InfoTip (scoped styles must reach every usage) ─────────────
+console.log("\nInfoTip:");
+
+// Collect all CSS delivered to a page (linked stylesheets + inline <style> blocks).
+function deliveredCSS(html) {
+  let css = "";
+  for (const m of html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)) {
+    css += fs.readFileSync(path.join(DIST, m[1].replace(/^\//, "")), "utf-8");
+  }
+  for (const m of html.matchAll(/<style>([\s\S]*?)<\/style>/g)) {
+    css += m[1];
+  }
+  return css;
+}
+
+for (const page of pricingPages) {
+  const flat = page.html.replace(/\s+/g, " ");
+  const css = deliveredCSS(page.html);
+  // Every info-tip element must carry a scope ID with a matching CSS rule,
+  // otherwise the marker renders unstyled (plain italic "i").
+  const tips = [...flat.matchAll(/class="info-tip"[^>]*?data-astro-cid-(\w+)/g)];
+  assert(
+    tips.length >= 2,
+    `${page.label}: info-tip elements present (heading + trial month, found ${tips.length})`,
+  );
+  for (const [, cid] of tips) {
+    assert(
+      css.includes(`.info-tip[data-astro-cid-${cid}]`),
+      `${page.label}: info-tip scoped styles delivered (data-astro-cid-${cid})`,
+    );
+  }
+}
+
 // ── Summary ─────────────────────────────────────────────────────
 console.log(`\n${"=".repeat(50)}`);
 console.log(`Total: ${total} | Passed: ${passed} | Failed: ${failures.length}`);

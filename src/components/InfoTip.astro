@@ -1,0 +1,66 @@
+---
+/**
+ * Small circular info marker with a tooltip on hover/focus.
+ *
+ * The styles live here (scoped) so the marker is styled at every usage —
+ * inside components and directly in MDX (e.g. the Prices/Preise heading).
+ */
+
+interface Props {
+  /** Tooltip text shown above the marker on hover/focus. */
+  tip: string;
+}
+
+const { tip } = Astro.props;
+---
+
+<i class="info-tip" data-tip={tip}>i</i>
+
+<style>
+  .info-tip {
+    position: relative;
+    /* Sit the marker at the top of the text instead of on the baseline. */
+    vertical-align: text-top;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border: 1.5px solid #999;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-style: normal;
+    font-weight: 700;
+    color: #999;
+    cursor: help;
+  }
+
+  .info-tip::after {
+    content: attr(data-tip);
+    /* Absolute (not fixed): positioned relative to the marker, not the viewport. */
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 400;
+    font-style: normal;
+    white-space: normal;
+    width: 180px;
+    text-align: center;
+    line-height: 1.4;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 1000;
+  }
+
+  .info-tip:hover::after,
+  .info-tip:focus::after {
+    opacity: 1;
+  }
+</style>
