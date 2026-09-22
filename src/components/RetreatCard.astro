@@ -1,0 +1,156 @@
+---
+import { Image } from "astro:assets";
+import { resolveImagePath } from "./image-assets.ts";
+
+/**
+ * Retreat card: horizontal card (date panel + content) used on the retreats
+ * page (EN + DE).
+ *
+ * Body text is passed as slot content (Markdown), so it stays readable and
+ * editable in the AstroCMS editor.
+ */
+
+/** Marker type: AstroCMS renders an image picker for props typed `ImagePath`. */
+type ImagePath = string;
+
+interface Props {
+  /** Date range shown in the date panel. */
+  date: string;
+  /** Retreat title. */
+  title: string;
+  /** Path to the card image, relative to the MDX file (e.g. ../../assets/images/foo.webp). */
+  image?: ImagePath;
+  /** Alt text for the card image. */
+  imageAlt?: string;
+  /** Optional small note (muted style, e.g. arrival/departure info). */
+  note?: string;
+  /** Optional link to external content (e.g. gallery). */
+  linkUrl?: string;
+  /** Link text. */
+  linkText?: string;
+}
+
+const {
+  date,
+  title,
+  image,
+  imageAlt = "",
+  note = "",
+  linkUrl = "",
+  linkText = "Gallery",
+} = Astro.props;
+
+// Resolved at build time from the CMS path; null skips the image gracefully.
+const src = resolveImagePath(image);
+---
+
+<div class="retreat-card surface animate-fade-in-delay">
+  <div class="retreat-date">{date}</div>
+
+  <div class="retreat-content">
+    {src && (
+      <Image src={src} alt={imageAlt} class="retreat-img" loading="eager" />
+    )}
+
+    <h3>{title}</h3>
+
+    {note && <p class="note">{note}</p>}
+
+    <slot />
+
+    {linkUrl && (
+      <div class="retreat-footer">
+        <a
+          href={linkUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-outline"
+        >
+          {linkText}
+        </a>
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .retreat-card {
+    display: flex;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .retreat-date {
+    background-color: var(--color-secondary);
+    color: #fff;
+    padding: 2.5rem 1.5rem;
+    min-width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .retreat-img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+  }
+
+  .retreat-content {
+    padding: 2.5rem;
+    flex-grow: 1;
+  }
+
+  .retreat-content p {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .retreat-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .note {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 1rem;
+  }
+
+  .retreat-footer {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    flex-wrap: wrap;
+  }
+
+  .retreat-content h3 + .note {
+    margin-top: 0;
+  }
+
+  @media (max-width: 768px) {
+    .retreat-card {
+      flex-direction: column;
+    }
+
+    .retreat-date {
+      min-width: 100%;
+      padding: 1.5rem;
+      font-size: 1.25rem;
+    }
+
+    .retreat-footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

@@ -3,72 +3,58 @@ title: Retreats & Events
 description: Explore past Ashtanga Yoga and meditation retreats with Elinore Burke — Puglia, Mecklenburg & Berlin.
 ---
 
-import "../../styles/retreats.css";
-import img1 from "../../assets/images/img_1_elinore_retreat_mecklenburg.webp";
-import img2 from "../../assets/images/img_2_yogaPulia_retreat_centre_images.webp";
-import larugaPadma from "../../assets/images/laruga_padma.webp";
-import larugaUrdhvamukha from "../../assets/images/laruga_urdhvamukha.webp";
-
-
 <PageHeader title="Retreats & Events" subtitle="Yoga & Meditation Retreats" />
 
   <section class="section bg-light">
     <div class="container">
       <h2 class="text-center mb-4">Past Retreats & Events</h2>
 
-      <div class="retreat-card surface animate-fade-in-delay">
-        <div class="retreat-date">1 – 7 August 2026</div>
+      <RetreatCard
+        date="1 – 7 August 2026"
+        title="Ashtanga Yoga Retreat – Puglia, Italy"
+        image="../../assets/images/img_2_yogaPulia_retreat_centre_images.webp"
+        imageAlt="YogaPulia retreat center in Puglia – pool, practice room and seaside"
+        linkUrl="https://www.yogapulia.com/elinore-burke-2026"
+        linkText="Gallery"
+      >
+        We had an amazing week at YogApulia, a boutique retreat center in the gorgeous Puglia region of Southern Italy.
 
-        <div class="retreat-content">
-          <Image src={img2} alt="YogApulia retreat center in Puglia – pool, practice room and seaside" class="retreat-img" width={800} height={180} loading="eager" />
+        We practiced guided-self Ashtanga Yoga (Mysore style), did pranayama, chanting, and seated/walking meditation, and enjoyed workshops and evening classes shaped by the group. The retreat was open to all levels, with space for just 12 participants to ensure personalized support.
 
-          <h3>Ashtanga Yoga Retreat – Puglia, Italy</h3>
-          <p>We had an amazing week at YogApulia, a boutique retreat center in the gorgeous Puglia region of Southern Italy.</p>
-          <p>We practiced guided-self Ashtanga Yoga (Mysore style), did pranayama, chanting, and seated/walking meditation, and enjoyed workshops and evening classes shaped by the group. The retreat was open to all levels, with space for just 12 participants to ensure personalized support.</p>
-          <p>Delicious plant-based meals inspired by local traditions nourished and sustained our practice. In our free time, we relaxed by the pool and explored olive groves, beaches, markets, and nearby towns.</p>
+        Delicious plant-based meals inspired by local traditions nourished and sustained our practice. In our free time, we relaxed by the pool and explored olive groves, beaches, markets, and nearby towns.
+      </RetreatCard>
 
-          <div class="retreat-footer">
-            <a href="https://www.yogapulia.com/elinore-burke-2026" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Gallery</a>
-          </div>
-        </div>
-      </div>
+      <RetreatCard
+        date="25 – 28 June 2026"
+        title="Ashtanga Yoga Long Weekend in Mecklenburg"
+        image="../../assets/images/img_1_elinore_retreat_mecklenburg.webp"
+        imageAlt="Mecklenburg retreat – forest walk and practice space in the converted barn"
+        note="(arrive Thursday late afternoon – depart Sunday after Lunch)"
+      >
+        This weekend retreat offered us a special opportunity to come together and delve deeply into ideas that enrich our practice, complemented by chanting, breath work, and meditation. There were morning Mysore sessions and workshops tailored to your interests.
 
-      <div class="retreat-card surface animate-fade-in-delay">
-        <div class="retreat-date">25 – 28 June 2026</div>
-
-        <div class="retreat-content">
-          <Image src={img1} alt="Mecklenburg retreat – forest walk and practice space in the converted barn" class="retreat-img" width={800} height={180} loading="eager" />
-
-          <h3>Ashtanga Yoga Long Weekend in Mecklenburg</h3>
-          <p class="text-muted mb-2">(arrive Thursday late afternoon – depart Sunday after Lunch)</p>
-          <p>This weekend retreat offered us a special opportunity to come together and delve deeply into ideas that enrich our practice, complemented by chanting, breath work, and meditation. There were morning Mysore sessions and workshops tailored to your interests.</p>
-          <p>We had plenty of time to connect in a relaxed setting while our host, Juli, whipped up her delish vegetarian/vegan eats. The converted farm building has comfy beds, plenty of space and a wood-burning sauna. A walk through the woods leads us to the Tollense Lake for a swim.</p>
-        </div>
-      </div>
+        We had plenty of time to connect in a relaxed setting while our host, Juli, whipped up her delish vegetarian/vegan eats. The converted farm building has comfy beds, plenty of space and a wood-burning sauna. A walk through the woods leads us to the Tollense Lake for a swim.
+      </RetreatCard>
 
       <div class="grid-2-col mt-4">
-        <div class="surface event-card">
-          <Image src={larugaPadma} alt="Laruga Glaser in seated meditation (Padmasana)" class="event-img" style="aspect-ratio: auto; max-height: none;" loading="lazy" />
+        <WorkshopCard
+          image="../../assets/images/laruga_padma.webp"
+          imageAlt="Laruga Glaser in seated meditation (Padmasana)"
+          title="LARUGA returns to Berlin"
+          date="22–28 Sept 2025"
+          details={["Mysore Practice Week", "Weekend Workshop", "Location: SPREEFELD"]}
+        >
+          I'm delighted to welcome Laruga Glaser back to Berlin for the fourth time — a rare opportunity to deepen your practice with one of Ashtanga's most experienced teachers.
+        </WorkshopCard>
 
-          <h3>LARUGA returns to Berlin</h3>
-          <p class="text-muted">22–28 Sept 2025</p>
-          <p>I'm delighted to welcome Laruga Glaser back to Berlin for the fourth time — a rare opportunity to deepen your practice with one of Ashtanga's most experienced teachers.</p>
-
-          <ul class="event-details">
-            <li>Mysore Practice Week</li>
-            <li>Weekend Workshop</li>
-            <li>Location: SPREEFELD</li>
-          </ul>
-        </div>
-
-        <div class="surface event-card">
-          <Image src={larugaUrdhvamukha} alt="Laruga Glaser in Urdhva Mukha Paschimottanasana" class="event-img" style="aspect-ratio: auto; max-height: none;" loading="lazy" />
-
-          <h3>Weekend Workshop with Laruga</h3>
-          <p class="text-muted">27–29 Sept 2024</p>
-          <p>Hosted Laruga for the 3rd time in Berlin! Included led classes, mysore practice, and special workshops.</p>
-        </div>
+        <WorkshopCard
+          image="../../assets/images/laruga_urdhvamukha.webp"
+          imageAlt="Laruga Glaser in Urdhva Mukha Paschimottanasana"
+          title="Weekend Workshop with Laruga"
+          date="27–29 Sept 2024"
+        >
+          Hosted Laruga for the 3rd time in Berlin! Included led classes, mysore practice, and special workshops.
+        </WorkshopCard>
       </div>
     </div>
-
   </section>
