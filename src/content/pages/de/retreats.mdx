@@ -3,71 +3,58 @@ title: Retreats & Veranstaltungen
 description: Entdecke vergangene Ashtanga Yoga- und Meditations-Retreats mit Elinore Burke – Apulien, Mecklenburg & Berlin.
 ---
 
-import "../../../styles/retreats.css";
-import img1 from "../../../assets/images/img_1_elinore_retreat_mecklenburg.webp";
-import img2 from "../../../assets/images/img_2_yogaPulia_retreat_centre_images.webp";
-import larugaPadma from "../../../assets/images/laruga_padma.webp";
-import larugaUrdhvamukha from "../../../assets/images/laruga_urdhvamukha.webp";
-
 <PageHeader title="Retreats & Veranstaltungen" subtitle="Yoga- & Meditations-Retreats" />
 
   <section class="section bg-light">
     <div class="container">
       <h2 class="text-center mb-4">Vergangene Retreats & Veranstaltungen</h2>
 
-      <div class="retreat-card surface animate-fade-in-delay">
-        <div class="retreat-date">1. – 7. August 2026</div>
+      <RetreatCard
+        date="1. – 7. August 2026"
+        title="Ashtanga Yoga Retreat – Apulien, Italien"
+        image="../../assets/images/img_2_yogaPulia_retreat_centre_images.webp"
+        imageAlt="Retreat-Zentrum YogApulia in Apulien – Pool, Übungsraum und Meer"
+        linkUrl="https://www.yogapulia.com/elinore-burke-2026"
+        linkText="Galerie"
+      >
+        Wir hatten eine wunderbare Woche im YogApulia, einem exklusiven Boutique-Retreat-Zentrum in der wunderschönen Region Apulien in Süditalien.
 
-        <div class="retreat-content">
-          <Image src={img2} alt="Retreat-Zentrum YogApulia in Apulien – Pool, Übungsraum und Meer" class="retreat-img" width={800} height={180} loading="eager" />
+        Wir praktizierten Ashtanga Yoga im Mysore-Stil, machten Pranayama, Chanting und Sitz- sowie Gehmeditation und genossen Workshops und Abendklassen, die von der Gruppe mitgestaltet wurden. Das Retreat war für alle Levels offen. Um eine persönliche Betreuung zu garantieren, gab es Platz für nur 12 Teilnehmende.
 
-          <h3>Ashtanga Yoga Retreat – Apulien, Italien</h3>
-          <p>Wir hatten eine wunderbare Woche im YogApulia, einem exklusiven Boutique-Retreat-Zentrum in der wunderschönen Region Apulien in Süditalien.</p>
-          <p>Wir praktizierten Ashtanga Yoga im Mysore-Stil, machten Pranayama, Chanting und Sitz- sowie Gehmeditation und genossen Workshops und Abendklassen, die von der Gruppe mitgestaltet wurden. Das Retreat war für alle Levels offen. Um eine persönliche Betreuung zu garantieren, gab es Platz für nur 12 Teilnehmende.</p>
-          <p>Die köstlichen, rein pflanzlichen Mahlzeiten, inspiriert von lokalen Traditionen, nähren und unterstützten unsere Praxis. In unserer Freizeit relaxten wir am Pool und erkundeten Olivenhaine, Strände, Märkte und die umliegenden Städte.</p>
+        Die köstlichen, rein pflanzlichen Mahlzeiten, inspiriert von lokalen Traditionen, nähren und unterstützten unsere Praxis. In unserer Freizeit relaxten wir am Pool und erkundeten Olivenhaine, Strände, Märkte und die umliegenden Städte.
+      </RetreatCard>
 
-          <div class="retreat-footer">
-            <a href="https://www.yogapulia.com/elinore-burke-2026" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Galerie</a>
-          </div>
-        </div>
-      </div>
+      <RetreatCard
+        date="25. – 28. Juni 2026"
+        title="Ashtanga Yoga Verlängertes Wochenende in Mecklenburg"
+        image="../../assets/images/img_1_elinore_retreat_mecklenburg.webp"
+        imageAlt="Retreat in Mecklenburg – Waldspaziergang und Übungsraum im umgebauten Bauernhaus"
+        note="(Anreise Donnerstag am späten Nachmittag – Abreise Sonntag nach dem Mittagessen)"
+      >
+        Dieses Wochenend-Retreat bot uns eine besondere Gelegenheit zusammenzukommen und tief in Themen einzutauchen, die unsere Praxis bereichern – ergänzt durch Chanting, Atemarbeit und Meditation. Es gab morgendliche Mysore-Klassen und auf eure Interessen zugeschnittene Workshops.
 
-      <div class="retreat-card surface animate-fade-in-delay">
-        <div class="retreat-date">25. – 28. Juni 2026</div>
-
-        <div class="retreat-content">
-          <Image src={img1} alt="Retreat in Mecklenburg – Waldspaziergang und Übungsraum im umgebauten Bauernhaus" class="retreat-img" width={800} height={180} loading="eager" />
-
-          <h3>Ashtanga Yoga Verlängertes Wochenende in Mecklenburg</h3>
-          <p class="text-muted mb-2">(Anreise Donnerstag am späten Nachmittag – Abreise Sonntag nach dem Mittagessen)</p>
-          <p>Dieses Wochenend-Retreat bot uns eine besondere Gelegenheit zusammenzukommen und tief in Themen einzutauchen, die unsere Praxis bereichern – ergänzt durch Chanting, Atemarbeit und Meditation. Es gab morgendliche Mysore-Klassen und auf eure Interessen zugeschnittene Workshops.</p>
-          <p>Wir hatten viel Zeit, uns in entspannter Atmosphäre auszutauschen, während unsere Gastgeberin Juli ihre köstlichen vegetarischen/veganen Gerichte zauberte. Der umgebaute Bauernhof bietet gemütliche Betten, jede Menge Platz und eine holzbeheizte Sauna. Ein Spaziergang durch den Wald führt uns zum Tollensesee, der zu einer Erfrischung einläd.</p>
-        </div>
-      </div>
+        Wir hatten viel Zeit, uns in entspannter Atmosphäre auszutauschen, während unsere Gastgeberin Juli ihre köstlichen vegetarischen/veganen Gerichte zauberte. Der umgebaute Bauernhof bietet gemütliche Betten, jede Menge Platz und eine holzbeheizte Sauna. Ein Spaziergang durch den Wald führt uns zum Tollensesee, der zu einer Erfrischung einläd.
+      </RetreatCard>
 
       <div class="grid-2-col mt-4">
-        <div class="surface event-card">
-          <Image src={larugaPadma} alt="Laruga Glaser in sitzender Meditation (Padmasana)" class="event-img" style="aspect-ratio: auto; max-height: none;" loading="lazy" />
+        <WorkshopCard
+          image="../../assets/images/laruga_padma.webp"
+          imageAlt="Laruga Glaser in sitzender Meditation (Padmasana)"
+          title="LARUGA kehrt zurück nach Berlin"
+          date="22. – 28. Sept. 2025"
+          details={["Mysore-Praxiswoche", "Wochenend-Workshop", "Ort: SPREEFELD"]}
+        >
+          Ich freue mich sehr, Laruga Glaser zum vierten Mal in Berlin begrüßen zu dürfen — eine seltene Gelegenheit, deine Praxis mit einer der erfahrensten Ashtanga-Lehrerinnen zu vertiefen.
+        </WorkshopCard>
 
-          <h3>LARUGA kehrt zurück nach Berlin</h3>
-          <p class="text-muted">22. – 28. Sept. 2025</p>
-          <p>Ich freue mich sehr, Laruga Glaser zum vierten Mal in Berlin begrüßen zu dürfen — eine seltene Gelegenheit, deine Praxis mit einer der erfahrensten Ashtanga-Lehrerinnen zu vertiefen.</p>
-
-          <ul class="event-details">
-            <li>Mysore-Praxiswoche</li>
-            <li>Wochenend-Workshop</li>
-            <li>Ort: SPREEFELD</li>
-          </ul>
-        </div>
-
-        <div class="surface event-card">
-          <Image src={larugaUrdhvamukha} alt="Laruga Glaser in Urdhva Mukha Paschimottanasana" class="event-img" style="aspect-ratio: auto; max-height: none;" loading="lazy" />
-
-          <h3>Wochenend-Workshop mit Laruga</h3>
-          <p class="text-muted">27. – 29. Sept. 2024</p>
-          <p>Bereits zum 3. Mal durften wir Laruga in Berlin veranstalten! Auf dem Programm standen geführte Klassen (Led Classes), Mysore-Praxis und spezielle Workshops.</p>
-        </div>
+        <WorkshopCard
+          image="../../assets/images/laruga_urdhvamukha.webp"
+          imageAlt="Laruga Glaser in Urdhva Mukha Paschimottanasana"
+          title="Wochenend-Workshop mit Laruga"
+          date="27. – 29. Sept. 2024"
+        >
+          Bereits zum 3. Mal durften wir Laruga in Berlin veranstalten! Auf dem Programm standen geführte Klassen (Led Classes), Mysore-Praxis und spezielle Workshops.
+        </WorkshopCard>
       </div>
     </div>
-
   </section>
