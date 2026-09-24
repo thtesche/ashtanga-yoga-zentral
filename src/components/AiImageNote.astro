@@ -1,0 +1,42 @@
+---
+/**
+ * Full-width end-of-page note (used on the teacher pages DE + EN):
+ * "Bild-Hintergrund KI generiert" / "Image background AI generated".
+ *
+ * Spans the entire page width, renders the text centered, uses the
+ * darkest font color in the design, and has no additional background.
+ *
+ * The text lives in the MDX file, so it is CMS-editable.
+ */
+interface Props {
+  /** Note text to display. */
+  text: string;
+}
+
+const { text = "" } = Astro.props;
+---
+
+{
+  text && (
+    <section class="section ai-image-note">
+      <p class="ai-image-note__text">{text}</p>
+    </section>
+  )
+}
+
+<style>
+  .ai-image-note {
+    background: none;
+    padding: 1.5rem 0 3rem;
+  }
+
+  .ai-image-note__text {
+    margin: 0 auto;
+    max-width: 48ch;
+    text-align: center;
+    font-size: 0.78rem;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--color-text);
+  }
+</style>

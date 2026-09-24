@@ -24,13 +24,11 @@ interface Props {
   image?: ImagePath;
   /** Alt text for the photo. */
   alt?: string;
-  /** Optional small note rendered under the photo (e.g. "Background AI generated"). */
-  imageNote?: string;
   /** Bio paragraphs in display order (content lives in the MDX file, CMS-editable). */
   paragraphs: Paragraph[];
 }
 
-const { image, alt = "", imageNote = "", paragraphs = [] } = Astro.props;
+const { image, alt = "", paragraphs = [] } = Astro.props;
 
 // Resolved at build time from the CMS path; null skips the image gracefully.
 const src = resolveImagePath(image);
@@ -58,7 +56,6 @@ function paragraphHtml(text: string): string {
                 class="about-image"
                 loading="eager"
               />
-              {imageNote && <figcaption class="about-image-note">{imageNote}</figcaption>}
             </figure>
           )
         }
@@ -89,15 +86,6 @@ function paragraphHtml(text: string): string {
     height: auto;
     border-radius: 8px;
     box-shadow: var(--shadow-sm);
-  }
-
-  .about-image-note {
-    margin-top: 0.5rem;
-    font-size: 0.78rem;
-    line-height: 1.4;
-    color: var(--color-text);
-    opacity: 0.55;
-    text-align: center;
   }
 
   .content-block p {
