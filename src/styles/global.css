@@ -252,18 +252,6 @@ main {
 
 /* Styles from index.mdx (Shared components and structure) */
 
-.hero-section {
-  padding: 5.5rem 0 4rem;
-  background: linear-gradient(to bottom, var(--color-bg), #f2ebe1);
-  text-align: center;
-}
-
-.hero-container h1 {
-  font-size: 4rem;
-  line-height: 1.1;
-  margin-bottom: 1.5rem;
-}
-
 .text-primary {
   color: var(--color-primary);
 }
@@ -305,19 +293,6 @@ main {
   margin-top: 3rem;
 }
 
-.hero-subtitle {
-  font-size: 1.25rem;
-  max-width: 700px;
-  margin: 0 auto 2rem;
-  color: #4a5550;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
 .large-text {
   font-size: 1.2rem;
   max-width: 800px;
@@ -357,25 +332,9 @@ main {
   margin-bottom: 0;
 }
 
-.img {
-  width: 100%;
-  max-height: 400px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-}
-
 @media (max-width: 768px) {
-  .hero-container h1 {
-    font-size: 2.5rem;
-  }
-
   .grid-2-col {
     grid-template-columns: 1fr;
-  }
-
-  .hero-actions {
-    flex-direction: column;
   }
 
   .highlight-card {

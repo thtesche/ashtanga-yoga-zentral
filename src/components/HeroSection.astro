@@ -1,0 +1,115 @@
+---
+import { Image } from "astro:assets";
+import { resolveImagePath } from "./image-assets.ts";
+
+/**
+ * Home-page hero: full-width heading block followed by the "Welcome to the
+ * Shala" image block (EN + DE home pages).
+ *
+ * All text is passed as props (page content, CMS-editable); only the button
+ * label is fixed UI text, kept in the internal string table keyed by
+ * `locale` (same pattern as ContactForm / ScheduleSection).
+ */
+
+/** Marker type: AstroCMS renders an image picker for props typed `ImagePath`. */
+type ImagePath = string;
+
+interface Props {
+  /** Locale for UI strings ("en" | "de"). */
+  locale: 'en' | 'de';
+  /** Main H1 heading of the hero. */
+  title: string;
+  /** Subtitle under the H1. */
+  subtitle: string;
+  /** Heading of the welcome block. */
+  welcomeTitle: string;
+  /** Paragraph of the welcome block. */
+  welcomeText: string;
+  /** Path to the hero image, relative to the MDX file (e.g. ../../assets/images/foo.webp). */
+  image: ImagePath;
+  /** Alt text for the hero image. */
+  imageAlt: string;
+}
+
+const { locale, title, subtitle, welcomeTitle, welcomeText, image, imageAlt } = Astro.props;
+
+// Resolved at build time from the CMS path; null skips the image gracefully.
+const src = resolveImagePath(image);
+
+/** Fixed UI text per locale — single source of truth (button label). */
+const UI_TEXT = {
+  en: { scheduleButton: "View Schedule" },
+  de: { scheduleButton: "Stundenplan ansehen" },
+} as const;
+
+const ui = UI_TEXT[locale];
+---
+
+<section class="hero-section section">
+  <div class="container hero-container animate-fade-in">
+    <h1>{title}</h1>
+    <p class="hero-subtitle">{subtitle}</p>
+
+    <div class="hero-actions">
+      <a href="#schedule" class="btn btn-outline">{ui.scheduleButton}</a>
+    </div>
+  </div>
+</section>
+
+<section class="intro-section section bg-light">
+  <div class="container animate-fade-in-delay">
+    <div class="surface text-center">
+      <h2 class="text-primary">{welcomeTitle}</h2>
+
+      {src && (
+        <Image
+          src={src}
+          alt={imageAlt}
+          class="img"
+          width={1200}
+          height={600}
+          loading="eager"
+        />
+      )}
+
+      <p class="large-text">{welcomeText}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    padding: 5.5rem 0 4rem;
+    background: linear-gradient(to bottom, var(--color-bg), #f2ebe1);
+    text-align: center;
+  }
+
+  .hero-container h1 {
+    font-size: 4rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    color: #4a5550;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .hero-container h1 {
+      font-size: 2.5rem;
+    }
+
+    .hero-actions {
+      flex-direction: column;
+    }
+  }
+</style>

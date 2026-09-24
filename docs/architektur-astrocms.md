@@ -454,6 +454,26 @@ Sobald das Fundament aus Shared Components steht, werden die seitenspezifischen 
   <LocationCard ... />
   ```
 
+> [!NOTE]
+> **Umsetzungsnotiz (Phase 2):** Die Komponente deckt sowohl die
+> `hero-section` als auch die `intro-section` ab, damit die Startseiten
+> exakt 4 Komponentenblöcke besitzen (Schedule-, Pricing- und
+> Standort-Sektionen bleiben im MDX). Details:
+>
+> 1. **Texte als Props** (`title`, `subtitle`, `welcomeTitle`,
+>    `welcomeText`, `image`, `imageAlt`): Das ist Seiteninhalt (redaktionell
+>    editierbar). Nur der Button-Text ist UI-Text und lebt in der
+>    internen String-Tabelle über `locale` (ContactForm-Muster).
+> 2. **Styling komplett in Scoped Styles**: `.hero-section`
+>    (Gradient), `.hero-container h1` (inkl. Mobile-Breakpoint),
+>    `.hero-subtitle`, `.hero-actions` wurden aus `global.css` in die
+>    Komponente verschoben.
+> 3. **`.img`-Class aus `global.css` entfernt**: war ausschließlich für
+>    das Hero-Bild; `class="img"` + `width/height` liegen jetzt in der
+>    Komponente.
+> 4. **Image via `resolveImagePath()`** (Marker-Typ `ImagePath` →
+>    Bild-Picker im CMS), null-sicher ohne Image gerendert.
+
 #### 2. Rechtliche Seiten (Impressum, Datenschutz, Legal Notice, GDPR)
 - Diese Seiten (`gdpr.mdx`, `datenschutz.mdx`, `legal_notice.mdx`, `impressum.mdx`) enthalten keine interaktiven Widgets, sondern Fließtext mit rechtlichen Hinweisen.
 - **Zielzustand:** Nach der Layout-Entkopplung bestehen diese Seiten aus reinem, semantischem Markdown:
