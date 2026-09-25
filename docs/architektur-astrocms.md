@@ -1,557 +1,260 @@
-# Architekturkonzept: Weiterentwicklung AstroCMS & Komponenten-Modularisierung
+# Architekturkonzept: AstroCMS & verbleibende Komponenten-Modularisierung
 
-> **Projekt:** Ashtanga Yoga Zentral Berlin (`ashtanga_yoga_zentral_astro`)  
-> **Status:** Entwurf / Vorbereitung für PR  
-> **Datum:** 18. September 2026  
-> **Autor:** Antigravity / Pair Programming  
+> **Projekt:** Ashtanga Yoga Zentral Berlin (`ashtanga_yoga_zentral_astro`)
+> **Status:** Restarbeiten / aktive Backlog-Abrechnung
+> **Aktualisiert:** 25. September 2026
+> **Autor:** Antigravity / Pair Programming
+
+Dieses Dokument beschreibt die aktuelle Architektur und die **noch offenen Arbeiten**. Bereits abgearbeitete Komponenten und abgeschlossene Entscheidungen werden nicht als aktive Backlog-Aufgaben geführt.
 
 ---
 
 ## Inhaltsverzeichnis
 
-1. [Management Summary & Zielbild](#1-management-summary--zielbild)
-2. [Einschätzung & Status des `cms`-Branches](#2-einschätzung--status-des-cms-branches)
-3. [Architekturentscheidung (ADR): Umstellung auf Tailwind CSS?](#3-architekturentscheidung-adr-umstellung-auf-tailwind-css)
-4. [AstroCMS Ziel-Architektur & Entkopplung](#4-astrocms-ziel-architektur--entkopplung)
-5. [Komponenten-Katalog & Priorisierungs-Roadmap](#5-komponenten-katalog--priorisierungs-roadmap)
-   - [Phase 1: Mehrfach benutzte Teile (Shared Components)](#phase-1-mehrfach-benutzte-teile-shared-components)
-   - [Phase 2: Einzigartige Teile (Unique Content)](#phase-2-einzigartige-teile-unique-content)
-   - [Phase 3: QA, CMS-Validierung & Testing](#phase-3-qa-cms-validierung--testing)
-6. [Konventionen für AstroCMS-Komponenten](#6-konventionen-für-astrocms-komponenten)
-7. [Rollout- und PR-Strategie](#7-rollout-und-pr-strategie)
+1. [Statusbild & Zielbild](#1-statusbild--zielbild)
+2. [Gesetzte Architektur](#2-gesetzte-architektur)
+   - [Content, Routing und Layout](#content-routing-und-layout)
+   - [JSON-LD-Registry](#json-ld-registry)
+   - [CSS- und Tailwind-Entscheidung](#css--und-tailwind-entscheidung)
+   - [AstroCMS-Komponenten-Discovery](#astrocms-komponenten-discovery)
+3. [Offener Backlog](#3-offener-backlog)
+   - [#23 – Automatische Moondays-Komponente](#23--automatische-moondays-komponente)
+   - [#24 – Korrekturtage im AstroCMS](#24--korrekturtage-im-astrocms)
+   - [#26 – Rechtstexte bereinigen](#26--rechtstexte-bereinigen)
+   - [#27 – CSS-Cleanup](#27--css-cleanup)
+   - [#28 – AstroCMS-QA](#28--astrocms-qa)
+4. [Konventionen für AstroCMS-Komponenten](#4-konventionen-für-astrocms-komponenten)
+5. [Reihenfolge & Definition of Done](#5-reihenfolge--definition-of-done)
 
 ---
 
-## 1. Management Summary & Zielbild
+## 1. Statusbild & Zielbild
 
-Die Website von **Ashtanga Yoga Zentral Berlin** wird mit Astro betrieben und nutzt [**AstroCMS**](https://github.com/lonestone/astrocms) als datenbankfreies Headless-CMS. Inhalte liegen direkt als MDX-Dateien im Git-Repository (`src/content/pages/`), während das CMS eine visuelle Redaktionsoberfläche, Medienverwaltung und Git-Operationen (Commit/Push) bereitstellt.
-
-### Aktuelle Herausforderung
-Die ersten Schritte in Richtung AstroCMS wurden erfolgreich unternommen (dynamisches Routing über `[...slug].astro`, Schemadefinition in `src/content.config.ts`, Komponenten wie `TeacherSection` und `FaqAccordion`). Dennoch weisen die MDX-Dateien aktuell noch wesentliche architektonische Altlasten auf:
-- **Layout-Kopplung im Content:** Jede MDX-Datei umschließt ihren Inhalt manuell mit `<MainLayout>` und übergibt komplexe structuredData-Objekte (JSON-LD).
-- **CSS-Imports im MDX:** Fast jede MDX-Seite importiert Seitensheets (`import "../../styles/faq.css"`), was im visuellen Editor von AstroCMS unsichtbar ist oder zu Inkonsistenzen führt.
-- **Eingebettete Skripte & Raw-HTML:** Formulare und clientseitiges JavaScript (z. B. Web3Forms in `contact.mdx`) liegen ungeschützt im Content-Bereich.
-- **Wiederkehrende UI-Blöcke als HTML:** Preise, Stundenpläne, Adresskarten und Mondtage-Kalender sind noch als rohe HTML-Tags im MDX hinterlegt, statt als wiederverwendbare, typsichere Astro-Komponenten.
+Die Website nutzt Astro mit AstroCMS als dateibasiertem Headless-CMS. Inhalte liegen als MDX in `src/content/pages/`, während das CMS die redaktionelle Bearbeitung, Medienauswahl und Git-Operationen übernimmt.
 
 ### Zielbild
-1. **Reine Inhaltsdateien:** MDX-Dateien enthalten **ausschließlich** redaktionellen Text, Frontmatter-Metadaten und semantische Astro-Komponenten. Keine CSS-Imports, keine Skripte, kein `<MainLayout>`.
-2. **Priorisierung:** Zuerst werden alle mehrfach benutzten UI-Elemente in modulare Astro-Komponenten überführt (Shared Components), danach die seitenspezifischen Unikate (Unique Content).
-3. **Visuelle CMS-Exzellenz:** Redakteure können im AstroCMS-Editor alle Komponenten per Klick einfügen und über strukturierte Formularfelder bzw. Tabellen pflegen, ohne HTML/CSS-Kenntnisse zu benötigen.
+
+- MDX enthält redaktionellen Inhalt und semantische Komponentenaufrufe.
+- Layout, SEO-Metadaten und JSON-LD werden nicht in einzelnen Content-Dateien gepflegt.
+- Wiederkehrende UI-Bausteine liegen als typisierte Astro-Komponenten vor.
+- AstroCMS stellt die Komponenten ohne manuelle Verdrahtung im Editor bereit.
+- Styling bleibt in Astro-Scoped-Styles oder im schlanken globalen Fundament; MDX enthält keine CSS-Imports, clientseitigen Skripte oder Utility-Klassen.
+
+### Aktueller Restbestand
+
+| Issue                                                              | Arbeitsbereich                                              | Status    |
+| ------------------------------------------------------------------ | ----------------------------------------------------------- | --------- |
+| [#23](https://github.com/thtesche/ashtanga-yoga-zentral/issues/23) | Automatische Moondays-Komponente mit sechsmonatigem Fenster | `Backlog` |
+| [#24](https://github.com/thtesche/ashtanga-yoga-zentral/issues/24) | Korrekturtage im AstroCMS-Editor                            | `Backlog` |
+| [#26](https://github.com/thtesche/ashtanga-yoga-zentral/issues/26) | Rechtstexte auf semantische MDX-Struktur umstellen          | `Backlog` |
+| [#27](https://github.com/thtesche/ashtanga-yoga-zentral/issues/27) | Verbleibendes CSS bereinigen                                | `Backlog` |
+| [#28](https://github.com/thtesche/ashtanga-yoga-zentral/issues/28) | Manuellen AstroCMS-Editor- und Komponenten-QA durchführen   | `Backlog` |
+
+Die Moondays-Seiten enthalten aktuell noch zwölf manuell gepflegte Monatsblöcke, einen CSS-Import und ein Inline-Script. Die Rechtstextseiten enthalten noch CSS-Imports und umfangreiche Raw-HTML-Strukturen. Diese Bereiche bilden den aktiven Restbestand.
 
 ---
 
-## 2. Einschätzung & Status des `cms`-Branches
+## 2. Gesetzte Architektur
 
-Eine detaillierte Untersuchung der Git-Historie liefert folgendes Bild:
+### Content, Routing und Layout
 
-```text
-git merge-base main cms               -> 8f1bb17331b39442f785de6e5dde41b40a4d9e4b (Tip von cms)
-git rev-list --left-right --count main...cms -> 57 0
-```
+Die dynamischen Routen `src/pages/[...slug].astro` und `src/pages/de/[...slug].astro` übernehmen die Layout-Hülle. Die MDX-Dateien enthalten keinen `<MainLayout>`-Wrapper mehr.
 
-### Befund
-- **Stand des Branches:** Der Branch `cms` (sowohl lokal als auch `origin/cms`) steht unverändert auf Commit `8f1bb17` (*"Rework faq (de) for components; drop lang fallback"*) vom 22. August 2026.
-- **Vorfahren-Prüfung:** `cms` ist ein direkter Vorfahre von `main`. 
-- **Ungemergte Änderungen:** `0` (null). Es existiert kein einziger Commit auf `cms`, der nicht bereits vollständig in `main` enthalten ist.
-- **Entwicklung auf `main`:** Seit dem Stand von `cms` wurden auf `main` **57 Commits** getätigt, darunter:
-  - Überarbeitung der About-Seiten für Komponenten (`b36b164`)
-  - Erstellung der CMS-Dokumentation `CMS.md` (`82bbd46`)
-  - Bereinigung und Reorganisation der Stylesheets (`910085b`)
-  - Bump von Astro (auf 7.3.3), AstroCMS (auf 0.3.0), Prettier und Plugins
-  - Vollständige Domain-Migration auf `www.ashtangayogazentralberlin.com`
-  - Umfassende SEO-Optimierungen (hreflang `en-US`/`de-DE`, JSON-LD, Open Graph, Sitemap)
-  - Adressanpassungen und Sicherheits-Fixes
-
-### Fazit & Empfehlung
-> [!IMPORTANT]
-> **Der `cms`-Branch ist vollständig obsolet (stale).**  
-> Er enthält keinerlei unveröffentlichten Code und spiegelt einen Stand wider, der Monate hinter dem aktuellen Produktionsstand liegt.  
-> **Empfehlung:** Der Branch `cms` sollte sowohl lokal als auch im Remote-Repository gelöscht werden, um Missverständnisse zu vermeiden:
-> ```bash
-> git branch -d cms
-> git push origin --delete cms
-> ```
-> Sämtliche künftigen Arbeiten zur CMS-Umstellung erfolgen auf frischen Feature-Branches, die von `main` abzweigen.
-
----
-
-## 3. Architekturentscheidung (ADR): Umstellung auf Tailwind CSS?
-
-### Fragestellung
-*Soll die Website im Zuge der weiteren AstroCMS-Umstellung auf Tailwind CSS migriert werden?*
-
-### Analyse des Ist-Zustands
-- Die Website nutzt derzeit ein sehr kompaktes, handgeschriebenes CSS-System:
-  - `src/styles/global.css`: ~590 Zeilen für Design-Tokens (CSS-Variablen: Farben `--color-primary`, Schriften, Schatten, Abstände) sowie grundlegende Basis-Elemente (`.btn`, `.surface`, `.container`, Typography).
-  - Seitenspezifische Stylesheets (`about.css`, `faq.css`, `contact.css`, etc.): je ca. 50–100 Zeilen.
-- Komponenten wie `TeacherSection.astro` nutzen bereits Astros eingebautes **Scoped Styling** (`<style>`), welches automatisch isoliert und gebündelt wird.
-
-### Bewertung: Tailwind CSS vs. Bisheriger Ansatz
-
-| Bewertungskriterium | Bestehendes CSS + Astro Scoped Styles | Tailwind CSS |
-| :--- | :--- | :--- |
-| **AstroCMS Redaktionserlebnis** | **Hervorragend:** MDX bleibt frei von Styling-Details. Redakteure sehen lesbaren Text und semantische Komponenten (`<RetreatCard ... />`). | **Schlecht / Riskant:** Würden Klassen im MDX genutzt, müssten Redakteure Strings wie `class="flex flex-col p-6 rounded-lg bg-stone-100 dark:bg-stone-800 ..."` pflegen. Das zerstört die Übersicht im visuellen Editor und führt zu Layout-Fehlern. |
-| **Code-Kapselung** | **Optimal:** Astro-Komponenten kapseln ihr CSS direkt in `<style>`. Styles werden nur geladen, wenn die Komponente auf der Seite vorkommt. | Erfordert entweder lange Utility-Ketten im HTML/Astro-Markup oder `@apply`-Anweisungen in CSS-Dateien (was den Tailwind-Vorteil untergräbt). |
-| **Build- & Bundle-Overhead** | **Null:** Keine zusätzlichen Vite-Plugins oder Tailwind-Kompilierungsschritte erforderlich. | Zusätzliche Tooling-Abhängigkeit (`@tailwindcss/vite` oder PostCSS), potenzieller Mehraufwand bei künftigen Astro-Major-Upgrades. |
-| **Design-Konsistenz** | **Sehr hoch:** Die Farbpalette (`#637b69`, `#d4bfa7`, etc.) und Typografie (`Outfit`, `Inter`) sind über CSS-Variablen fest verankert. | Müsste komplett in eine Tailwind-Konfiguration / CSS Theme-Layer überführt werden. |
-| **Migrationsaufwand** | **Sehr gering:** Bestehende Styles können direkt 1:1 in die neuen Komponenten übernommen werden. | **Hoch:** Komplettes Neuschreiben aller bestehenden Selektoren und Klassen in Utility-Klassen, mit hohem Risiko visueller Regressionen. |
-
-### Entscheidung
-> [!TIP]
-> **Entscheidung: Keine Umstellung auf Tailwind CSS.**  
-> 
-> **Begründung:**  
-> 1. Die Zielsetzung ist eine exzellente Redaktionserfahrung in AstroCMS. Diese basiert darauf, dass Styling vollständig in **wiederverwendbare Astro-Komponenten** gekapselt wird. MDX-Dateien dürfen keine Styling-Klassen enthalten.
-> 2. Astros natives Scoped CSS leistet genau diese Kapselung bereits ohne zusätzliche Abhängigkeiten und ohne Runtime-/Build-Komplexität.
-> 3. Der Aufwand einer Tailwind-Migration böte keinen funktionalen Mehrwert für Besucher oder Redakteure, würde aber wertvolle Ressourcen von der Komponenten-Modularisierung abziehen.
-> 
-> *Hinweis für die Zukunft:* Sollte später an isolierter Stelle Tailwind gewünscht werden, darf dies ausschließlich **intern innerhalb von `.astro`-Dateien** geschehen, niemals als Inline-Klassen in den MDX-Dateien.
-
----
-
-## 4. AstroCMS Ziel-Architektur & Entkopplung
-
-### 4.1 Die Kern-Entkopplung: Layout aus MDX verbannen
-Aktuell umschließt jede Seite ihren Inhalt mit:
-```mdx
-<MainLayout title={frontmatter.title} description={frontmatter.description} structuredData={...}>
-  ...
-</MainLayout>
-```
-Dies hat mehrere gravierende Nachteile:
-1. Im AstroCMS-Editor sieht der Redakteur die umschließenden Tags.
-2. Mehrere hundert Zeilen JSON-LD Schema.org Definitionen liegen direkt in den Inhaltsdateien (z. B. `index.mdx`, `about.mdx`, `faq.mdx`).
-3. Die Dynamic Routes `[...slug].astro` und `de/[...slug].astro` sind derzeit nur passive Durchreicher:
-   ```astro
-   <Content components={mdxComponents} />
-   ```
-
-### 4.2 Die neue Route-Architektur
-Die dynamischen Routen übernehmen die Hülle selbst:
+Aktueller Aufbau der englischen Route:
 
 ```astro
 ---
-// src/pages/[...slug].astro (bzw. src/pages/de/[...slug].astro)
 import { getCollection, render } from "astro:content";
 import MainLayout from "../components/MainLayout.astro";
 import { mdxComponents } from "../components";
+import { getStructuredData } from "../components/structured-data";
 
-// ... Static Paths & Entry Resolution ...
-const { Content, headings } = await render(entry);
+const { Content } = await render(entry);
 ---
 
 <MainLayout
   title={entry.data.title}
   description={entry.data.description}
-  ogImage={entry.data.ogImage}
-  schemaType={entry.data.schemaType}
+  fullTitle={entry.data.fullTitle}
+  structuredData={getStructuredData(entry.id, entry.data)}
 >
   <Content components={mdxComponents} />
 </MainLayout>
 ```
 
-Damit werden alle MDX-Dateien schlagartig von `<MainLayout>`, `import ...css` und unleserlichen JSON-Objekten befreit.
+`MainLayout` erhält nur die für die Seite relevanten Metadaten. Das optionale `fullTitle`-Feld wird für Titel verwendet, die bereits den Markennamen enthalten. `ogImage` bleibt eine Layout-Property und wird derzeit nicht als Content-Frontmatter gepflegt.
 
-### 4.3 Erweitertes Content-Schema (`src/content.config.ts`)
-Das Zod-Schema steuert automatisch die Eingabefelder im AstroCMS-Editor:
+Das aktuelle Content-Schema in `src/content.config.ts` enthält entsprechend nur die redaktionellen Felder:
 
 ```typescript
-import { defineCollection } from "astro:content";
-import { z as zod } from "astro/zod";
-import { glob } from "astro/loaders";
-
-const pages = defineCollection({
-  loader: glob({
-    pattern: "**/*.mdx",
-    base: "./src/content/pages",
-  }),
-  schema: zod.object({
-    title: zod.string(),
-    description: zod.string(),
-    // Optionale Felder für feinere SEO/Layout-Steuerung:
-    ogImage: zod.string().optional(),
-    schemaType: zod.enum(["YogaStudio", "Person", "FAQPage", "ContactPage", "WebPage"]).default("WebPage"),
-  }),
+schema: zod.object({
+  title: zod.string(),
+  description: zod.string(),
+  fullTitle: zod.string().optional(),
 });
-
-export const collections = { pages };
 ```
 
-> [!NOTE]
-> **Umsetzungsnotiz (Layout-Entkopplungs-PR):** Die JSON-LD-Vorlagen liegen nicht als
-> `schemaType`-Enum im Frontmatter, sondern in einer zentralen Registry pro Entry-ID
-> ([`src/components/structured-data.ts`](../src/components/structured-data.ts)). Gründe:
->
-> 1. **`schemaType` reicht nicht als Schlüssel:** Die Startseite nutzt ein flaches
->    `YogaStudio`-Objekt (mit `priceRange`, `geo`, Öffnungszeiten), die Retreat-Seiten
->    ein `@graph`-Referenzobjekt — derselbe Typ, zwei verschiedene Strukturen.
-> 2. **FAQPage gehört nicht ins Layout:** `FaqAccordion.astro` emittiert bereits selbst
->    das FAQPage-Schema aus den sichtbaren `items` (Single Source of Truth). Die
->    MainLayout-Kopie in den FAQ-Seiten war eine Duplikation und wurde entfernt.
-> 3. **JSON-LD ist SEO-Daten, kein Redaktionscontent:** Adressen, Öffnungszeiten und
->    Personendaten sind stabile Fakten — sie gehören in den Code (eine Stelle zum
->    Pflegen), nicht ins CMS-Formular.
->
-> Hinzugekommen ist stattdessen das optionale Frontmatter-Feld `fullTitle`
-> (deutsche Startseite: Titel enthält bereits den Markennamen, Suffix wird
-> übersprungen). `ogImage` wurde vorerst nicht eingeführt — `MainLayout` hat bereits
-> ein Default-OG-Bild und keine Seite überschreibt es aktuell.
+`schemaType` und `ogImage` sind keine Frontmatter-Felder der Pages-Collection.
+
+### JSON-LD-Registry
+
+JSON-LD wird nicht über ein `schemaType`-Enum im Frontmatter ausgewählt. Die Registry in [`src/components/structured-data.ts`](../src/components/structured-data.ts) ordnet Entry-IDs den stabilen Schema-Strukturen zu und wird von beiden dynamischen Routen aufgerufen.
+
+Die FAQ-Seiten bleiben ein Sonderfall: `FaqAccordion.astro` erzeugt das FAQPage-Schema aus den sichtbaren `items` und ist damit die Single Source of Truth.
+
+### CSS- und Tailwind-Entscheidung
+
+**Es erfolgt keine Umstellung auf Tailwind CSS.**
+
+- Komponentenspezifisches Styling liegt in Scoped Styles der jeweiligen `.astro`-Komponente.
+- Globale CSS-Variablen und Basisklassen bleiben in `src/styles/global.css`.
+- MDX-Dateien pflegen keine Layoutklassen, CSS-Imports oder Style-Strings.
+- Neue CSS-Regeln werden nur nach Prüfung der tatsächlichen Verwendung hinzugefügt.
+
+Diese Entscheidung ist abgeschlossen und keine aktive Backlog-Aufgabe.
+
+### AstroCMS-Komponenten-Discovery
+
+`src/components/index.ts` lädt alle `.astro`-Dateien über `import.meta.glob("./**/*.astro", { eager: true })`. `astrocms.json` zeigt mit `componentsDir: "src/components"` auf denselben Ordner.
+
+Eine neue Komponente wird deshalb durch das Ablegen in `src/components/` automatisch:
+
+1. in MDX über `mdxComponents` verfügbar,
+2. im AstroCMS-Komponentenmenü erkannt,
+3. ohne manuelles Import- oder Routing-Setup verwendet.
+
+Props müssen serialisierbar sein, damit AstroCMS sie im Editor als Felder anbieten kann. Literal-Unions werden für Auswahlfelder verwendet, z. B. `locale: "en" | "de"` oder `adjustment: -1 | 1`.
 
 ---
 
-## 5. Komponenten-Katalog & Priorisierungs-Roadmap
+## 3. Offener Backlog
 
-Um den Übergang strukturiert und regressionsfrei zu gestalten, gliedert sich die Umsetzung in zwei Phasen: **zuerst mehrfach benutzte Teile (Shared Components)**, danach **einzigartige Teile (Unique Content)**.
+### #23 – Automatische Moondays-Komponente
 
-```mermaid
-flowchart TD
-    subgraph Phase 1: Shared Components
-        A1[1. Layout-Entkopplung] --> A2[2. PageHeader]
-        A2 --> A3[3. ContactForm]
-        A3 --> A4[4. LocationCard]
-        A4 --> A5[5. RetreatCard]
-        A5 --> A6[6. PricingGrid & Cards]
-        A6 --> A7[7. ScheduleSection]
-        A7 --> A8[8. MoonCalendar]
-    end
+**Issue:** [#23 – Moondays: automatische 6-Monats-Komponente berechnen](https://github.com/thtesche/ashtanga-yoga-zentral/issues/23)
 
-    subgraph Phase 2: Unique Content
-        B1[HeroSection Home] --> B2[Rechtstexte MDX Bereinigung]
-        B2 --> B3[Vollständige CSS-Bereinigung]
-    end
+#### Anforderungen
 
-    subgraph Phase 3: Validierung
-        C1[CMS Editor Test] --> C2[Automatisierte Build-Tests]
-        C2 --> C3[SEO & Schema Verification]
-    end
+- Die Komponente berechnet immer **sechs Monate ab dem aktuellen Monat** zum Build-Zeitpunkt.
+- Die Monatsausgabe ergänzt den Monatsnamen um die letzten zwei Stellen des Jahres, z. B. `September 26` und `Oktober 26`.
+- Vollmond- und Neumondtermine werden automatisch aus einer gemeinsamen Datenquelle bzw. Berechnung erzeugt.
+- EN und DE verwenden dieselbe Berechnung und dieselbe Datenbasis; nur die Formatierung ist lokalisiert.
+- Die Ausgabe erfolgt über `MoonCalendar.astro`, optional mit einer kleinen `MonthCard.astro`-Unterkomponente.
+- Das MDX enthält danach keine zwölf manuell gepflegten Monatskarten, keinen `moondays.css`-Import und kein Inline-Script.
+- Die Props sind für die spätere Korrekturliste aus #24 vorbereitet.
 
-    Phase 1 --> Phase 2 --> Phase 3
+#### Abnahme
+
+- Genau sechs Monate ab dem aktuellen Monat werden ausgegeben.
+- Der Jahreswechsel wird korrekt behandelt.
+- Die Monatsüberschrift enthält Monatsname + zweistellige Jahreszahl.
+- `npm run build` und `npm test` sind erfolgreich.
+- Automatisierte Tests decken Berechnungsfenster und Formatierung ab.
+
+> **Build-Hinweis:** „Aktueller Monat“ bedeutet zunächst den Monat zum Zeitpunkt des statischen Builds. Nach einem Monatswechsel wird die Ausgabe beim nächsten Build aktualisiert. Eine Aktualisierung ohne Rebuild erfordert eine separate Laufzeit-/Client-Strategie.
+
+### #24 – Korrekturtage im AstroCMS
+
+**Issue:** [#24 – AstroCMS: Korrekturtage für Moondays pflegen](https://github.com/thtesche/ashtanga-yoga-zentral/issues/24)
+
+#24 setzt auf der Komponente aus #23 auf und ergänzt eine optionale Korrekturliste.
+
+#### CMS-Felder
+
+Jeder Listeneintrag besteht aus:
+
+- **Tag für Korrektur** (`date`): Datum des automatisch berechneten Moondays.
+- **Korrektur** (`adjustment`): Auswahl `+1` oder `-1`.
+
+Beispiel:
+
+```mdx
+<MoonCalendar
+  locale="de"
+  corrections={[{ date: "2026-10-03", adjustment: -1 }]}
+/>
 ```
 
----
+#### Verhalten
 
-### Phase 1: Mehrfach benutzte Teile (Shared Components)
+- Eine leere Korrekturliste ist gültig und verändert die Ausgabe nicht.
+- `-1` verschiebt den betroffenen Termin einen Tag nach vorne.
+- `+1` verschiebt den betroffenen Termin einen Tag nach hinten.
+- Die automatische Berechnung bleibt unverändert; nur die Darstellung des ausgewählten Termins wird korrigiert.
+- Für denselben berechneten Termin wird höchstens eine Korrektur zugelassen.
+- Das Datum wird im jeweiligen Locale-Format angezeigt.
+- Nach dem Speichern entstehen keine JavaScript-, CSS- oder manuellen HTML-Einträge im MDX.
 
-Diese Komponenten werden auf mehreren Seiten (oft sowohl in EN als auch in DE) verwendet und haben den höchsten Hebel zur Reduktion von Code-Duplikaten.
+### #26 – Rechtstexte bereinigen
 
-#### 1. Layout-Entkopplung & Routing-Refactoring
-- **Ziel:** `<MainLayout>` aus allen 16 MDX-Dateien (`src/content/pages/**/*.mdx`) entfernen und fest in `[...slug].astro` und `de/[...slug].astro` integrieren.
-- **Vorteil:** MDX-Dateien sind sofort sauberer und im CMS viel angenehmer zu bearbeiten.
+**Issue:** [#26 – Rechtstexte: semantische MDX-Struktur und CSS-Imports bereinigen](https://github.com/thtesche/ashtanga-yoga-zentral/issues/26)
 
-#### 2. `PageHeader.astro`
-- **Aktueller Zustand:** Auf 7 Seiten existiert identisches Markup:
-  ```html
-  <div class="page-header">
-    <div class="container text-center animate-fade-in">
-      <h1>...</h1>
-      <p class="subtitle">...</p>
-    </div>
-  </div>
-  ```
-- **Ziel-Komponente:**
-  ```astro
-  <PageHeader title="FAQ" subtitle="Frequently Asked Questions" />
-  ```
-- **Eigenschaften:** Unterstützt `title`, `subtitle` und optionale `class`-Varianten.
+Betroffen sind:
 
-> [!NOTE]
-> **Umsetzungsnotiz (PR 2a):** Die Komponente wurde wie spezifiziert umgesetzt
-> (`title`, `subtitle?`, optionale `class`-Variante). Die Header-Styles leben
-> jetzt als Scoped Styles in der Komponente — die per-page-CSS-Dateien
-> definieren sie nicht mehr. Details:
->
-> 1. **Eine gemeinsame `legal-header`-Variante** statt separater
->    GDPR-/Impressum-Classes: Beide Rechtstext-Seiten sind identisch gestylt
->    und teilen sich daher eine Class. Die `class`-Prop ist eine
->    String-Literal-Union (`'' | 'legal-header'`) — so rendert AstroCMS ein
->    Drop-Down statt Freitext (ein einzelnes Literal würde auf plain string
->    degradieren); die leere Option entfernt das Attribut wieder.
-> 2. **Reihenfolge im Style-Block ist entscheidend:** Die Variante steht
->    nach `.page-header`, da sie bei gleicher Specificity (0,2,0) nur per
->    Reihenfolge gewinnt.
-> 3. **Die CSS-Imports bleiben vorerst in den MDX** (Aufräumung in Phase 2,
->    Punkt 3); `about.css` ist damit nur noch ein Kommentar.
+- `src/content/pages/gdpr.mdx`
+- `src/content/pages/de/datenschutz.mdx`
+- `src/content/pages/legal_notice.mdx`
+- `src/content/pages/de/impressum.mdx`
 
-#### 3. `ContactForm.astro`
-- **Aktueller Zustand:** `contact.mdx` und `de/kontakt.mdx` enthalten rohes Formular-HTML sowie ein 30-zeiliges `<script>` mit `fetch("https://api.web3forms.com/submit")`.
-- **Ziel-Komponente:**
-  ```astro
-  <ContactForm
-    locale="en"
-    buttonText="Send Message"
-    successMessage="Thank you! Your message has been sent."
-  />
-  ```
-- **Eigenschaften:** Kapselt das Formular, Web3Forms-Honeypot, Umgebungsvariablen (`PUBLIC_WEB3FORMS_ACCESS_KEY`), Validierung und interaktive Statusmeldung. Im MDX verbleibt ein sauberer Einzeiler.
+Die Seiten behalten ihren Text und ihre gemeinsame `PageHeader`-Komponente. Die verbleibenden CSS-Imports und generischen Layout-Klassen werden durch semantische Struktur bzw. eine bewusst gekapselte Rechtstext-Komponente ersetzt. Rechtstext-Inhalte dürfen durch das CMS-Speichern nicht verändert werden.
 
-> [!NOTE]
-> **Umsetzungsnotiz (PR 2b):** Die Komponente wurde mit einer bewussten
-> Vereinfachung der Ziel-Signatur umgesetzt: statt `buttonText`/
-> `successMessage`-Props gibt es eine einzige `locale`-Prop
-> (`'en' | 'de'`, im CMS als Drop-Down) mit interner String-Tabelle für
-> Labels, Button und Statusmeldungen. Begründung: Alle Strings sind UI-Texte
-> (kein Seiteninhalt), und eine konsistente Prop-API hätte *alle* Strings als
-> Props benötigt — das widerspräche dem Ziel „sauberer Einzeiler“ im MDX.
-> Details:
->
-> 1. **Status-Strings als `data-*`-Attribute** auf dem `<form>`-Tag:
->    Das Submit-Skript läuft als `<script is:inline>` (wie
->    `CookieConsent`), damit es im Dist lesbar bleibt und die String-Checks
->    in `test/build-tests.js` („Contact form hardening“) weiter greifen —
->    ein von Vite verarbeitetes Skript würde minifiziert. Die Attribute
->    vermeiden eine zweite String-Tabelle im JS (Single Source of Truth).
-> 2. **Form-Styles als Scoped Styles** in der Komponente (`.form-group`,
->    `.btn-submit`, `#result`); aus `contact.css` entfernt.
-> 3. **Der FAQ-Link bleibt im MDX** (Seiteninhalt, CMS-editierbar) — er
->    steht jetzt außerhalb des `<form>`-Tags.
-> 4. **Eine Instanz pro Seite:** Die IDs `form`/`result` sind nicht
->    namespaced (wie zuvor im MDX).
+### #27 – CSS-Cleanup
 
-#### 4. `LocationCard.astro` / `StudioAddress.astro`
-- **Aktueller Zustand:** Studioadresse ("Three Boons Studio, Brunnenstr. 29"), Öffnungszeiten-Hinweis und Google Maps Link sind auf der Startseite (`index.mdx` / `de/index.mdx`) und der Kontaktseite (`contact.mdx` / `de/kontakt.mdx`) dupliziert.
-- **Ziel-Komponente:**
-  ```astro
-  <LocationCard
-    title="Three Boons Studio"
-    address="Brunnenstr. 29 (3.Hinterhof), 10119 Berlin"
-    mapUrl="https://maps.app.goo.gl/3Z79LhNtPXcF3LH37"
-  />
-  ```
+**Issue:** [#27 – CSS-Cleanup: verbleibende Stylesheets und tote Selektoren entfernen](https://github.com/thtesche/ashtanga-yoga-zentral/issues/27)
 
-> [!NOTE]
-> **Umsetzungsnotiz (PR 2b):** Umgesetzt mit zwei Ergänzungen zur
-> Ziel-Signatur: `locale` (`'en' | 'de'`) für den Button-Text („View on
-> Map“ / „Auf der Karte ansehen“) und optionales `mapUrl` (ohne Link wird
-> die Karte ohne Button gerendert). Details:
->
-> 1. **`.surface`-Wrapper und `h2`-Überschrift bleiben im MDX** (Seiten-
->    struktur neben dem Schedule-Surface); die Komponente ist nur die Karte.
-> 2. **Adresse als einzeiliger String** (wie spezifiziert) — das frühere
->    `<br />` zwischen Straße und PLZ entfällt, der Text bricht im engen
->    Surface natürlich um.
-> 3. **Der Standort-Info-Block auf der Kontaktseite bleibt vorerst
->    unverändert:** Er hat einen anderen Layout-Kontext (`.info-block` ohne
->    Karten-Link, andere Typografie) und wäre mit der Karte nicht 1:1
->    abbildbar, ohne das Design zu ändern.
-> 4. Die Adresse im Footer (`MainLayout.astro`) und in
->    `structured-data.ts` (`STUDIO_ADDRESS`) bleibt jeweils an Ort und Stelle
->    — beides ist Layout-/Schema-Kontext, kein MDX-Inhalt.
+Nach #23 und #26 werden alle Stylesheets und Imports auf tatsächliche Nutzung geprüft. Nicht mehr benötigte Dateien, Kommentar-Only-Dateien und tote Selektoren werden entfernt. Verbleibende komponentenspezifische Regeln gehören in Scoped Styles; `global.css` bleibt das Fundament für Tokens, Reset und Basiselemente.
 
-#### 5. `RetreatCard.astro`
-- **Aktueller Zustand:** In `retreats.mdx` und `de/retreats.mdx` werden Retreat-Karten (Puglia, Mecklenburg, Laruga Glaser Workshop) mit identischen verschachtelten HTML-Strukturen und Bild-Imports gepflegt.
-- **Ziel-Komponente:**
-  ```astro
-  <RetreatCard
-    date="1 – 7 August 2026"
-    title="Ashtanga Yoga Retreat – Puglia, Italy"
-    image="../../assets/images/img_2_yogaPulia_retreat_centre_images.webp"
-    imageAlt="YogApulia retreat center"
-    linkUrl="https://www.yogapulia.com/elinore-burke-2026"
-    linkText="Gallery"
-  >
-    <p>We had an amazing week at YogApulia...</p>
-  </RetreatCard>
-  ```
-- **Eigenschaften:** Nutzt `resolveImagePath()` aus `image-assets.ts` für Astro-optimierte Bilder und AstroCMS-Bildauswahl.
+Zu prüfen sind insbesondere die verbleibenden `about.css`-/FAQ-Regeln sowie die zuvor genannten toten globalen Selektoren `.highlight-card` und `.usc-topup`. Eine Änderung darf keine sichtbaren Regressionen in EN oder DE verursachen.
 
-#### 6. `PricingGrid.astro` & `PricingCard.astro` (+ `UscTopUp.astro`)
-- **Aktueller Zustand:** ~70 Zeilen HTML in `index.mdx` und `de/index.mdx` für Mitgliedschaften (Trial Month, 8x, 12x, Unlimited, Drop-In, Visiting Pass) und Urban Sports Club Top-Ups.
-- **Ziel-Komponenten:**
-  ```astro
-  <PricingGrid>
-    <PricingCard title="Trial Month" price="€90" tooltip="Unlimited classes for beginners." />
-    <PricingCard title="8x Month" price="€95" />
-    <PricingCard title="12x Month" price="€115" />
-    <PricingCard title="Unlimited Month" price="€135" highlighted />
-  </PricingGrid>
-  <UscTopUp />
-  ```
+### #28 – AstroCMS-QA
 
-> [!NOTE]
-> **Umsetzungsnotiz (PR 2c):** Umgesetzt mit zwei bewussten Abweichungen
-> von der Ziel-Signatur. Details:
->
-> 1. **`cards`-Props-Array statt Slots:** `PricingGrid` erhält die Cards
->    als plain Array (`cards: PricingCardData[]`) — gleiches Muster wie
->    `FaqAccordion` (items). Begründung: AstroCMS editiert das Array in
->    seinem Tabellen-Editor (eine Zeile pro Card); verschachtelte
->    Komponenten als Slot-Kinder sind mit AstroCMS 0.3.0 ungetestet.
->    `PricingCard` bleibt eine eigene Komponente (wiederverwendbar,
->    wird per Auto-Detection ebenfalls im CMS verfügbar).
-> 2. **`UscTopUp` mit `locale`-Prop:** Die Spezifikation zeigte
->    `<UscTopUp />` ohne Props, aber der Inhalt (Summary, Intro,
->    Tier-Labels) ist lokalisiert — daher `locale` (`'en' | 'de'`,
->    Drop-Down im CMS) mit interner String-Tabelle (ContactForm-Muster).
-> 3. **`highlighted`-Prop weggelassen:** Im aktuellen Markup gibt es
->    keine hervorgehobene Card; sie einzuführen wäre ein visueller
->    Change (außerhalb des Refactor-Scopes). Die `.highlight-card`-CSS
->    bleibt in `global.css` (Aufräumung in 2f, zusammen mit dem
->    ungenutzten `.usc-topup`).
-> 4. **`h2` „Prices/Preise“ bleibt im MDX** (Seitenstruktur-Überschrift
->    über dem gesamten Pricing-Bereich, wie bei LocationCard).
-> 5. **Der `.additional-pricing`-Block** (Drop-In, Visiting Pass,
->    Discount-Hinweis) **bleibt im MDX:** Er ist semantisch weder
->    PricingCard noch UscTopUp und steht nicht in der Ziel-Signatur.
-> 6. **Styles als Scoped Styles:** `.pricing-grid` → `PricingGrid`;
->    `.pricing-card`, `.info-tip`, `.price` → `PricingCard` (`.info-tip`
->    wurde ausschließlich hier verwendet); alle `.usc-topup-*`-Styles →
->    `UscTopUp`. Aus `global.css` entfernt.
+**Issue:** [#28 – AstroCMS: manuellen Editor- und Komponenten-QA durchführen](https://github.com/thtesche/ashtanga-yoga-zentral/issues/28)
 
-#### 7. `ScheduleSection.astro`
-- **Aktueller Zustand:** Tabelle/Liste der Kurszeiten (Mo–Fr 6:30–9:30, Led Primary monatlich, So 7:30–9:45, Mondtage-Hinweis).
-- **Ziel-Komponente:**
-  ```astro
-  <ScheduleSection locale="en" />
-  ```
+Der manuelle Test umfasst:
 
-> [!NOTE]
-> **Umsetzungsnotiz (PR 2c):** Die Komponente wurde wie spezifiziert
-> umgesetzt (`locale`-Prop als String-Literal-Union → Drop-Down im CMS,
-> interner String-Tabelle für Überschrift, Zeilen und Badge —
-> ContactForm-Muster). Details:
->
-> 1. **Scope: nur das Schedule-Surface** (`.surface` + `h2` +
->    `.schedule-list`). Überschrift und Liste sind lokalisierte Inhalte
->    eines zusammenhängenden Blocks; die `locale`-Prop deckt beides ab.
-> 2. **Seitenstruktur bleibt im MDX:** Der Section-Wrapper mit
->    `id="schedule"` (Anker-Ziel des Hero-Buttons „View Schedule“),
->    `.container`, `.grid-2-col` und das Standort-Surface (`h2` +
->    `LocationCard`) verbleiben in den MDX-Dateien — die Adresse ist
->    dort Seiteninhalt und wird nicht durchgereicht.
-> 3. **Mondtage-Link:** Der Linktext „Moondays“ ist in beiden Locales
->    identisch (Konstante); der `href` läuft über `LocalizedLink`
->    (`/moondays/` bzw. `/de/moondays/`).
-> 4. **Styles als Scoped Styles** in der Komponente (`.schedule-list`,
->    `.badge`); aus `global.css` entfernt. `.badge` wurde ausschließlich
->    hier verwendet.
+```bash
+npm run astrocms
+```
 
-#### 8. `MoonCalendar.astro` / `MonthCard.astro`
-- **Aktueller Zustand:** In `moondays.mdx` und `de/moondays.mdx` sind 12 Monate mit je 2 Mondphasen hart codiert (~100 Zeilen HTML-Grid).
-- **Ziel-Komponente:**
-  ```astro
-  <MoonCalendar year={2026} locale="en" />
-  ```
-  *(Die Monddaten können in einer zentralen Datenstruktur oder JSON-Datei liegen, sodass beide Sprachversionen auf dieselbe Datenbasis zugreifen).*
+Danach wird `http://localhost:4001/astrocms` geöffnet und geprüft:
 
-#### 9. Bereits etablierte Shared Components weiterführen
-- `FaqAccordion.astro`: Bereits vorhanden und bewährt.
-- `TeacherSection.astro`: Bereits vorhanden und vorbildlich (nutzt `resolveImagePath` und Scoped Styles).
-- `TestimonialsSection.astro`: Bereits vorhanden und bewährt.
+- automatische Komponenten-Discovery,
+- Text-, Auswahl- und Bildfelder,
+- die sechsmonatige Moondays-Ausgabe,
+- die Korrekturliste aus #24,
+- Speichern/Neuladen in EN und DE,
+- sauberes Markdown ohne CSS-Imports, Inline-Skripte oder unerwünschte Layoutklassen.
+
+Die automatisierten Build-/HTML-Tests (`npm run build && npm test`) bleiben die technische Basis und ergänzen die manuelle CMS-Abnahme.
 
 ---
 
-### Phase 2: Einzigartige Teile (Unique Content)
+## 4. Konventionen für AstroCMS-Komponenten
 
-Sobald das Fundament aus Shared Components steht, werden die seitenspezifischen Einzelbereiche finalisiert:
-
-#### 1. Startseiten-Hero (`HeroSection.astro`)
-- Einzigartig für die Startseite: Große H1 ("Morning Ashtanga Yoga Mysore Style in Berlin"), Untertitel, CTA-Button ("View Schedule") und zentriertes Shala-Willkommensbild.
-- Auslagerung in `HeroSection.astro`, damit `index.mdx` und `de/index.mdx` nur noch aus 4–5 sauberen Komponentenblöcken bestehen:
-  ```mdx
-  <HeroSection image="../../assets/images/img_3_ashtanga_yoga_zentral_berlin_mysore_studio.webp" ... />
-  <ScheduleSection />
-  <PricingGrid ... />
-  <LocationCard ... />
-  ```
-
-> [!NOTE]
-> **Umsetzungsnotiz (Phase 2):** Die Komponente deckt sowohl die
-> `hero-section` als auch die `intro-section` ab, damit die Startseiten
-> exakt 4 Komponentenblöcke besitzen (Schedule-, Pricing- und
-> Standort-Sektionen bleiben im MDX). Details:
->
-> 1. **Texte als Props** (`title`, `subtitle`, `welcomeTitle`,
->    `welcomeText`, `image`, `imageAlt`): Das ist Seiteninhalt (redaktionell
->    editierbar). Nur der Button-Text ist UI-Text und lebt in der
->    internen String-Tabelle über `locale` (ContactForm-Muster).
-> 2. **Styling komplett in Scoped Styles**: `.hero-section`
->    (Gradient), `.hero-container h1` (inkl. Mobile-Breakpoint),
->    `.hero-subtitle`, `.hero-actions` wurden aus `global.css` in die
->    Komponente verschoben.
-> 3. **`.img`-Class aus `global.css` entfernt**: war ausschließlich für
->    das Hero-Bild; `class="img"` + `width/height` liegen jetzt in der
->    Komponente.
-> 4. **Image via `resolveImagePath()`** (Marker-Typ `ImagePath` →
->    Bild-Picker im CMS), null-sicher ohne Image gerendert.
-
-#### 2. Rechtliche Seiten (Impressum, Datenschutz, Legal Notice, GDPR)
-- Diese Seiten (`gdpr.mdx`, `datenschutz.mdx`, `legal_notice.mdx`, `impressum.mdx`) enthalten keine interaktiven Widgets, sondern Fließtext mit rechtlichen Hinweisen.
-- **Zielzustand:** Nach der Layout-Entkopplung bestehen diese Seiten aus reinem, semantischem Markdown:
-  ```markdown
-  # Legal Notice
-
-  Information according to § 5 TMG...
-  ```
-- Sämtliche `import "../../styles/gdpr.css"` und `<MainLayout>`-Wrapper entfallen restlos.
-
-#### 3. Abschließende Bereinigung der Stylesheets
-- Alle seitenspezifischen CSS-Dateien (`src/styles/*.css`), die in Scoped Styles von Komponenten überführt wurden, werden aus `src/styles/` entfernt.
-- `global.css` bleibt das schlanke Fundament für Variablen, Reset und Basiselemente.
+1. **Ablage:** Neue Komponenten liegen als `.astro`-Datei in `src/components/`.
+2. **Discovery:** Keine manuelle Registrierung in `src/components/index.ts` oder `astrocms.json` erforderlich.
+3. **MDX-Regeln:** MDX enthält keine CSS-Imports, Inline-Skripte, Layout-Utility-Klassen oder Style-Definitionen.
+4. **Styling:** Komponentenspezifische Regeln liegen im `<style>`-Block der Komponente; globale Tokens bleiben in `global.css`.
+5. **Props:** Props sind serialisierbar und für das CMS verständlich typisiert. Auswahlfelder verwenden Literal-Unions.
+6. **Bilder:** Bild-Props verwenden nach Möglichkeit den im Repository etablierten `ImagePath`-/`resolveImagePath()`-Ansatz.
+7. **Internationalisierung:** Berechnungen werden sprachneutral geteilt; Monatsnamen, Datumstexte und UI-Texte werden über `locale` lokalisiert.
+8. **Datenmodell:** Korrekturdaten werden als Liste serialisiert, z. B. `{ date, adjustment }`; die Berechnung bleibt davon getrennt.
 
 ---
 
-### Phase 3: QA, CMS-Validierung & Testing
+## 5. Reihenfolge & Definition of Done
 
-1. **AstroCMS Editor-Test:**
-   - Starten der CMS-Instanz: `npm run astrocms`
-   - Öffnen unter `http://localhost:4001/astrocms`
-   - Prüfung:
-     - Werden alle Komponenten im Komponenten-Menü angezeigt?
-     - Funktionieren Props-Bearbeitung und Bildauswahl?
-     - Bleibt das Markdown sauber formatiert nach dem Speichern?
-2. **Automatisierte Build- und HTML-Tests:**
-   - Ausführen von `npm run build && npm test`.
-   - Die Testsuite in `test/build-tests.js` prüft alle HTML-Dateien im `dist/`-Verzeichnis (Meta-Tags, Hreflang, Canonical URLs, Structured Data JSON-LD).
-3. **i18n & SEO Prüfung:**
-   - Verifikation, dass alle englischen und deutschen Routen (`/` und `/de/`) fehlerfrei generiert werden.
-   - Verifikation der Redirects für englische Einzelseiten.
+### Empfohlene Reihenfolge
 
----
+1. **#23** – automatische sechsmonatige Moondays-Komponente implementieren.
+2. **#24** – Korrekturliste im AstroCMS ergänzen.
+3. **#26 und #27** – Rechtstexte und verbleibendes CSS bereinigen; CSS-Aufräumen erst nach #23 abschließen, damit `moondays.css` nicht doppelt angefasst wird.
+4. **#28** – manuellen CMS- und Komponenten-QA durchführen.
 
-## 6. Konventionen für AstroCMS-Komponenten
+### Definition of Done
 
-Damit neue Komponenten nahtlos mit AstroCMS harmonieren, gelten folgende Entwicklungsrichtlinien:
-
-1. **Dateiname und Speicherort:**
-   Jede neue Komponente wird als `.astro`-Datei in `src/components/` angelegt. Durch `import.meta.glob("./**/*.astro")` in `src/components/index.ts` steht sie ohne manuelles Verdrahten sofort im MDX und im CMS-Editor zur Verfügung.
-
-2. **Bilder via `ImagePath`:**
-   Um die Medienauswahl von AstroCMS zu nutzen, müssen Bild-Props als Pfadstring typisiert und über `resolveImagePath()` aufgelöst werden:
-   ```typescript
-   import { resolveImagePath } from "./image-assets.ts";
-   type ImagePath = string;
-
-   interface Props {
-     image?: ImagePath;
-     alt?: string;
-   }
-   ```
-
-3. **Keine HTML/CSS-Imports im MDX:**
-   MDX-Dateien dürfen weder CSS (`import "..."`) noch JavaScript-Logik enthalten.
-
-4. **Scoped Styles bevorzugen:**
-   Komponentenspezifisches Styling gehört in den `<style>`-Block der jeweiligen `.astro`-Komponente. CSS-Variablen aus `global.css` sind überall verfügbar.
-
----
-
-## 7. Rollout- und PR-Strategie
-
-Die Umsetzung erfolgt in klar abgegrenzten, testbaren Schritten:
-
-1. **PR 1 (dieser Schritt):**
-   - Branch: `docs-astrocms-architecture`
-   - Inhalt: Dieses Architektur-Dokument (`docs/architektur-astrocms.md`).
-   - Ziel: Review und Abstimmung des Vorgehens.
-
-2. **PR 2 (Cleanup & Vorbereitung):**
-   - Löschung des veralteten Branches `cms`.
-   - Entkopplung von `<MainLayout>` in die Dynamic Routes `[...slug].astro` und `de/[...slug].astro`.
-
-3. **PR 3 (Shared Components - Phase 1):**
-   - Implementierung von `PageHeader`, `ContactForm`, `LocationCard`, `RetreatCard`, `PricingGrid`, `ScheduleSection`, `MoonCalendar`.
-   - Refactoring der entsprechenden MDX-Seiten.
-
-4. **PR 4 (Unique Content & Final Polish - Phase 2):**
-   - Startseiten-Hero (`HeroSection.astro`).
-   - Bereinigung der rechtlichen Seiten und Löschung überflüssiger CSS-Dateien.
+- Das aktive Backlog enthält nur noch tatsächlich offene Aufgaben.
+- Issue-Beschreibungen, Komponenten-API und dieses Dokument beschreiben denselben Zielzustand.
+- Änderungen sind durch `npm run build` und `npm test` abgesichert.
+- Manuelle CMS-Abnahme ist für #28 dokumentiert.
+- Nach erfolgreicher Umsetzung wird das jeweilige Issue geschlossen und im GitHub-Projekt auf `Done` gesetzt.
