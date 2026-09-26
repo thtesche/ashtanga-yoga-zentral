@@ -1,10 +1,6 @@
-.text-center {
-  text-align: center;
-}
-.mb-4 {
-  margin-bottom: 3rem;
-}
-.large-text {
+/* Intro line inside the moon card (page-specific; the global .large-text
+   utility is used by HeroSection and must not be overridden here) */
+.moon-intro {
   font-size: 1.25rem;
   color: var(--color-primary);
   font-weight: 500;
