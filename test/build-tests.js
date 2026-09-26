@@ -355,6 +355,19 @@ for (const file of mdxFiles) {
   );
 }
 
+// ── CSS imports in MDX must resolve to existing files (#27) ───────
+console.log("\nMDX CSS imports resolve:");
+for (const file of mdxFiles) {
+  const content = fs.readFileSync(file, "utf-8");
+  for (const m of content.matchAll(/import\s+["']([^"']+\.css)["']/g)) {
+    const target = path.resolve(path.dirname(file), m[1]);
+    assert(
+      fs.existsSync(target),
+      `${file} CSS import resolves: ${m[1]}`,
+    );
+  }
+}
+
 // ── Meta descriptions match frontmatter ────────────────────────
 console.log("\nMeta descriptions:");
 for (const file of mdxFiles) {
@@ -589,20 +602,36 @@ assert(deFaq.includes('"@type": "Answer"'), "DE FAQ has @type: Answer");
 
 // ── Code hygiene (dead code) ───────────────────────────────────
 console.log("\nCode hygiene (dead code):");
-const allCss = fs
+let allCss = fs
   .readdirSync(path.join(DIST, "_astro"))
   .filter((f) => f.endsWith(".css"))
   .map((f) => fs.readFileSync(path.join(DIST, "_astro", f), "utf-8"))
   .join("\n");
+
+// MDX-imported page CSS is inlined as <style> blocks, so scan those too.
+const allHtml = fs
+  .readdirSync(DIST, { recursive: true })
+  .filter((f) => typeof f === "string" && f.endsWith(".html"))
+  .map((f) => fs.readFileSync(path.join(DIST, f), "utf-8"));
+for (const html of allHtml) {
+  for (const m of html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) {
+    allCss += "\n" + m[1];
+  }
+}
 
 const deadCssSelectors = [
   ".footer-bottom",
   ".btn-nav",
   ".highlight-item",
   ".badge-top",
+  // #27: removed dead global selectors (must not reappear in any output)
+  ".highlight-card",
+  ".usc-topup",
 ];
 for (const sel of deadCssSelectors) {
-  assert(!allCss.includes(sel), `Dead CSS removed: ${sel}`);
+  // Negative lookahead so e.g. ".usc-topup" does not match ".usc-topup-details"
+  const re = new RegExp(sel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?![\\w-])");
+  assert(!re.test(allCss), `Dead CSS removed: ${sel}`);
 }
 assert(
   !allCss.includes("--color-accent"),

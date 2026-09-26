@@ -207,8 +207,7 @@ label {
   }
 }
 
-/* Global CSS styles extracted from index.mdx styles block */
-/*-------------------------------------------------------------------*/
+/* Layout: main content area and site footer (MainLayout.astro) */
 
 main {
   min-height: calc(100vh - 80px - 300px);
@@ -250,7 +249,7 @@ main {
   color: var(--color-secondary);
 }
 
-/* Styles from index.mdx (Shared components and structure) */
+/* Shared layout utilities used by MDX pages and components */
 
 .text-primary {
   color: var(--color-primary);
@@ -305,20 +304,6 @@ main {
   gap: 2rem;
 }
 
-.highlight-card {
-  border: 2px solid var(--color-secondary);
-  transform: translateY(-10px);
-}
-
-.highlight-card:hover {
-  transform: translateY(-15px);
-}
-
-.usc-topup {
-  background-color: #f0f7ff; /* Leichtes Blau */
-  border: 1px solid #dbeafe;
-}
-
 .divider {
   border: 0;
   height: 1px;
@@ -336,14 +321,6 @@ main {
   .grid-2-col {
     grid-template-columns: 1fr;
   }
-
-  .highlight-card {
-    transform: translateY(0);
-  }
-
-  .highlight-card:hover {
-    transform: translateY(-5px);
-  }
 }
 
 /* Accessibility: respect prefers-reduced-motion */
@@ -359,13 +336,7 @@ main {
 
   /* Disable hover transforms that cause motion */
   .btn:hover,
-  .surface:hover,
-  .highlight-card:hover {
-    transform: none !important;
-  }
-
-  /* Keep highlight-card elevated state without animation */
-  .highlight-card {
+  .surface:hover {
     transform: none !important;
   }
 }
