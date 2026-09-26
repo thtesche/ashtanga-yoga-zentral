@@ -74,7 +74,7 @@ The website is divided into several core areas:
 
 ## 🎨 Design & Styling
 
-- Plain, hand-written CSS: `src/styles/global.css` plus per-page stylesheets (e.g. `retreats.css`, `gdpr.css`). No CSS framework.
+- Plain, hand-written CSS: `src/styles/global.css` plus per-page stylesheets (e.g. `contact.css`, `legal.css` for the legal pages). No CSS framework.
 - The color palette is defined by CSS variables, emphasizing primary and secondary colors relevant to yoga and mindfulness.
 
 ## 🏗️ Build, Test & Deployment

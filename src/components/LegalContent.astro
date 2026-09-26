@@ -1,0 +1,22 @@
+---
+/**
+ * Encapsulated layout for the four legal pages
+ * (GDPR / Privacy Policy and Legal Notice / Impressum).
+ *
+ * Renders the page section and the white content surface, and imports
+ * the single consolidated legal stylesheet (src/styles/legal.css).
+ * The MDX files therefore carry semantic content only – no CSS imports
+ * and no generic layout classes (section, container, mt-5, surface,
+ * text-primary, content-block, gdpr-content, impressum-content).
+ *
+ * Auto-discovered via mdxComponents (see src/components/index.ts), so
+ * it is available in MDX without an import, just like <PageHeader>.
+ */
+import "../styles/legal.css";
+---
+
+<section class="legal-content">
+  <div class="legal-surface">
+    <slot />
+  </div>
+</section>
