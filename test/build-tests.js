@@ -349,10 +349,7 @@ for (const file of mdxFiles) {
   const badImport = content.match(
     /import\s+[^;]*?from\s*["'][^"']*components\/|from\s*["']astro:assets["']/,
   );
-  assert(
-    !badImport,
-    `${file} has no component imports (use mdxComponents)`,
-  );
+  assert(!badImport, `${file} has no component imports (use mdxComponents)`);
 }
 
 // ── CSS imports in MDX must resolve to existing files (#27) ───────
@@ -361,10 +358,7 @@ for (const file of mdxFiles) {
   const content = fs.readFileSync(file, "utf-8");
   for (const m of content.matchAll(/import\s+["']([^"']+\.css)["']/g)) {
     const target = path.resolve(path.dirname(file), m[1]);
-    assert(
-      fs.existsSync(target),
-      `${file} CSS import resolves: ${m[1]}`,
-    );
+    assert(fs.existsSync(target), `${file} CSS import resolves: ${m[1]}`);
   }
 }
 
@@ -483,9 +477,21 @@ for (const rel of hreflangPages) {
 // hreflang (not point at redirect pages or 404s).
 console.log("\nHreflang counterparts (mismatched slugs):");
 const counterpartPages = [
-  { rel: "about/index.html", en: domain + "/about/", de: domain + "/de/ueber_uns/" },
-  { rel: "contact/index.html", en: domain + "/contact/", de: domain + "/de/kontakt/" },
-  { rel: "gdpr/index.html", en: domain + "/gdpr/", de: domain + "/de/datenschutz/" },
+  {
+    rel: "about/index.html",
+    en: domain + "/about/",
+    de: domain + "/de/ueber_uns/",
+  },
+  {
+    rel: "contact/index.html",
+    en: domain + "/contact/",
+    de: domain + "/de/kontakt/",
+  },
+  {
+    rel: "gdpr/index.html",
+    en: domain + "/gdpr/",
+    de: domain + "/de/datenschutz/",
+  },
   {
     rel: "legal_notice/index.html",
     en: domain + "/legal_notice/",
@@ -561,10 +567,7 @@ const canonicalRegex = /<link\s+rel="canonical"\s+href="([^"]*)"/g;
 for (const route of [...enRoutes, ...deRoutes]) {
   const html = readHTML(route);
   const canonicals = [...html.matchAll(canonicalRegex)].map((m) => m[1]);
-  assert(
-    canonicals.length === 1,
-    `${route} has exactly one canonical tag`,
-  );
+  assert(canonicals.length === 1, `${route} has exactly one canonical tag`);
   const expected = domain + "/" + route.replace(/index\.html$/, "");
   assert(
     canonicals[0] === expected,
@@ -630,7 +633,9 @@ const deadCssSelectors = [
 ];
 for (const sel of deadCssSelectors) {
   // Negative lookahead so e.g. ".usc-topup" does not match ".usc-topup-details"
-  const re = new RegExp(sel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?![\\w-])");
+  const re = new RegExp(
+    sel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?![\\w-])",
+  );
   assert(!re.test(allCss), `Dead CSS removed: ${sel}`);
 }
 assert(
@@ -665,7 +670,10 @@ const contactPages = [
 ];
 for (const page of contactPages) {
   const html = readHTML(page.file);
-  assert(html.includes('name="botcheck"'), `${page.label}: Web3Forms honeypot present`);
+  assert(
+    html.includes('name="botcheck"'),
+    `${page.label}: Web3Forms honeypot present`,
+  );
   assert(
     !html.includes("innerHTML = data.message"),
     `${page.label}: no innerHTML injection of server message (XSS)`,
@@ -715,7 +723,10 @@ for (const page of schedulePages) {
     page.html.includes('id="schedule"'),
     `${page.label}: #schedule anchor kept (hero button target)`,
   );
-  assert(page.html.includes(page.heading), `${page.label}: schedule heading present`);
+  assert(
+    page.html.includes(page.heading),
+    `${page.label}: schedule heading present`,
+  );
   assert(
     page.html.includes(page.weekdayTime),
     `${page.label}: weekday time present (${page.weekdayTime})`,
@@ -732,13 +743,18 @@ for (const page of schedulePages) {
     page.html.includes("7:30 – 9:45"),
     `${page.label}: sunday time present`,
   );
-  assert(page.html.includes(page.badge), `${page.label}: badge present (${page.badge})`);
+  assert(
+    page.html.includes(page.badge),
+    `${page.label}: badge present (${page.badge})`,
+  );
   assert(
     page.html.includes(page.closedNote),
     `${page.label}: closed note present (${page.closedNote})`,
   );
   assert(
-    page.html.includes(`href="${href(page.label === "EN" ? "/moondays" : "/de/moondays")}"`),
+    page.html.includes(
+      `href="${href(page.label === "EN" ? "/moondays" : "/de/moondays")}"`,
+    ),
     `${page.label}: moondays link localized`,
   );
 }
@@ -812,9 +828,14 @@ for (const page of pricingPages) {
     page.html.includes(page.passName),
     `${page.label}: visiting pass present (${page.passName})`,
   );
-  assert(page.html.includes("€80"), `${page.label}: visiting pass price present`);
   assert(
-    page.html.includes(`href="${href(page.label === "EN" ? "/contact" : "/de/kontakt")}"`),
+    page.html.includes("€80"),
+    `${page.label}: visiting pass price present`,
+  );
+  assert(
+    page.html.includes(
+      `href="${href(page.label === "EN" ? "/contact" : "/de/kontakt")}"`,
+    ),
     `${page.label}: discount note links to contact page`,
   );
 }
@@ -825,7 +846,9 @@ console.log("\nInfoTip:");
 // Collect all CSS delivered to a page (linked stylesheets + inline <style> blocks).
 function deliveredCSS(html) {
   let css = "";
-  for (const m of html.matchAll(/<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g)) {
+  for (const m of html.matchAll(
+    /<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"/g,
+  )) {
     css += fs.readFileSync(path.join(DIST, m[1].replace(/^\//, "")), "utf-8");
   }
   for (const m of html.matchAll(/<style>([\s\S]*?)<\/style>/g)) {
@@ -839,7 +862,9 @@ for (const page of pricingPages) {
   const css = deliveredCSS(page.html);
   // Every info-tip element must carry a scope ID with a matching CSS rule,
   // otherwise the marker renders unstyled (plain italic "i").
-  const tips = [...flat.matchAll(/class="info-tip"[^>]*?data-astro-cid-(\w+)/g)];
+  const tips = [
+    ...flat.matchAll(/class="info-tip"[^>]*?data-astro-cid-(\w+)/g),
+  ];
   assert(
     tips.length >= 2,
     `${page.label}: info-tip elements present (heading + trial month, found ${tips.length})`,
@@ -850,6 +875,135 @@ for (const page of pricingPages) {
       `${page.label}: info-tip scoped styles delivered (data-astro-cid-${cid})`,
     );
   }
+}
+
+// ── Moondays (MoonCalendar component, #23/#24) ───────────────────
+console.log("\nMoondays (MoonCalendar):");
+
+// The MDX pages only call the component — no cards, scripts or CSS imports.
+const moonMdxFiles = [
+  path.join("src", "content", "pages", "moondays.mdx"),
+  path.join("src", "content", "pages", "de", "moondays.mdx"),
+];
+for (const file of moonMdxFiles) {
+  const content = fs.readFileSync(file, "utf-8");
+  assert(content.includes("<MoonCalendar"), `${file} uses <MoonCalendar>`);
+  assert(!content.includes("<script"), `${file} has no inline script`);
+  assert(
+    !content.includes("month-card"),
+    `${file} has no hardcoded month cards`,
+  );
+  assert(!content.includes("moondays.css"), `${file} has no CSS import`);
+}
+
+// Independent expectation of the six-month window at test time (Europe/Berlin).
+function berlinMonthWindow(months = 6) {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Berlin",
+    year: "numeric",
+    month: "2-digit",
+  }).formatToParts(new Date());
+  const get = (type) => Number(parts.find((p) => p.type === type)?.value);
+  const window = [];
+  let year = get("year");
+  let month = get("month");
+  for (let i = 0; i < months; i++) {
+    window.push({ year, month });
+    month += 1;
+    if (month > 12) {
+      month = 1;
+      year += 1;
+    }
+  }
+  return window;
+}
+const expectedMoonMonths = berlinMonthWindow();
+
+const moonPages = [
+  { rel: "moondays/index.html", locale: "en" },
+  { rel: "de/moondays/index.html", locale: "de" },
+];
+const moonSignatures = [];
+
+for (const page of moonPages) {
+  const html = readHTML(page.rel);
+  const cards = [
+    ...html.matchAll(/data-year="(\d{4})"\s+data-month="(\d{1,2})"/g),
+  ];
+
+  assert(cards.length === 6, `${page.rel} renders exactly six month cards`);
+  assertEqualMonths(
+    cards.map((m) => [Number(m[1]), Number(m[2])]),
+    expectedMoonMonths.map((m) => [m.year, m.month]),
+    `${page.rel} starts with the current month (Europe/Berlin) and spans six months`,
+  );
+
+  // Month heading = localized month name + two-digit year (#23).
+  const labels = cards.map((card) => {
+    const after = html.slice(card.index);
+    const heading = after.match(/<h3[^>]*>([^<]*)<\/h3>/);
+    return heading ? heading[1].trim() : "";
+  });
+  const expectedLabels = expectedMoonMonths.map((m) =>
+    new Intl.DateTimeFormat(page.locale === "de" ? "de-DE" : "en-US", {
+      month: "long",
+      year: "2-digit",
+      timeZone: "UTC",
+    }).format(Date.UTC(m.year, m.month - 1, 1)),
+  );
+  assertEqualMonths(
+    labels,
+    expectedLabels,
+    `${page.rel} headings are month name + two-digit year`,
+  );
+  assert(
+    labels.every((l) => /^\S+ \d{2}$/.test(l)),
+    `${page.rel} every heading ends with a two-digit year`,
+  );
+
+  // Exactly one month is marked as the current one (server-rendered marker).
+  assert(
+    (html.match(/month-card current/g) || []).length === 1,
+    `${page.rel} marks exactly one month as current`,
+  );
+
+  // The client-side re-marking script lives in the component, not the MDX.
+  assert(
+    html.includes("[data-month-card]"),
+    `${page.rel} ships the current-month script from the component`,
+  );
+
+  // Responsive: three months on narrow screens, six on wide ones (#23).
+  const css = deliveredCSS(html);
+  assert(
+    /repeat\(\s*3\s*,/.test(css),
+    `${page.rel} shows three months on narrow screens`,
+  );
+  assert(
+    /repeat\(\s*6\s*,/.test(css),
+    `${page.rel} shows six months on wide screens`,
+  );
+
+  // Data basis: icon type + day of month (locale only affects the weekday).
+  const signature = [
+    ...html.matchAll(
+      /<span class="moon-icon (full|new)"[^>]*>[\s\S]*?moon-date"[^>]*>([^<]*)</g,
+    ),
+  ].map((m) => `${m[1]} ${m[2].trim().split(/\s+/).pop()}`);
+  assert(signature.length >= 12, `${page.rel} lists the moon dates`);
+  moonSignatures.push({ rel: page.rel, signature });
+}
+assertEqualMonths(
+  moonSignatures[0].signature,
+  moonSignatures[1].signature,
+  "EN and DE show the same dates for the same moon phases",
+);
+
+/** Compare arrays and report a compact diff on mismatch. */
+function assertEqualMonths(actual, expected, message) {
+  const a = JSON.stringify(actual);
+  const e = JSON.stringify(expected);
+  assert(a === e, `${message} (expected ${e}, got ${a})`);
 }
 
 // ── Summary ─────────────────────────────────────────────────────

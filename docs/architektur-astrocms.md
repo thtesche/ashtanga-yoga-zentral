@@ -123,7 +123,7 @@ Eine neue Komponente wird deshalb durch das Ablegen in `src/components/` automat
 2. im AstroCMS-Komponentenmenü erkannt,
 3. ohne manuelles Import- oder Routing-Setup verwendet.
 
-Props müssen serialisierbar sein, damit AstroCMS sie im Editor als Felder anbieten kann. Literal-Unions werden für Auswahlfelder verwendet, z. B. `locale: "en" | "de"` oder `adjustment: -1 | 1`.
+Props müssen serialisierbar sein, damit AstroCMS sie im Editor als Felder anbieten kann. Nur _String-Literal_-Unions ergeben Auswahlfelder (Drop-downs), z. B. `locale: "en" | "de"` oder `adjustment: "+1" | "-1"`. Numerische Unions wie `1 | -1` werden vom AST-Parser nicht als Auswahl erkannt.
 
 ---
 
@@ -135,21 +135,22 @@ Props müssen serialisierbar sein, damit AstroCMS sie im Editor als Felder anbie
 
 #### Anforderungen
 
-- Die Komponente berechnet immer **sechs Monate ab dem aktuellen Monat** zum Build-Zeitpunkt.
+- Die Komponente berechnet **sechs Monate ab dem aktuellen Monat** zum Build-Zeitpunkt.
 - Die Monatsausgabe ergänzt den Monatsnamen um die letzten zwei Stellen des Jahres, z. B. `September 26` und `Oktober 26`.
-- Vollmond- und Neumondtermine werden automatisch aus einer gemeinsamen Datenquelle bzw. Berechnung erzeugt.
+- **Responsive (#23):** Auf breiten Screens werden alle sechs Monate in einer Reihe angezeigt; auf schmalen Screens (bis 1023 px) drei Monate pro Reihe — mit identischer Berechnungsbasis.
+- Vollmond- und Neumondtermine werden automatisch aus einer gemeinsamen Datenquelle bzw. Berechnung erzeugt (`src/lib/moon.js`, Zeitzone `Europe/Berlin`).
 - EN und DE verwenden dieselbe Berechnung und dieselbe Datenbasis; nur die Formatierung ist lokalisiert.
-- Die Ausgabe erfolgt über `MoonCalendar.astro`, optional mit einer kleinen `MonthCard.astro`-Unterkomponente.
-- Das MDX enthält danach keine zwölf manuell gepflegten Monatskarten, keinen `moondays.css`-Import und kein Inline-Script.
-- Die Props sind für die spätere Korrekturliste aus #24 vorbereitet.
+- Die Ausgabe erfolgt über `MoonCalendar.astro` (die optionale `MonthCard.astro`-Unterkomponente wird nicht benötigt).
+- Das MDX enthält danach keine manuell gepflegten Monatskarten, keinen `moondays.css`-Import und kein Inline-Script. Das bisherige Script zur Markierung des aktuellen Monats liegt als dedupliziertes Client-Script in der Komponente; zusätzlich rendert die Komponente die Markierung bereits serverseitig.
 
 #### Abnahme
 
 - Genau sechs Monate ab dem aktuellen Monat werden ausgegeben.
+- Auf schmalen Screens werden drei Monate pro Reihe, auf breiten Screens sechs Monate pro Reihe angezeigt.
 - Der Jahreswechsel wird korrekt behandelt.
 - Die Monatsüberschrift enthält Monatsname + zweistellige Jahreszahl.
 - `npm run build` und `npm test` sind erfolgreich.
-- Automatisierte Tests decken Berechnungsfenster und Formatierung ab.
+- Automatisierte Tests decken Berechnungsfenster, Formatierung und die Korrekturliste ab.
 
 > **Build-Hinweis:** „Aktueller Monat“ bedeutet zunächst den Monat zum Zeitpunkt des statischen Builds. Nach einem Monatswechsel wird die Ausgabe beim nächsten Build aktualisiert. Eine Aktualisierung ohne Rebuild erfordert eine separate Laufzeit-/Client-Strategie.
 
@@ -171,17 +172,21 @@ Beispiel:
 ```mdx
 <MoonCalendar
   locale="de"
-  corrections={[{ date: "2026-10-03", adjustment: -1 }]}
+  corrections={[{ date: "2026-10-10", adjustment: "-1" }]}
 />
 ```
+
+> **Hinweis:** `adjustment` wird im CMS als Drop-down mit `"+1"`/`"-1"` angeboten (nur String-Literal-Unions ergeben Auswahlfelder). Handgeschriebenes MDX darf alternativ die Zahlen `1` / `-1` verwenden; beide Schreibweisen werden akzeptiert.
 
 #### Verhalten
 
 - Eine leere Korrekturliste ist gültig und verändert die Ausgabe nicht.
 - `-1` verschiebt den betroffenen Termin einen Tag nach vorne.
 - `+1` verschiebt den betroffenen Termin einen Tag nach hinten.
+- Verschiebt ein Termin über eine Monatsgrenze, wandert der Eintrag in die Monatskarte des neuen Datums; fällt er aus dem sichtbaren Sechs-Monats-Fenster (z. B. bei Datumswechsel über ein Fensterende), wird er nicht ausgegeben.
+- Korrekturen für Termine außerhalb des sichtbaren Fensters werden ignoriert (das Fenster wandert mit jedem Build; veraltete Korrekturen dürfen den Build nicht brechen).
 - Die automatische Berechnung bleibt unverändert; nur die Darstellung des ausgewählten Termins wird korrigiert.
-- Für denselben berechneten Termin wird höchstens eine Korrektur zugelassen.
+- Für denselben berechneten Termin wird höchstens eine Korrektur zugelassen; zwei Korrekturen für dasselbe Datum sind ein Konflikt und brechen den Build.
 - Das Datum wird im jeweiligen Locale-Format angezeigt.
 - Nach dem Speichern entstehen keine JavaScript-, CSS- oder manuellen HTML-Einträge im MDX.
 

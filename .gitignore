@@ -14,6 +14,9 @@ yarn-error.log*
 # system
 .DS_Store
 
+# browser verification artifacts
+.openchamber/
+
 # environment variables
 .env
 .env.*
