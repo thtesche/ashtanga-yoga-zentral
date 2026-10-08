@@ -981,8 +981,8 @@ for (const page of moonPages) {
     `${page.rel} hides months four to six on narrow screens`,
   );
   assert(
-    /grid-template-columns:\s*minmax\(0,1fr\)/.test(css),
-    `${page.rel} stacks the visible months in a single column on phones`,
+    /repeat\(\s*2\s*,/.test(css),
+    `${page.rel} arranges the visible months in two columns (two rows) on phones`,
   );
   assert(
     /repeat\(\s*3\s*,/.test(css),

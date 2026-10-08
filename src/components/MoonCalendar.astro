@@ -168,11 +168,11 @@ const copy = COPY[locale];
   }
 
   /* Six months are calculated; wide screens show six in a row, narrow
-     screens show only the first three (#23). Phones stack those three in a
-     single column so the content never gets squeezed. */
+     screens show only the first three (#23). Phones arrange those three in
+     two columns (two rows: 2 + 1) so the content never gets squeezed. */
   .calendar-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
   }
 
