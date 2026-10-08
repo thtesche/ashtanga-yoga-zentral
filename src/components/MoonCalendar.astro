@@ -1,0 +1,255 @@
+---
+import { buildMoonCalendar } from "../lib/moon.js";
+
+/**
+ * Moondays calendar: six months of new/full moon dates, calculated at build
+ * time for Europe/Berlin (#23) with optional editorial date corrections (#24).
+ *
+ * Used on the EN and DE Moondays pages (no import needed — auto-discovered
+ * via mdxComponents):
+ *
+ *   <MoonCalendar locale="en" />
+ *   <MoonCalendar locale="de" corrections={[{ date: "2026-10-10", adjustment: "-1" }]} />
+ *
+ * All calculation lives in `src/lib/moon.js` so it is shared between both
+ * locales and testable without a build. This component only formats and
+ * renders: intro/legend strings via `locale`, month headings and date labels
+ * localized, and a small client script that keeps the "current month" marker
+ * and the hiding of past months correct without a rebuild.
+ */
+
+/** One editorial correction (#24): shift a calculated date by one day. */
+interface Correction {
+  /** Calculated Moondays date to correct, `YYYY-MM-DD` in Europe/Berlin. */
+  date: string;
+  /**
+   * `"+1"` moves the date one day later, `"-1"` one day earlier. The string
+   * literals make AstroCMS offer this as a select field; hand-written MDX may
+   * also pass the numbers `1` / `-1`.
+   */
+  adjustment: "+1" | "-1";
+}
+
+interface Props {
+  /** Locale for headings and dates (`en` or `de`). */
+  locale: "en" | "de";
+  /** Optional list of editorial one-day corrections; empty means unchanged output. */
+  corrections?: Correction[];
+}
+
+const { locale, corrections = [] } = Astro.props;
+
+const months = buildMoonCalendar({ locale, corrections });
+
+/** UI strings tied to the calendar (same pattern as ScheduleSection). */
+const COPY = {
+  en: {
+    intro: "The shala is closed on these days...",
+    fullMoon: "Full Moon",
+    newMoon: "New Moon",
+  },
+  de: {
+    intro: "Die Shala ist an diesen Tagen geschlossen...",
+    fullMoon: "Vollmond",
+    newMoon: "Neumond",
+  },
+} as const;
+
+const copy = COPY[locale];
+---
+
+<section class="section">
+  <div class="container animate-fade-in-delay">
+    <div class="surface moon-content text-center mb-4">
+      <p class="moon-intro">{copy.intro}</p>
+
+      <div class="moon-legend">
+        <span class="legend-item">
+          <span class="moon-icon full">🌕</span> {copy.fullMoon}
+        </span>
+        <span class="legend-item">
+          <span class="moon-icon new">🌑</span> {copy.newMoon}
+        </span>
+      </div>
+    </div>
+
+    <div class="calendar-grid" data-month-cards>
+      {months.map((month) => (
+        <div
+          class:list={["surface", "month-card", month.isCurrent && "current"]}
+          data-month-card
+          data-year={month.year}
+          data-month={month.month}
+        >
+          <h3>{month.label}</h3>
+
+          <ul class="moon-list">
+            {month.events.map((event) => (
+              <li>
+                <span class:list={["moon-icon", event.type]}>
+                  {event.type === "full" ? "🌕" : "🌑"}
+                </span>
+                <span class="moon-date">{event.dateLabel}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // Keeps the build-time "current month" marker honest on a stale site:
+  // marks the month the visitor is in and hides months already past, both in
+  // Europe/Berlin (same timezone the calendar is calculated for).
+  const berlin = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Europe/Berlin",
+    year: "numeric",
+    month: "2-digit",
+  });
+  const parts = berlin.formatToParts(new Date());
+  const year = Number(parts.find((p) => p.type === "year")?.value);
+  const month = Number(parts.find((p) => p.type === "month")?.value);
+
+  document.querySelectorAll("[data-month-card]").forEach((card) => {
+    const cardYear = Number(card.getAttribute("data-year"));
+    const cardMonth = Number(card.getAttribute("data-month"));
+    card.classList.toggle(
+      "past",
+      cardYear < year || (cardYear === year && cardMonth < month),
+    );
+    card.classList.toggle("current", cardYear === year && cardMonth === month);
+  });
+</script>
+
+<style>
+  /* Intro line inside the moon card (page-specific; the global .large-text
+     utility is used by HeroSection and must not be overridden here) */
+  .moon-intro {
+    font-size: 1.25rem;
+    color: var(--color-primary);
+    font-weight: 500;
+  }
+
+  .moon-content {
+    max-width: 600px;
+    /* Regular section spacing: the .section top padding (3.5rem / 2.5rem on
+       mobile) ensures a clear gap below the header — no negative margins. */
+    margin: 0 auto 3rem;
+    padding: 2rem !important;
+  }
+
+  .moon-legend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    font-family: var(--font-heading);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .moon-icon {
+    font-size: 1.2rem;
+    display: inline-block;
+  }
+
+  .moon-icon.full {
+    color: #333;
+  }
+
+  .moon-icon.new {
+    color: var(--color-secondary);
+  }
+
+  /* Six months are calculated; wide screens show all six, narrow screens
+     only the first three (#23). Wide screens arrange the six in two rows
+     of three; phones stack the three in a single column so the content
+     never gets squeezed. */
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  /* Phones: the stacked months stay narrower than the full content width
+     and centered, so the cards don't span the whole screen. */
+  @media (max-width: 767px) {
+    .calendar-grid {
+      max-width: 85%;
+      margin-inline: auto;
+    }
+  }
+
+  .month-card {
+    text-align: center;
+    padding: 20px 0;
+    transition: all 0.3s ease;
+  }
+
+  .month-card h3 {
+    text-align: center;
+    color: var(--color-secondary);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    overflow-wrap: break-word;
+  }
+
+  .month-card.current {
+    border: 2px solid var(--color-secondary);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .month-card.past {
+    display: none;
+  }
+
+  .month-card.past h3 {
+    border-bottom-color: transparent;
+  }
+
+  .moon-list {
+    list-style: none;
+    padding: 0;
+    display: inline-block;
+    text-align: left;
+  }
+
+  .moon-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .moon-list .moon-icon {
+    width: 28px;
+  }
+
+  .moon-list .moon-date {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Tablets and desktop: three columns — three visible months in one row
+     on tablets, all six in two rows of three on desktop. */
+  @media (min-width: 768px) {
+    .calendar-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.75rem;
+    }
+  }
+
+  /* Below desktop only the first three months are visible. */
+  @media (max-width: 1023px) {
+    .month-card:nth-child(n + 4) {
+      display: none;
+    }
+  }
+</style>
