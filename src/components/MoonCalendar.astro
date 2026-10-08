@@ -167,12 +167,13 @@ const copy = COPY[locale];
     color: var(--color-secondary);
   }
 
-  /* Six months are calculated; wide screens show six in a row, narrow
-     screens show only the first three (#23). Phones arrange those three in
-     two columns (two rows: 2 + 1) so the content never gets squeezed. */
+  /* Six months are calculated; wide screens show all six, narrow screens
+     only the first three (#23). Wide screens arrange the six in two rows
+     of three; phones stack the three in a single column so the content
+     never gets squeezed. */
   .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
   }
 
@@ -227,19 +228,12 @@ const copy = COPY[locale];
     font-variant-numeric: tabular-nums;
   }
 
-  /* Tablets: the three visible months side by side. */
+  /* Tablets and desktop: three columns — three visible months in one row
+     on tablets, all six in two rows of three on desktop. */
   @media (min-width: 768px) {
     .calendar-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1.5rem;
-    }
-  }
-
-  /* Desktop: all six months in one row. */
-  @media (min-width: 1024px) {
-    .calendar-grid {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 1.25rem;
+      gap: 1.75rem;
     }
   }
 

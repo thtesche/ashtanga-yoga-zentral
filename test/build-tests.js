@@ -981,16 +981,12 @@ for (const page of moonPages) {
     `${page.rel} hides months four to six on narrow screens`,
   );
   assert(
-    /repeat\(\s*2\s*,/.test(css),
-    `${page.rel} arranges the visible months in two columns (two rows) on phones`,
+    /grid-template-columns:\s*minmax\(0,1fr\)/.test(css),
+    `${page.rel} stacks the three visible months in a single column on phones`,
   );
   assert(
     /repeat\(\s*3\s*,/.test(css),
-    `${page.rel} keeps three columns for the visible months on tablets`,
-  );
-  assert(
-    /repeat\(\s*6\s*,/.test(css),
-    `${page.rel} shows six months on wide screens`,
+    `${page.rel} uses three columns (two rows of three) for the six months on wide screens`,
   );
 
   // Data basis: icon type + day of month (locale only affects the weekday).

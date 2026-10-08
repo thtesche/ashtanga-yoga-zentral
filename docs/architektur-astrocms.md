@@ -137,7 +137,7 @@ Props müssen serialisierbar sein, damit AstroCMS sie im Editor als Felder anbie
 
 - Die Komponente berechnet **sechs Monate ab dem aktuellen Monat** zum Build-Zeitpunkt.
 - Die Monatsausgabe ergänzt den Monatsnamen um die letzten zwei Stellen des Jahres, z. B. `September 26` und `Oktober 26`.
-- **Responsive (#23):** Auf breiten Screens werden alle sechs Monate in einer Reihe angezeigt; auf schmalen Screens (bis 1023 px) drei Monate pro Reihe — mit identischer Berechnungsbasis.
+- **Responsive (#23):** Auf breiten Screens werden alle sechs Monate in zwei Reihen mit je drei Monaten angezeigt; auf schmalen Screens (bis 1023 px) sind nur die ersten drei Monate sichtbar, auf Phones einspaltig untereinander — mit identischer Berechnungsbasis.
 - Vollmond- und Neumondtermine werden automatisch aus einer gemeinsamen Datenquelle bzw. Berechnung erzeugt (`src/lib/moon.js`, Zeitzone `Europe/Berlin`).
 - EN und DE verwenden dieselbe Berechnung und dieselbe Datenbasis; nur die Formatierung ist lokalisiert.
 - Die Ausgabe erfolgt über `MoonCalendar.astro` (die optionale `MonthCard.astro`-Unterkomponente wird nicht benötigt).
@@ -146,7 +146,7 @@ Props müssen serialisierbar sein, damit AstroCMS sie im Editor als Felder anbie
 #### Abnahme
 
 - Genau sechs Monate ab dem aktuellen Monat werden ausgegeben.
-- Auf schmalen Screens werden drei Monate pro Reihe, auf breiten Screens sechs Monate pro Reihe angezeigt.
+- Auf breiten Screens werden alle sechs Monate in zwei Reihen (je drei) angezeigt; auf schmalen Screens nur drei Monate, auf Phones einspaltig.
 - Der Jahreswechsel wird korrekt behandelt.
 - Die Monatsüberschrift enthält Monatsname + zweistellige Jahreszahl.
 - `npm run build` und `npm test` sind erfolgreich.
