@@ -24,3 +24,6 @@ yarn-error.log*
 
 # AI tooling config (local only)
 .kilo/
+
+# browser tooling artifacts (screenshots etc.)
+.openchamber/
