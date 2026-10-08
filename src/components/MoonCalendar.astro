@@ -167,11 +167,13 @@ const copy = COPY[locale];
     color: var(--color-secondary);
   }
 
-  /* Narrow screens show three months, wide screens six (#23). */
+  /* Six months are calculated; wide screens show six in a row, narrow
+     screens show only the first three (#23). Phones stack those three in a
+     single column so the content never gets squeezed. */
   .calendar-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
   }
 
   .month-card {
@@ -186,7 +188,6 @@ const copy = COPY[locale];
     border-bottom: 1px solid var(--color-border);
     padding-bottom: 1rem;
     margin-bottom: 1.5rem;
-    /* Keeps "September 26" readable in a three-column phone layout */
     font-size: 1rem;
     overflow-wrap: break-word;
   }
@@ -226,6 +227,15 @@ const copy = COPY[locale];
     font-variant-numeric: tabular-nums;
   }
 
+  /* Tablets: the three visible months side by side. */
+  @media (min-width: 768px) {
+    .calendar-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  /* Desktop: all six months in one row. */
   @media (min-width: 1024px) {
     .calendar-grid {
       grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -233,9 +243,10 @@ const copy = COPY[locale];
     }
   }
 
-  @media (max-width: 768px) {
-    .calendar-grid {
-      gap: 1rem;
+  /* Below desktop only the first three months are visible. */
+  @media (max-width: 1023px) {
+    .month-card:nth-child(n + 4) {
+      display: none;
     }
   }
 </style>

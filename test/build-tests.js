@@ -973,11 +973,20 @@ for (const page of moonPages) {
     `${page.rel} ships the current-month script from the component`,
   );
 
-  // Responsive: three months on narrow screens, six on wide ones (#23).
+  // Responsive: three months (stacked on phones) below desktop, six on wide
+  // screens, all from the same calculated data (#23).
   const css = deliveredCSS(html);
   assert(
+    /nth-child\(n\+4\)\s*\{\s*display:\s*none/.test(css),
+    `${page.rel} hides months four to six on narrow screens`,
+  );
+  assert(
+    /grid-template-columns:\s*minmax\(0,1fr\)/.test(css),
+    `${page.rel} stacks the visible months in a single column on phones`,
+  );
+  assert(
     /repeat\(\s*3\s*,/.test(css),
-    `${page.rel} shows three months on narrow screens`,
+    `${page.rel} keeps three columns for the visible months on tablets`,
   );
   assert(
     /repeat\(\s*6\s*,/.test(css),
