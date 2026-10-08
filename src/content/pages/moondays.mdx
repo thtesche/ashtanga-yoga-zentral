@@ -3,9 +3,11 @@ title: Moon Days
 description: Find out when the shala is closed due to moon cycles.
 ---
 
-<PageHeader
-  title="Moon Days"
-  subtitle="Moondays offer a break to realign with the rhythms of nature."
-/>
+<PageHeader title="Moon Days" subtitle="Moondays offer a break to realign with the rhythms of nature." />
 
-<MoonCalendar locale="en" />
+<MoonCalendar
+  locale="en"
+  corrections={[
+  { date: "2026-10-10", adjustment: "-1" }
+]}
+/>

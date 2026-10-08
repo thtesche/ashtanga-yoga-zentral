@@ -3,9 +3,11 @@ title: Moondays
 description: Erfahre, an welchen Tagen die Shala wegen der Mondzyklen geschlossen ist.
 ---
 
-<PageHeader
-  title="Moondays"
-  subtitle="Traditionelle Ruhetage bei Voll- und Neumond – Zeit für Erholung und Stille."
-/>
+<PageHeader title="Moondays" subtitle="Traditionelle Ruhetage bei Voll- und Neumond – Zeit für Erholung und Stille." />
 
-<MoonCalendar locale="de" />
+<MoonCalendar
+  locale="de"
+  corrections={[
+  { date: "2026-10-10", adjustment: "-1" }
+]}
+/>
