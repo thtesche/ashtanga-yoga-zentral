@@ -134,10 +134,9 @@ const copy = COPY[locale];
 
   .moon-content {
     max-width: 600px;
-    /* Compensates the .section top padding (3.5rem) so the card sits 2rem below the green header */
-    margin: -1.5rem auto 3rem;
-    position: relative;
-    z-index: 10;
+    /* Regular section spacing: the .section top padding (3.5rem / 2.5rem on
+       mobile) ensures a clear gap below the header — no negative margins. */
+    margin: 0 auto 3rem;
     padding: 2rem !important;
   }
 
@@ -237,11 +236,6 @@ const copy = COPY[locale];
   @media (max-width: 768px) {
     .calendar-grid {
       gap: 1rem;
-    }
-
-    /* Mobile .section padding is 2.5rem: keep the card flush with the green header as before */
-    .moon-content {
-      margin-top: -2.5rem;
     }
   }
 </style>
