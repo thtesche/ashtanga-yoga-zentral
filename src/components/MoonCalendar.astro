@@ -177,6 +177,15 @@ const copy = COPY[locale];
     gap: 1rem;
   }
 
+  /* Phones: the stacked months stay narrower than the full content width
+     and centered, so the cards don't span the whole screen. */
+  @media (max-width: 767px) {
+    .calendar-grid {
+      max-width: 85%;
+      margin-inline: auto;
+    }
+  }
+
   .month-card {
     text-align: center;
     padding: 20px 0;

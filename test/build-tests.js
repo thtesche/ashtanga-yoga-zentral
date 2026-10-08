@@ -985,6 +985,10 @@ for (const page of moonPages) {
     `${page.rel} stacks the three visible months in a single column on phones`,
   );
   assert(
+    /max-width:\s*85%/.test(css),
+    `${page.rel} keeps the stacked months narrower than the full content width on phones`,
+  );
+  assert(
     /repeat\(\s*3\s*,/.test(css),
     `${page.rel} uses three columns (two rows of three) for the six months on wide screens`,
   );
