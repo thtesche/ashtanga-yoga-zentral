@@ -11,9 +11,7 @@ import "../../styles/contact.css";
     <div class="container">
       <div class="contact-wrapper">
         <div class="contact-info surface animate-fade-in-delay">
-          <p>Send a message for more info or to sign up for my newsletter!</p>
-
-          <div class="info-block mt-4">
+          <div class="info-block">
             <h3>Location</h3>
             <p><strong>Three Boons Studio</strong><br />Brunnenstr. 29 (3.Hinterhof)<br />10119 Berlin</p>
           </div>
@@ -25,9 +23,13 @@ import "../../styles/contact.css";
         </div>
 
         <div class="contact-form surface animate-fade-in-delay">
-          <ContactForm locale="en" />
+          <Newsletter locale="en" />
 
-          <p class="faq-link">You may also find answers on our <LocalizedLink locale="en" to="faq">FAQ page</LocalizedLink>.</p>
+          <div class="contact-block">
+            <ContactForm locale="en" />
+
+            <p class="faq-link">You may also find answers on our <LocalizedLink locale="en" to="faq">FAQ page</LocalizedLink>.</p>
+          </div>
         </div>
       </div>
     </div>
