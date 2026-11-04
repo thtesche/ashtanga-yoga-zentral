@@ -63,7 +63,7 @@ const resolvedHeading = heading ?? t.heading;
 const resolvedIntro = intro ?? t.intro;
 ---
 
-<div class="newsletter" data-account={ACCOUNT_ID}>
+<div id="newsletter" class="newsletter" data-account={ACCOUNT_ID}>
   <h3 class="newsletter-heading">{resolvedHeading}</h3>
   <p class="newsletter-intro">{resolvedIntro}</p>
 
@@ -180,6 +180,12 @@ const resolvedIntro = intro ?? t.intro;
 </script>
 
 <style>
+  /* Anchor target for the global newsletter latch (#newsletter); clears the
+     100px sticky nav so the heading is not hidden after the jump. */
+  .newsletter {
+    scroll-margin-top: 110px;
+  }
+
   .newsletter-heading {
     margin: 0 0 0.5rem;
     font-size: 1.25rem;
