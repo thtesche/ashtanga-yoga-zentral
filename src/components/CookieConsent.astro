@@ -147,6 +147,9 @@ const t = i18nData[currentLang].cookieConsent;
     // Expose for global use if needed, though CustomEvent is cleaner
     window.cookieConsentManager = {
       getConsent: () => localStorage.getItem(CONSENT_KEY),
+      // Central accept path (reused e.g. by the newsletter consent gate):
+      // hides the banner and fires "cookieConsentAccepted".
+      acceptConsent: () => setConsent("accepted"),
       resetConsent: () => {
         localStorage.removeItem(CONSENT_KEY);
         location.reload();

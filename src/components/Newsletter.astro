@@ -1,0 +1,222 @@
+---
+/**
+ * Newsletter sign-up backed by Sender.net (no backend of our own).
+ *
+ * Encapsulates the Sender embed: the form mount point, the account/form ids
+ * and a consent gate so the third-party `universal.js` (which sets cookies)
+ * is only loaded AFTER the visitor has accepted cookies — consistent with the
+ * Google Tag Manager loader in MainLayout.astro. In MDX it is a single line:
+ * <Newsletter locale="en" />
+ *
+ * Before consent a placeholder with an "accept & load" button is shown; it
+ * reuses the central consent logic via window.cookieConsentManager
+ * (see CookieConsent.astro). The ids are not namespaced — one block per page.
+ *
+ * The account id and form ids are public client-side embed ids, so they are
+ * hard-coded here (unlike the Web3Forms key, which lives in .env).
+ */
+import { getLocalizedLink } from "./i18n-config.astro";
+
+interface Props {
+  /** Locale for the form id and UI strings ("en" | "de"). */
+  locale: "en" | "de";
+  /** Optional heading override (defaults to the localized "Newsletter"). */
+  heading?: string;
+  /** Optional intro override (defaults to the localized intro line). */
+  intro?: string;
+}
+
+const { locale, heading, intro } = Astro.props;
+
+const ACCOUNT_ID = "82aff16bb69309";
+const FORM_IDS = { en: "e9r0PZ", de: "erkzw6" } as const;
+
+/** UI strings per locale — single source of truth for labels + messages. */
+const STRINGS = {
+  en: {
+    heading: "Newsletter",
+    intro: "Sign up for occasional updates on classes, workshops and retreats.",
+    consentMessage:
+      "The newsletter form uses a third-party service (Sender) that sets cookies. Please accept to load it.",
+    acceptLabel: "Accept cookies & load form",
+    privacyText:
+      "By subscribing you agree to the processing of your data as described in our",
+    privacyLinkLabel: "Privacy Policy",
+  },
+  de: {
+    heading: "Newsletter",
+    intro:
+      "Melde dich für gelegentliche Updates zu Klassen, Workshops und Retreats an.",
+    consentMessage:
+      "Das Newsletter-Formular nutzt einen Drittanbieter (Sender), der Cookies setzt. Bitte akzeptiere, um es zu laden.",
+    acceptLabel: "Cookies akzeptieren & Formular laden",
+    privacyText:
+      "Mit der Anmeldung stimmst du der Verarbeitung deiner Daten gemäß unserer",
+    privacyLinkLabel: "Datenschutzerklärung",
+  },
+} as const;
+
+const t = STRINGS[locale];
+const formId = FORM_IDS[locale];
+const privacyHref = getLocalizedLink(locale, locale === "de" ? "datenschutz" : "gdpr");
+const resolvedHeading = heading ?? t.heading;
+const resolvedIntro = intro ?? t.intro;
+---
+
+<div class="newsletter" data-account={ACCOUNT_ID}>
+  <h3 class="newsletter-heading">{resolvedHeading}</h3>
+  <p class="newsletter-intro">{resolvedIntro}</p>
+
+  <div id="newsletter-consent-gate" class="newsletter-gate" hidden>
+    <p>{t.consentMessage}</p>
+    <button type="button" id="newsletter-accept" class="btn">{t.acceptLabel}</button>
+  </div>
+
+  <div class="sender-form-field" data-sender-form-id={formId}></div>
+
+  <p class="newsletter-privacy">
+    {t.privacyText} <a href={privacyHref}>{t.privacyLinkLabel}</a>.
+  </p>
+</div>
+
+<script is:inline>
+  (function () {
+    // Astro renders this script as a sibling after the component's root, so
+    // select the block directly (one newsletter block per page).
+    const block = document.querySelector(".newsletter");
+    if (!block) return;
+    const ACCOUNT_ID = block.getAttribute("data-account");
+    const gate = document.getElementById("newsletter-consent-gate");
+    const acceptBtn = document.getElementById("newsletter-accept");
+
+    function loadSender() {
+      if (window.__senderLoaded) {
+        // Already injected: re-run init so the form field renders.
+        if (typeof window.sender === "function") {
+          try {
+            window.sender(ACCOUNT_ID);
+          } catch (e) {}
+        }
+        return;
+      }
+      window.__senderLoaded = true;
+      (function (s, e, n, d, er) {
+        s["Sender"] = er;
+        s[er] =
+          s[er] ||
+          function () {
+            (s[er].q = s[er].q || []).push(arguments);
+          };
+        s[er].l = 1 * new Date();
+        const a = e.createElement(n);
+        const m = e.getElementsByTagName(n)[0];
+        a.async = 1;
+        a.src = d;
+        m.parentNode.insertBefore(a, m);
+      })(
+        window,
+        document,
+        "script",
+        "https://cdn.sender.net/accounts_resources/universal.js",
+        "sender",
+      );
+      window.sender(ACCOUNT_ID);
+    }
+
+    function hideGate() {
+      if (gate) gate.hidden = true;
+    }
+    function showGate() {
+      if (gate) gate.hidden = false;
+    }
+
+    function currentConsent() {
+      if (
+        window.cookieConsentManager &&
+        typeof window.cookieConsentManager.getConsent === "function"
+      ) {
+        return window.cookieConsentManager.getConsent();
+      }
+      try {
+        return localStorage.getItem("cookie_consent");
+      } catch (e) {
+        return null;
+      }
+    }
+
+    if (acceptBtn) {
+      acceptBtn.addEventListener("click", function () {
+        if (
+          window.cookieConsentManager &&
+          typeof window.cookieConsentManager.acceptConsent === "function"
+        ) {
+          // Central consent logic: hides the banner + fires the event below.
+          window.cookieConsentManager.acceptConsent();
+        } else {
+          try {
+            localStorage.setItem("cookie_consent", "accepted");
+          } catch (e) {}
+          window.dispatchEvent(new CustomEvent("cookieConsentAccepted"));
+        }
+        hideGate();
+        loadSender();
+      });
+    }
+
+    // Load as soon as consent is given anywhere (e.g. the main cookie banner).
+    window.addEventListener("cookieConsentAccepted", function () {
+      hideGate();
+      loadSender();
+    });
+
+    // Initial state.
+    if (currentConsent() === "accepted") {
+      hideGate();
+      loadSender();
+    } else {
+      showGate();
+    }
+  })();
+</script>
+
+<style>
+  .newsletter-heading {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    color: var(--color-secondary);
+  }
+
+  .newsletter-intro {
+    margin: 0 0 1rem;
+  }
+
+  /* Center the embedded Sender form within the column. */
+  .sender-form-field {
+    display: flex;
+    justify-content: center;
+  }
+
+  .newsletter-gate {
+    padding: 1rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .newsletter-gate p {
+    margin: 0 0 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .newsletter-privacy {
+    margin: 0.75rem 0 0;
+    font-size: 0.8rem;
+    color: var(--color-text-secondary, #666);
+  }
+
+  .newsletter-privacy a {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+</style>

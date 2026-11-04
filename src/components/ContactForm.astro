@@ -23,6 +23,9 @@ const { locale } = Astro.props;
 /** UI strings per locale — single source of truth for labels + status. */
 const STRINGS = {
   en: {
+    heading: 'Send a message',
+    intro:
+      'Questions about classes, drop-ins or anything else? Write to us and we’ll get back to you.',
     nameLabel: 'Name (required)',
     emailLabel: 'Email (required)',
     messageLabel: 'Message (required)',
@@ -32,6 +35,9 @@ const STRINGS = {
     errorMessage: 'Something went wrong. Please try again.',
   },
   de: {
+    heading: 'Schreib uns',
+    intro:
+      'Fragen zu Klassen, Drop-ins oder etwas anderem? Schreib uns und wir melden uns bei dir.',
     nameLabel: 'Name (erforderlich)',
     emailLabel: 'E-Mail (erforderlich)',
     messageLabel: 'Nachricht (erforderlich)',
@@ -46,12 +52,16 @@ const t = STRINGS[locale];
 const accessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY;
 ---
 
-<form
-  id="form"
-  data-sending={t.sendingText}
-  data-success={t.successMessage}
-  data-error={t.errorMessage}
->
+<h3 class="contact-form-heading">{t.heading}</h3>
+<p class="contact-form-intro">{t.intro}</p>
+
+<div class="contact-form-card">
+  <form
+    id="form"
+    data-sending={t.sendingText}
+    data-success={t.successMessage}
+    data-error={t.errorMessage}
+  >
   <input type="hidden" name="access_key" value={accessKey} />
 
   <!-- Web3Forms honeypot: hidden from humans, filled by bots -->
@@ -86,7 +96,8 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY;
   <button type="submit" class="btn btn-submit" aria-label={t.buttonText}>
     {t.buttonText}
   </button>
-</form>
+  </form>
+</div>
 
 <script is:inline>
   (function () {
@@ -119,8 +130,38 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY;
 </script>
 
 <style>
+  /* White inner card holding just the fields + submit, framed in the site
+     palette (no rose). The outer darker box with heading/intro/footer is the
+     page-level .contact-block (see contact.css), mirroring the newsletter. */
+  .contact-form-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-secondary);
+    border-radius: 8px;
+    padding: 1.5rem;
+    /* Match the embedded Sender newsletter form's width (424px), centered. */
+    max-width: 424px;
+    margin: 0 auto;
+  }
+
+  .contact-form-heading {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    color: var(--color-secondary);
+  }
+
+  .contact-form-intro {
+    margin: 0 0 1rem;
+  }
+
   .form-group {
     margin-bottom: 0.5rem;
+  }
+
+  /* Tighter field spacing inside the card to match the newsletter form
+     (the global input margin of 1.5rem is looser than the Sender embed). */
+  .contact-form-card input,
+  .contact-form-card textarea {
+    margin-bottom: 0.75rem;
   }
 
   .btn-submit {
@@ -134,5 +175,13 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY;
     padding: 1rem;
     text-align: center;
     font-size: 1rem;
+  }
+
+  /* No empty status box reserving space — keeps the submit button snug under
+     the fields (like the newsletter form). It only takes room once it has a
+     message after submitting. */
+  #result:empty {
+    margin: 0;
+    padding: 0;
   }
 </style>
