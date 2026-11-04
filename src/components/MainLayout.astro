@@ -86,6 +86,14 @@ const canonicalUrl =
 
 const currentFooter = i18nData[currentLang].footer;
 
+// Floating newsletter latch: a fixed tab on the right edge that jumps to the
+// #newsletter anchor on the (locale-aware) contact page from anywhere.
+const newsletterHref = `${getLocalizedLink(currentLang, currentFooter.contact.path)}#newsletter`;
+const newsletterLatch =
+  currentLang === "de"
+    ? { label: "Newsletter", aria: "Zum Newsletter anmelden" }
+    : { label: "Newsletter", aria: "Sign up for the newsletter" };
+
 // Locale-aware fallback so a missing description never leaks the wrong language.
 const defaultDescription =
   currentLang === "de"
@@ -231,6 +239,30 @@ const ogImageUrl = new URL(ogImage ?? ogDefaultImage.src, Astro.site).href;
 
     <CookieConsent currentLang={currentLang} />
 
+    <!-- Fixed side latch: newsletter reachable from every page -->
+    <a
+      href={newsletterHref}
+      class="newsletter-latch"
+      aria-label={newsletterLatch.aria}
+    >
+      <svg
+        class="newsletter-latch-icon"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+        <polyline points="22,6 12,13 2,6"></polyline>
+      </svg>
+      <span>{newsletterLatch.label}</span>
+    </a>
+
     <footer class="site-footer">
       <div class="container footer-container">
         <div class="footer-col">
@@ -280,6 +312,71 @@ const ogImageUrl = new URL(ogImage ?? ogDefaultImage.src, Astro.site).href;
 
   .skip-link:focus {
     top: 0;
+  }
+
+  /* Fixed newsletter latch: anchored to the right edge, vertically centered,
+     slides left slightly on hover. Sits below the cookie banner (9999) and
+     skip-link (10000). Uses the site palette. */
+  .newsletter-latch {
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 900;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem 0.75rem 0.85rem;
+    background-color: var(--color-primary);
+    color: #fff;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    border-radius: 8px 0 0 8px;
+    box-shadow: -2px 4px 12px rgba(44, 53, 49, 0.18);
+    transition:
+      transform var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+
+  .newsletter-latch:hover,
+  .newsletter-latch:focus-visible {
+    color: #fff;
+    background-color: var(--color-primary-hover);
+    transform: translateY(-50%) translateX(-4px);
+  }
+
+  .newsletter-latch-icon {
+    flex-shrink: 0;
+  }
+
+  /* On narrow screens, drop the label and show just the envelope icon so the
+     latch stays unobtrusive. */
+  @media (max-width: 600px) {
+    .newsletter-latch {
+      padding: 0.75rem;
+    }
+    .newsletter-latch span {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .newsletter-latch {
+      transition: background-color var(--transition-fast);
+    }
+    .newsletter-latch:hover,
+    .newsletter-latch:focus-visible {
+      transform: translateY(-50%);
+    }
+  }
+
+  @media print {
+    .newsletter-latch {
+      display: none;
+    }
   }
 
   /* Keeping minimal styles necessary for the layout component structure */
