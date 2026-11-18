@@ -24,7 +24,7 @@
     "vite": "^8.3.8"
   },
   "devDependencies": {
-    "astrocms": "^0.4.1",
+    "astrocms": "^0.4.2",
     "prettier": "^3.10.1",
     "prettier-plugin-astro": "^1.1.2",
     "tsx": "^4.23.15"
